@@ -83,8 +83,6 @@ class _ReorderPrioritiesScreen extends State<ReorderPrioritiesScreen> {
                       Global.userPriorities[index] =
                           Global.userPriorities[int.parse(data)];
                       Global.userPriorities[int.parse(data)] = temp;
-                      debugPrint("Recieved $index");
-                      debugPrint("Recieved from " + data);
                       acceptedData += data;
                     }
                   });

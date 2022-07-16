@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:goals_app/Screens/browseImages.dart';
 import 'package:goals_app/Screens/editPriority.dart';
-import 'package:goals_app/Screens/editPriotitiesArguments.dart';
+import 'package:goals_app/Screens/ArgumentPassThroughScreens/editPriotitiesArguments.dart';
 import 'package:goals_app/Screens/reorderPriorities.dart';
 
 import 'Objects/Priority.dart';
@@ -32,7 +33,7 @@ class AppRouter extends StatelessWidget {
           '/': (context) => PriorityHomeScreen(),
           '/reorder-priorities': (context) => ReorderPrioritiesScreen(),
           EditPriorityScreen.routeName: (context) => EditPriorityScreen(),
-          //'/edit-priority' : (context) => Priority currentPriority, int currentIndex) => EditPictureScreen(currentPriority, currentIndex)
+          BrowseImagesScreen.routeName: (context) => BrowseImagesScreen(),
         });
   }
 }

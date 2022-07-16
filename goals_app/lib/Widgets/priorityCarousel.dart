@@ -83,43 +83,5 @@ class _PriorityCarousel extends State<PriorityCarousel> {
         // ),
       ],
     );
-
-    // PageView.builder(
-    // itemCount: imageUrlList.length,
-    // pageSnapping: true,
-    // controller: controller,
-    // onPageChanged: (page) {
-    //   setState(() {
-    //     currentPage = page;
-    //   });
-    // },
-    // itemBuilder: (context, pagePosition) {
-    //   return Scaffold(
-    //     body: Center(
-    //       child: Container(
-    //         margin: EdgeInsets.all(10),
-    //         child: Image.network(imageUrlList[pagePosition]),
-    //       ),
-    //     ),
-    //   );
-    // });
-    /*return ListView(
-      children: [
-        CarouselSlider(
-          items: [
-            //...pages
-            ...images
-          ],
-          options: CarouselOptions(
-            enlargeCenterPage: true,
-            autoPlay: false,
-            aspectRatio: 12 / 9,
-            height: 300,
-            enableInfiniteScroll: false,
-            viewportFraction: 0.75,
-          ),
-        ),
-      ],
-    );*/
   }
 }

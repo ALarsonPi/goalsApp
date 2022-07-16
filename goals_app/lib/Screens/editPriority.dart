@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:goals_app/Screens/editPriotitiesArguments.dart';
+import 'package:goals_app/Screens/ArgumentPassThroughScreens/browseImageArguments.dart';
+import 'package:goals_app/Screens/ArgumentPassThroughScreens/editPriotitiesArguments.dart';
+import 'package:goals_app/Screens/browseImages.dart';
 import '../Objects/Priority.dart';
 import 'package:goals_app/global.dart';
 
 class EditPriorityScreen extends StatefulWidget {
-  static const routeName = '/extractArguments';
+  static const routeName = '/extractPriorityArguments';
 
   EditPriorityScreen({Key? key}) : super(key: key);
 
@@ -30,10 +32,17 @@ class _EditPriorityScreen extends State<EditPriorityScreen> {
     super.dispose();
   }
 
+  changeImage(String newURL) {
+    debugPrint("WE MADE IT HERE");
+    debugPrint(newURL);
+    setState(() {
+      Global.userPriorities[args.index].setImageUrl(newURL);
+      args.currentPriority.imageUrl = newURL;
+    });
+  }
+
   saveChanges() {
-    debugPrint("Here in save");
     if (myController.text.isNotEmpty) {
-      debugPrint(myController.text);
       setState(() {
         Global.userPriorities[args.index].setName(myController.text);
         args.currentPriority.name = myController.text;
@@ -65,7 +74,16 @@ class _EditPriorityScreen extends State<EditPriorityScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                    onPressed: () => {}, child: const Text("Browse Images")),
+                    onPressed: () => {
+                          Navigator.pushNamed(
+                            context,
+                            BrowseImagesScreen.routeName,
+                            arguments: BrowseImageArguments(
+                              changeImage,
+                            ),
+                          ),
+                        },
+                    child: const Text("Browse Images")),
                 ElevatedButton(
                     onPressed: () => {}, child: const Text("Upload Image")),
               ],

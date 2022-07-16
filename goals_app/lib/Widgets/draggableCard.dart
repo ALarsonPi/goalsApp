@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:goals_app/Screens/editPriority.dart';
 
 import '../Objects/Priority.dart';
-import '../Screens/editPriotitiesArguments.dart';
+import '../Screens/ArgumentPassThroughScreens/editPriotitiesArguments.dart';
 
 class DraggableCard extends StatelessWidget {
   Priority currPriority;
