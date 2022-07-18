@@ -66,7 +66,14 @@ class _EditPriorityScreen extends State<EditPriorityScreen> {
       ),
       body: ListView(
         children: [
-          Image.network(args.currentPriority.imageUrl),
+          SizedBox(
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height * 0.45,
+            child: Image.network(
+              args.currentPriority.imageUrl,
+              fit: BoxFit.cover,
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(
                 left: 8.0, right: 8.0, top: 12.0, bottom: 12.0),
@@ -91,7 +98,7 @@ class _EditPriorityScreen extends State<EditPriorityScreen> {
           ),
           Padding(
             padding: const EdgeInsets.only(
-                left: 8.0, right: 8.0, top: 8.0, bottom: 12.0),
+                left: 8.0, right: 8.0, top: 8.0, bottom: 0.0),
             child: TextFormField(
               controller: myController,
               autovalidateMode: AutovalidateMode.always,
@@ -117,10 +124,10 @@ class _EditPriorityScreen extends State<EditPriorityScreen> {
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.only(
-                left: 12.0, right: 12.0, top: 0.0, bottom: 12.0),
+                left: 24.0, right: 24.0, top: 0.0, bottom: 12.0),
             child: ElevatedButton(
                 onPressed: () => {saveChanges()},
-                child: const Text("Save Changes")),
+                child: const Text("Save New Priority Name")),
           ),
         ],
       ),

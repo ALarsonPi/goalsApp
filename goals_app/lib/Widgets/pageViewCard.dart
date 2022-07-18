@@ -14,6 +14,7 @@ class pageViewCard extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
+    Image currentImage = Image.network(imageURL);
     return SizedBox(
       height: _boxHeight * (heightMultiplier - 0.3),
       child: Stack(
@@ -34,10 +35,10 @@ class pageViewCard extends StatelessWidget {
                           topLeft: Radius.circular(20),
                           topRight: Radius.circular(20)),
                       child: Align(
-                        alignment: const Alignment(-0.0, 0.6),
-                        widthFactor: 0.6,
-                        heightFactor: 0.5,
-                        child: Image.network(imageURL),
+                        alignment: const Alignment(-0.0, -0.4),
+                        widthFactor: 1.0,
+                        heightFactor: 1.0,
+                        child: currentImage,
                       ),
                     ),
                   ),

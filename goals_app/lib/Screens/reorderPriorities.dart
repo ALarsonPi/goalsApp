@@ -32,63 +32,75 @@ class _ReorderPrioritiesScreen extends State<ReorderPrioritiesScreen> {
       child: Card(
         color: backgroundColors[index % backgroundColors.length],
         elevation: 5,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0, left: 16.0),
-                    child: Text("Priority ${index + 1}",
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                ],
-              ),
-              DragTarget<String>(
-                builder: (
-                  BuildContext context,
-                  List<dynamic> accepted,
-                  List<dynamic> rejected,
-                ) {
-                  return Stack(
-                    children: [
-                      //const Divider(thickness: 2.0),
-                      Draggable<String>(
-                        // Data is the value this Draggable stores.
-                        data: "$index",
-                        //Running
-                        feedback: DraggableCard(
-                            Global.userPriorities[index], index, true),
-                        //Stay Still / Left behind
-                        childWhenDragging: DraggableCard(
-                            Global.userPriorities[index], index, false),
-                        //Default
-                        child: DraggableCard(
-                            Global.userPriorities[index], index, true),
-                      ),
-                      //const Divider(thickness: 2),
-                    ],
-                  );
-                },
-                onAccept: (String data) {
-                  setState(() {
-                    int recievedFromIndex = int.parse(data);
-                    if (recievedFromIndex != index) {
-                      Priority temp = Global.userPriorities[index];
-                      Global.userPriorities[index] =
-                          Global.userPriorities[int.parse(data)];
-                      Global.userPriorities[int.parse(data)] = temp;
-                      acceptedData += data;
-                    }
-                  });
-                },
-              ),
-            ],
+        child: Container(
+          // decoration: BoxDecoration(
+          //   gradient: LinearGradient(
+          //     colors: [
+          //       Theme.of(context).canvasColor,
+          //       Theme.of(context).primaryColorLight,
+          //     ],
+          //     begin: Alignment.topLeft,
+          //     end: Alignment.bottomRight,
+          //   ),
+          // ),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0, left: 16.0),
+                      child: Text("Priority ${index + 1}",
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ),
+                  ],
+                ),
+                DragTarget<String>(
+                  builder: (
+                    BuildContext context,
+                    List<dynamic> accepted,
+                    List<dynamic> rejected,
+                  ) {
+                    return Stack(
+                      children: [
+                        //const Divider(thickness: 2.0),
+                        Draggable<String>(
+                          // Data is the value this Draggable stores.
+                          data: "$index",
+                          //Running
+                          feedback: DraggableCard(
+                              Global.userPriorities[index], index, true),
+                          //Stay Still / Left behind
+                          childWhenDragging: DraggableCard(
+                              Global.userPriorities[index], index, false),
+                          //Default
+                          child: DraggableCard(
+                              Global.userPriorities[index], index, true),
+                        ),
+                        //const Divider(thickness: 2),
+                      ],
+                    );
+                  },
+                  onAccept: (String data) {
+                    setState(() {
+                      int recievedFromIndex = int.parse(data);
+                      if (recievedFromIndex != index) {
+                        Priority temp = Global.userPriorities[index];
+                        Global.userPriorities[index] =
+                            Global.userPriorities[int.parse(data)];
+                        Global.userPriorities[int.parse(data)] = temp;
+                        acceptedData += data;
+                      }
+                    });
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
