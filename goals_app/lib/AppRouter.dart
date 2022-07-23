@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:goals_app/Screens/browseImages.dart';
-import 'package:goals_app/Screens/editPriority.dart';
+import 'package:goals_app/Screens/Priorities/editPriority.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/editPriotitiesArguments.dart';
-import 'package:goals_app/Screens/reorderPriorities.dart';
+import 'package:goals_app/Unused/reorderPriorities.dart';
 
 import 'Objects/Priority.dart';
-import 'Screens/prioritiesHome.dart';
+import 'Screens/Priorities/prioritiesHome.dart';
 
 class AppRouter extends StatelessWidget {
   const AppRouter({Key? key}) : super(key: key);

@@ -1,9 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/browseImageArguments.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/editPriotitiesArguments.dart';
 import 'package:goals_app/Screens/browseImages.dart';
-import '../Objects/Priority.dart';
+import 'package:goals_app/Screens/getStorageImage.dart';
+import 'package:image_cropper/image_cropper.dart';
+import '../../Objects/Priority.dart';
 import 'package:goals_app/global.dart';
+
+import 'package:permission_handler/permission_handler.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditPriorityScreen extends StatefulWidget {
   static const routeName = '/extractPriorityArguments';
@@ -20,9 +27,113 @@ class _EditPriorityScreen extends State<EditPriorityScreen> {
   late final args =
       ModalRoute.of(context)!.settings.arguments as PriorityScreenArguments;
   final myController = TextEditingController();
+
+  XFile? _selectedFile;
+  bool _inProcess = false;
+  bool recievedNewBrowsedImage = false;
+  Widget getImageWidget() {
+    if (!recievedNewBrowsedImage && _selectedFile != null) {
+      args.currentPriority.imageUrl = _selectedFile!.path;
+    }
+    recievedNewBrowsedImage = false;
+
+    if (args.currentPriority.imageUrl.toString().contains("http")) {
+      return Image.network(
+        args.currentPriority.imageUrl,
+        fit: BoxFit.cover,
+      );
+    } else {
+      return Image.file(
+        File(args.currentPriority.imageUrl),
+        fit: BoxFit.cover,
+      );
+    }
+
+    // else {
+    //   if (_selectedFile != null) {
+    //     return Image.file(
+    //       File(args.currentPriority.imageUrl),
+    //       fit: BoxFit.cover,
+    //     );
+    //   } else {
+    //     return Image.network('FictitiousURL');
+    //   }
+    // }
+  }
+
+  getImage(ImageSource source) async {
+    setState(() {
+      _inProcess = true;
+    });
+    XFile? image = await ImagePicker.platform.getImage(source: source);
+    if (image != null) {
+      CroppedFile? cropped = await ImageCropper.platform.cropImage(
+        sourcePath: image.path,
+        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+        compressQuality: 100,
+        maxWidth: 700,
+        maxHeight: 700,
+        compressFormat: ImageCompressFormat.jpg,
+      );
+
+      setState(() {
+        _selectedFile = XFile(cropped!.path);
+        _inProcess = false;
+      });
+    } else {
+      setState(() {
+        _inProcess = false;
+      });
+    }
+  }
+
+  // Pick an image
+  //final ImagePicker _picker = ImagePicker();
+  //bool imageFromStorageIsLoaded = false;
+  //String galleryFilePath = "";
+
+  // _loadPicker(ImageSource source) async {
+  //   if (_permissionStatus.isGranted) {
+  //     XFile? picked = await ImagePicker.platform.getImage(source: source);
+  //     if (picked == null) {
+  //       galleryFilePath = picked?.path ?? "";
+  //       if (galleryFilePath != "") {
+  //         debugPrint("Sending to be cropped");
+  //         _cropImage(galleryFilePath);
+  //       }
+  //     }
+  //   }
+  // }
+
+  // _cropImage(String normalImagePath) async {
+  //   CroppedFile? cropped = await ImageCropper.platform.cropImage(
+  //     sourcePath: normalImagePath,
+  //     aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+  //   );
+  //   if (cropped != null) {
+  //     setState() {
+  //       debugPrint("Cropped");
+  //       galleryFilePath = cropped.path;
+  //     }
+  //   }
+  // }
+
+  late PermissionStatus _permissionStatus;
+
   @override
   void initState() {
     super.initState();
+
+    () async {
+      _permissionStatus = await Permission.storage.status;
+
+      if (_permissionStatus != PermissionStatus.granted) {
+        PermissionStatus permissionStatus = await Permission.storage.request();
+        setState(() {
+          _permissionStatus = permissionStatus;
+        });
+      }
+    }();
   }
 
   @override
@@ -33,9 +144,8 @@ class _EditPriorityScreen extends State<EditPriorityScreen> {
   }
 
   changeImage(String newURL) {
-    debugPrint("WE MADE IT HERE");
-    debugPrint(newURL);
     setState(() {
+      recievedNewBrowsedImage = true;
       Global.userPriorities[args.index].setImageUrl(newURL);
       args.currentPriority.imageUrl = newURL;
     });
@@ -66,13 +176,19 @@ class _EditPriorityScreen extends State<EditPriorityScreen> {
       ),
       body: ListView(
         children: [
+          (_inProcess)
+              ? Container(
+                  color: Colors.white,
+                  height: MediaQuery.of(context).size.height * 0.95,
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              : const Center(),
           SizedBox(
             width: double.infinity,
             height: MediaQuery.of(context).size.height * 0.45,
-            child: Image.network(
-              args.currentPriority.imageUrl,
-              fit: BoxFit.cover,
-            ),
+            child: getImageWidget(),
           ),
           Padding(
             padding: const EdgeInsets.only(
@@ -92,7 +208,17 @@ class _EditPriorityScreen extends State<EditPriorityScreen> {
                         },
                     child: const Text("Browse Images")),
                 ElevatedButton(
-                    onPressed: () => {}, child: const Text("Upload Image")),
+                    onPressed: () => {
+                          getImage(ImageSource.gallery),
+
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => TempGetImageFile()),
+                          // ),
+                          //_loadPicker(ImageSource.gallery),
+                        },
+                    child: const Text("Upload Image")),
               ],
             ),
           ),

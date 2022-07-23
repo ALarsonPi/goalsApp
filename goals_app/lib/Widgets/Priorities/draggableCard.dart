@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:goals_app/Screens/editPriority.dart';
+import 'package:goals_app/Screens/Priorities/editPriority.dart';
 
-import '../Objects/Priority.dart';
-import '../Screens/ArgumentPassThroughScreens/editPriotitiesArguments.dart';
+import '../../Objects/Priority.dart';
+import '../../Screens/ArgumentPassThroughScreens/editPriotitiesArguments.dart';
 
 class DraggableCard extends StatelessWidget {
   Priority currPriority;
@@ -18,8 +18,8 @@ class DraggableCard extends StatelessWidget {
     return SizedBox(
       width: MediaQuery.of(context).size.width * (1.0 - (1 - sizeFactor)),
       child: Card(
-        color: Colors.white,
-        elevation: 5,
+        color: Colors.transparent,
+        elevation: 0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -50,7 +50,7 @@ class DraggableCard extends StatelessWidget {
                               style: const TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.normal,
-                                  fontSize: 16.0),
+                                  fontSize: 20.0),
                             ),
                           ),
                         ),
@@ -60,24 +60,24 @@ class DraggableCard extends StatelessWidget {
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Visibility(
-                visible: visibilityStatus,
-                child: GestureDetector(
-                    child: const Icon(Icons.edit, color: Colors.black38),
-                    onTap: () => {
-                          Navigator.pushNamed(
-                            context,
-                            EditPriorityScreen.routeName,
-                            arguments: PriorityScreenArguments(
-                              currPriority,
-                              index,
-                            ),
-                          ),
-                        }),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
+            //   child: Visibility(
+            //     visible: visibilityStatus,
+            //     child: GestureDetector(
+            //         child: const Icon(Icons.edit, color: Colors.black38),
+            //         onTap: () => {
+            //               Navigator.pushNamed(
+            //                 context,
+            //                 EditPriorityScreen.routeName,
+            //                 arguments: PriorityScreenArguments(
+            //                   currPriority,
+            //                   index,
+            //                 ),
+            //               ),
+            //             }),
+            //   ),
+            // ),
           ],
         ),
       ),

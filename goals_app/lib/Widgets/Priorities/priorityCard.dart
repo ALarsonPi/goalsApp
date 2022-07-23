@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
 
 class pageViewCard extends StatelessWidget {
@@ -12,9 +12,21 @@ class pageViewCard extends StatelessWidget {
       this.widthMultiplier, this.imageURL, this.index, this.name,
       {Key? key})
       : super(key: key);
+
+  Widget getImageWidget() {
+    if (imageURL.contains("http")) {
+      return Image.network(imageURL, fit: BoxFit.fitHeight);
+    } else {
+      return Image.file(
+        File(imageURL),
+        fit: BoxFit.fitHeight,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    Image currentImage = Image.network(imageURL);
+    Widget currentImage = getImageWidget();
     return SizedBox(
       height: _boxHeight * (heightMultiplier - 0.3),
       child: Stack(
@@ -51,7 +63,7 @@ class pageViewCard extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0.35) *
+                        top: MediaQuery.of(context).size.height * 0.33) *
                     heightMultiplier,
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width *
@@ -65,14 +77,14 @@ class pageViewCard extends StatelessWidget {
                       elevation: 5,
                       child: ListTile(
                         title: Text(
-                          "Priority ${index + 1}",
+                          name,
                           style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               color: Colors.black87),
                         ),
                         subtitle: Text(
-                          name,
+                          "Priority ${index + 1}",
                           style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.normal,
@@ -88,6 +100,5 @@ class pageViewCard extends StatelessWidget {
         ],
       ),
     );
-    ;
   }
 }

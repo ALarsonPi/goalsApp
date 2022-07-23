@@ -1,9 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/browseImageArguments.dart';
-import 'package:goals_app/Screens/editPriority.dart';
-import 'package:goals_app/Widgets/imageCarousel.dart';
-import 'package:goals_app/Widgets/verticalCarouselPageView.dart';
+import 'package:goals_app/Screens/Priorities/editPriority.dart';
+import 'package:goals_app/Widgets/Priorities/imageCarousel.dart';
+import 'package:goals_app/Unused/verticalCarouselPageView.dart';
 import 'package:goals_app/global.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:network_to_file_image/network_to_file_image.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as p;
 
 class BrowseImagesScreen extends StatefulWidget {
   BrowseImagesScreen();
@@ -31,6 +37,42 @@ class _BrowseImagesScreen extends State<BrowseImagesScreen> {
     fontStyle: FontStyle.italic,
   );
   String selectedImage = "None";
+
+  Future<File> _makeFile(String filename) async {
+    Directory dir = await getApplicationDocumentsDirectory();
+    String pathName = p.join(dir.path, filename);
+    return File(pathName);
+  }
+
+  _cropImage() async {
+    // var filePathName = selectedImage;
+    // filePathName.replaceAll(":", "");
+    // filePathName.replaceAll(".", "");
+    // filePathName.replaceAll("/", "");
+    // var myFile = await _makeFile(filePathName);
+
+    // //XFile? image = await ImagePicker.platform.getImage(source: source);
+    // Image myImage = Image(
+    //     image:
+    //         NetworkToFileImage(url: selectedImage, file: myFile, debug: true));
+    // debugPrint(myImage.toString());
+
+    // var myNetworkFileImage =
+    //     NetworkToFileImage(url: selectedImage, file: myFile, debug: true);
+
+    // CroppedFile? cropped = await ImageCropper.platform.cropImage(
+    //   sourcePath: myNetworkFileImage.file!.path,
+    //   aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+    //   compressQuality: 100,
+    //   maxWidth: 700,
+    //   maxHeight: 700,
+    //   compressFormat: ImageCompressFormat.jpg,
+    // );
+    // selectedImage = cropped!.path;
+
+    args.parentFunctionToChangeImage(selectedImage);
+    Navigator.pop(context, true);
+  }
 
   var somethingIsHighlighted = [false, -1];
   checkIfSomethingIsHighlighted() {
@@ -192,8 +234,7 @@ class _BrowseImagesScreen extends State<BrowseImagesScreen> {
           ElevatedButton(
               onPressed: (selectedImage != "None")
                   ? () => {
-                        args.parentFunctionToChangeImage(selectedImage),
-                        Navigator.pop(context, true),
+                        _cropImage(),
                       }
                   : null,
               child: const Text("Choose Selected Image")),

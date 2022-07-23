@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:goals_app/Widgets/imageCarousel.dart';
+import 'package:goals_app/Widgets/Priorities/imageCarousel.dart';
 
 class VerticalCarouselPageView extends StatefulWidget {
   VerticalCarouselPageView(
