@@ -33,7 +33,6 @@ class AppRouter extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => PriorityHomeScreen(),
-          '/reorder-priorities': (context) => ReorderPrioritiesScreen(),
           EditPriorityScreen.routeName: (context) => EditPriorityScreen(),
           BrowseImagesScreen.routeName: (context) => BrowseImagesScreen(),
           IndividualPriority.routeName: (context) => const IndividualPriority(),
