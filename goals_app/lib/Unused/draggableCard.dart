@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:goals_app/Screens/Priorities/editPriority.dart';
 
-import '../../Objects/Priority.dart';
-import '../../Screens/ArgumentPassThroughScreens/editPriotitiesArguments.dart';
+import '../Objects/Priority.dart';
+import '../Screens/ArgumentPassThroughScreens/editPriotitiesArguments.dart';
 
 class DraggableCard extends StatelessWidget {
   Priority currPriority;
   int index;
-  bool visibilityStatus;
-  DraggableCard(this.currPriority, this.index, this.visibilityStatus,
-      {Key? key})
-      : super(key: key);
+  DraggableCard(this.currPriority, this.index, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +23,9 @@ class DraggableCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Visibility(
-                      visible: visibilityStatus,
-                      child: const Icon(Icons.menu, size: 32)),
-                ),
+                const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Icon(Icons.menu, size: 32)),
                 Padding(
                   padding: const EdgeInsets.only(left: 0.0),
                   child: MaterialButton(
@@ -43,15 +37,12 @@ class DraggableCard extends StatelessWidget {
                               left: 0, top: 10, bottom: 10),
                           width: MediaQuery.of(context).size.width *
                               (0.55 - (1 - sizeFactor)),
-                          child: Visibility(
-                            visible: visibilityStatus,
-                            child: Text(
-                              currPriority.name,
-                              style: const TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 20.0),
-                            ),
+                          child: Text(
+                            currPriority.name,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 20.0),
                           ),
                         ),
                       ],

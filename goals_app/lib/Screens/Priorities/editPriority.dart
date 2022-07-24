@@ -3,14 +3,16 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/browseImageArguments.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/editPriotitiesArguments.dart';
+import 'package:goals_app/Screens/Priorities/individualPriority.dart';
 import 'package:goals_app/Screens/browseImages.dart';
 import 'package:goals_app/Screens/getStorageImage.dart';
 import 'package:image_cropper/image_cropper.dart';
-import '../../Objects/Priority.dart';
 import 'package:goals_app/global.dart';
 
 import 'package:permission_handler/permission_handler.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
 
 class EditPriorityScreen extends StatefulWidget {
   static const routeName = '/extractPriorityArguments';
@@ -167,7 +169,9 @@ class _EditPriorityScreen extends State<EditPriorityScreen> {
         automaticallyImplyLeading: false,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pushNamed(context, '/reorder-priorities'),
+          onPressed: () => Navigator.pushNamed(
+              context, IndividualPriority.routeName,
+              arguments: IndividualPriorityArgumentScreen(args.index)),
         ),
         title: Text(
           args.currentPriority.name,

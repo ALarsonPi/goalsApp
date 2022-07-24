@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:goals_app/Objects/Priority.dart';
-import 'package:goals_app/Widgets/Priorities/draggableCard.dart';
+import 'package:goals_app/Unused/draggableCard.dart';
 import 'package:goals_app/global.dart';
 
 class ReorderPrioritiesScreen extends StatefulWidget {
@@ -76,19 +76,16 @@ class _ReorderPrioritiesScreen extends State<ReorderPrioritiesScreen> {
                           feedback: DraggableCard(
                             Global.userPriorities[index],
                             index,
-                            true,
                           ),
                           //Stay Still / Left behind
                           childWhenDragging: DraggableCard(
                             Global.userPriorities[index],
                             index,
-                            false,
                           ),
                           //Default
                           child: DraggableCard(
                             Global.userPriorities[index],
                             index,
-                            true,
                           ),
                         ),
                         //const Divider(thickness: 2),

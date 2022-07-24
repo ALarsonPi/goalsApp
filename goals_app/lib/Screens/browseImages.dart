@@ -45,6 +45,9 @@ class _BrowseImagesScreen extends State<BrowseImagesScreen> {
   }
 
   _cropImage() async {
+    //Maybe try cropping again once
+    //we it's coming from Firebase
+
     // var filePathName = selectedImage;
     // filePathName.replaceAll(":", "");
     // filePathName.replaceAll(".", "");
