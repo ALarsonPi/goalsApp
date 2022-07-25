@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:goals_app/Objects/CardLabel.dart';
+import 'package:goals_app/Unused/CardLabel.dart';
 import 'package:goals_app/Objects/Priority.dart';
 import 'package:goals_app/Unused/myPageView.dart';
 import 'package:goals_app/Widgets/Priorities/priorityCard.dart';
@@ -10,8 +10,11 @@ import 'package:page_view_indicators/circle_page_indicator.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class PriorityCarousel extends StatefulWidget {
+  Function notifyParentOfSlideChange;
   int currentIndex;
-  PriorityCarousel(this.currentIndex, {Key? key}) : super(key: key);
+  PriorityCarousel(this.currentIndex, this.notifyParentOfSlideChange,
+      {Key? key})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -58,6 +61,7 @@ class _PriorityCarousel extends State<PriorityCarousel> {
               setState(() {
                 _currentPageNotifier.value = index;
                 currentPage = index;
+                widget.notifyParentOfSlideChange(currentPage);
               })
             },
             enlargeCenterPage: true,

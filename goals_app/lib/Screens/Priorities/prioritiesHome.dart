@@ -4,7 +4,7 @@ import 'package:goals_app/Screens/ArgumentPassThroughScreens/priorityHomeArgumen
 import 'package:goals_app/Screens/Priorities/individualPriority.dart';
 import 'package:goals_app/Screens/Priorities/reorderScreen.dart';
 import 'package:goals_app/Widgets/Priorities/priorityCarousel.dart';
-import '../../Objects/CardLabel.dart';
+import '../../Unused/CardLabel.dart';
 import '../../global.dart';
 
 class PriorityHomeScreen extends StatefulWidget {
@@ -20,7 +20,6 @@ class PriorityHomeScreen extends StatefulWidget {
 
 class _PriorityHomeScreen extends State<PriorityHomeScreen> {
   List<String> urls = List.empty(growable: true);
-  List<CardLabel> labels = List.empty(growable: true);
   List<Priority> priorities = List.empty(growable: true);
   bool isEdit = false;
 
@@ -95,7 +94,8 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
                   padding: const EdgeInsets.only(top: 36.0),
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.6,
-                    child: PriorityCarousel(currentDisplayIndex),
+                    child: PriorityCarousel(currentDisplayIndex,
+                        getNotificationFromChildOfSlideChange),
                   ),
                 ),
               ],
@@ -106,10 +106,17 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
     }
   }
 
+  getNotificationFromChildOfSlideChange(int newSlideIndex) {
+    setState(() {
+      args.currentIndex = newSlideIndex;
+    });
+  }
+
+  late final args =
+      ModalRoute.of(context)!.settings.arguments as PriorityHomeArguments;
+
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)!.settings.arguments as PriorityHomeArguments;
     return getCurrentWidgetContent(args.currentIndex);
   }
 }

@@ -1,7 +1,10 @@
+import 'Goal.dart';
+
 class Priority {
   String imageUrl;
   String name;
-  Priority(this.name, this.imageUrl);
+  List<Goal> goals = List.empty(growable: true);
+  Priority(this.name, this.imageUrl, this.goals);
 
   setName(String newName) {
     name = newName;

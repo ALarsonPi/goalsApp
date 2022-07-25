@@ -1,4 +1,4 @@
 class PriorityHomeArguments {
-  final int currentIndex;
+  int currentIndex;
   PriorityHomeArguments(this.currentIndex);
 }

@@ -8,6 +8,8 @@ import 'package:goals_app/global.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import '../../Widgets/Goals/goalsList.dart';
+import '../../Widgets/Priorities/editPriorityWidget.dart';
 import '../ArgumentPassThroughScreens/browseImageArguments.dart';
 import '../ArgumentPassThroughScreens/editPriotitiesArguments.dart';
 import '../ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
@@ -154,7 +156,20 @@ class _IndividualPriority extends State<IndividualPriority> {
             ));
   }
 
-  final myController = TextEditingController();
+  changeImage(String newURL) {
+    setState(() {
+      recievedNewBrowsedImage = true;
+      Global.userPriorities[args.index].setImageUrl(newURL);
+      Global.userPriorities[args.index].imageUrl = newURL;
+    });
+  }
+
+  saveTitleTextChanges(String newTitle) {
+    setState(() {
+      Global.userPriorities[args.index].setName(newTitle);
+      Global.userPriorities[args.index].name = newTitle;
+    });
+  }
 
   XFile? _selectedFile;
   bool _inProcess = false;
@@ -184,106 +199,10 @@ class _IndividualPriority extends State<IndividualPriority> {
     }
   }
 
-  changeImage(String newURL) {
-    setState(() {
-      recievedNewBrowsedImage = true;
-      Global.userPriorities[args.index].setImageUrl(newURL);
-      Global.userPriorities[args.index].imageUrl = newURL;
-    });
-  }
-
-  saveTitleTextChanges() {
-    if (myController.text.isNotEmpty) {
-      setState(() {
-        Global.userPriorities[args.index].setName(myController.text);
-        Global.userPriorities[args.index].name = myController.text;
-      });
-    }
-  }
-
   getEditWidget() {
     return (shouldEdit)
-        ? ListView(
-            padding: EdgeInsets.all(0.0),
-            children: [
-              (_inProcess)
-                  ? Container(
-                      color: Colors.white,
-                      height: MediaQuery.of(context).size.height * 0.95,
-                      child: const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    )
-                  : const Center(),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 8.0, right: 8.0, top: 0.0, bottom: 12.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                        onPressed: () => {
-                              Navigator.pushNamed(
-                                context,
-                                BrowseImagesScreen.routeName,
-                                arguments: BrowseImageArguments(
-                                  changeImage,
-                                ),
-                              ),
-                            },
-                        child: const Text("Browse Images")),
-                    ElevatedButton(
-                        onPressed: () => {
-                              getImage(ImageSource.gallery),
-                            },
-                        child: const Text("Upload Image")),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Center(
-                  child: Text(Global.userPriorities[args.index].name,
-                      style: const TextStyle(
-                          fontSize: 24, fontWeight: FontWeight.bold)),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 8.0, right: 8.0, top: 8.0, bottom: 0.0),
-                child: TextFormField(
-                  controller: myController,
-                  autovalidateMode: AutovalidateMode.always,
-                  decoration: InputDecoration(
-                    hintText: Global.userPriorities[args.index].name,
-                    labelText: "Edit Priority Name",
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: Colors.black12, width: 2.0),
-                      borderRadius: BorderRadius.circular(25.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          const BorderSide(color: Colors.grey, width: 2.0),
-                      borderRadius: BorderRadius.circular(25.0),
-                    ),
-                  ),
-                  minLines: 2, //This controls default size of textbox
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 24.0, right: 24.0, top: 0.0, bottom: 12.0),
-                child: ElevatedButton(
-                    onPressed: () => {saveTitleTextChanges()},
-                    child: const Text("Save New Priority Name")),
-              ),
-            ],
-          )
+        ? EditPriorityWidget(
+            args.index, _inProcess, changeImage, saveTitleTextChanges, getImage)
         : const Text("");
   }
 
@@ -373,16 +292,32 @@ class _IndividualPriority extends State<IndividualPriority> {
           (!shouldEdit)
               ? Padding(
                   padding: const EdgeInsets.only(top: 16.0),
-                  child: Center(
-                    child: Text(Global.userPriorities[args.index].name,
-                        style: const TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold)),
+                  child: Column(
+                    children: [
+                      Center(
+                        child: Text(Global.userPriorities[args.index].name,
+                            style: const TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.bold)),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 24.0, right: 24.0),
+                        child: Divider(thickness: 1, color: Colors.grey),
+                      ),
+                    ],
                   ),
                 )
               : const Text(""),
           Expanded(
-            child: getEditWidget(),
-            //Goals Buttons
+            child: Column(
+              children: [
+                Expanded(
+                  child: getEditWidget(),
+                ),
+                Expanded(
+                  child: GoalsList(args.index),
+                ),
+              ],
+            ),
           ),
         ],
       ),
