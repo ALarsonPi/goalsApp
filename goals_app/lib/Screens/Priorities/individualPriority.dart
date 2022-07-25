@@ -307,18 +307,22 @@ class _IndividualPriority extends State<IndividualPriority> {
                   ),
                 )
               : const Text(""),
-          Expanded(
-            child: Column(
-              children: [
-                Expanded(
-                  child: getEditWidget(),
-                ),
-                Expanded(
+          (!shouldEdit)
+              ? Expanded(
                   child: GoalsList(args.index),
-                ),
-              ],
-            ),
-          ),
+                )
+              : const Text(""),
+          (shouldEdit)
+              ? Expanded(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: getEditWidget(),
+                      ),
+                    ],
+                  ),
+                )
+              : const Text(""),
         ],
       ),
     );

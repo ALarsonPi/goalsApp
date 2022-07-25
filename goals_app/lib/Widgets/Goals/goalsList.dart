@@ -15,14 +15,19 @@ class _GoalsList extends State<GoalsList> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          children: [
-            Text("data"),
-            Text("I also data"),
-          ],
+        Container(
+          height: 30,
+          child: Row(
+            children: [
+              Text("data"),
+              Text("I also data"),
+            ],
+          ),
         ),
-        Expanded(
+        Flexible(
             child: ListView(
+          //physics: const ClampingScrollPhysics(),
+          shrinkWrap: true,
           children: const [
             Text("buttons"),
           ],
