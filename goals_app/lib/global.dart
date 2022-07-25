@@ -1,6 +1,13 @@
 import 'Objects/Priority.dart';
 
 class Global {
+  static Map listOfImageLists = {
+    "Nature/Animal Images": listOfNaturePictures,
+    "Activities": listOfHobbyPictures,
+    "Study Images": listOfStudyPictures,
+    "Food Images": listOfFoodPictures,
+  };
+
   static List<pictureHolder> listOfNaturePictures = [
     pictureHolder("https://placedog.net/900/1200?id=36", "Dog Image 1"),
     pictureHolder(
@@ -83,7 +90,7 @@ class Global {
         Priority("Coming closer to God", listOfNaturePictures[0].url),
       );
       userPriorities.add(
-        Priority("Family", listOfNaturePictures[2].url),
+        Priority("Family", listOfNaturePictures[3].url),
       );
       userPriorities.add(
         Priority("Work", listOfHobbyPictures[0].url),

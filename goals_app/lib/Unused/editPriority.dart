@@ -12,7 +12,7 @@ import 'package:goals_app/global.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
+import '../Screens/ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
 
 class EditPriorityScreen extends StatefulWidget {
   static const routeName = '/extractPriorityArguments';
@@ -50,17 +50,6 @@ class _EditPriorityScreen extends State<EditPriorityScreen> {
         fit: BoxFit.cover,
       );
     }
-
-    // else {
-    //   if (_selectedFile != null) {
-    //     return Image.file(
-    //       File(args.currentPriority.imageUrl),
-    //       fit: BoxFit.cover,
-    //     );
-    //   } else {
-    //     return Image.network('FictitiousURL');
-    //   }
-    // }
   }
 
   getImage(ImageSource source) async {
@@ -88,37 +77,6 @@ class _EditPriorityScreen extends State<EditPriorityScreen> {
       });
     }
   }
-
-  // Pick an image
-  //final ImagePicker _picker = ImagePicker();
-  //bool imageFromStorageIsLoaded = false;
-  //String galleryFilePath = "";
-
-  // _loadPicker(ImageSource source) async {
-  //   if (_permissionStatus.isGranted) {
-  //     XFile? picked = await ImagePicker.platform.getImage(source: source);
-  //     if (picked == null) {
-  //       galleryFilePath = picked?.path ?? "";
-  //       if (galleryFilePath != "") {
-  //         debugPrint("Sending to be cropped");
-  //         _cropImage(galleryFilePath);
-  //       }
-  //     }
-  //   }
-  // }
-
-  // _cropImage(String normalImagePath) async {
-  //   CroppedFile? cropped = await ImageCropper.platform.cropImage(
-  //     sourcePath: normalImagePath,
-  //     aspectRatio: const CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
-  //   );
-  //   if (cropped != null) {
-  //     setState() {
-  //       debugPrint("Cropped");
-  //       galleryFilePath = cropped.path;
-  //     }
-  //   }
-  // }
 
   late PermissionStatus _permissionStatus;
 
@@ -214,13 +172,6 @@ class _EditPriorityScreen extends State<EditPriorityScreen> {
                 ElevatedButton(
                     onPressed: () => {
                           getImage(ImageSource.gallery),
-
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => TempGetImageFile()),
-                          // ),
-                          //_loadPicker(ImageSource.gallery),
                         },
                     child: const Text("Upload Image")),
               ],

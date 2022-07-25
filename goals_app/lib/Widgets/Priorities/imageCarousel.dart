@@ -13,6 +13,7 @@ class ImageCarousel extends StatefulWidget {
   final int index;
   final Function checkParent;
   final Function clearParents;
+  final shouldHighlightValue;
   ImageCarousel(
       this.urlList,
       this.carouselTitle,
@@ -22,6 +23,7 @@ class ImageCarousel extends StatefulWidget {
       this.index,
       this.checkParent,
       this.clearParents,
+      this.shouldHighlightValue,
       {Key? key})
       : super(key: key);
 
@@ -44,15 +46,23 @@ class _ImageCarousel extends State<ImageCarousel> {
 
   defaultFunction() {}
 
-  ClickableHighlightImage createContainer(String url) {
-    return ClickableHighlightImage(url, selectImage, widget.checkParent,
-        widget.clearParents, widget.index);
+  ClickableHighlightImage createContainer(String url, int localIndex) {
+    return ClickableHighlightImage(
+      url,
+      selectImage,
+      widget.checkParent,
+      widget.clearParents,
+      widget.index,
+      widget.shouldHighlightValue[1] == widget.index && localIndex == 0,
+    );
   }
 
   @override
   void initState() {
+    int i = 0;
     for (String url in widget.urlList) {
-      imagePages.add(createContainer(url));
+      imagePages.add(createContainer(url, i));
+      i++;
     }
     super.initState();
   }
@@ -84,12 +94,13 @@ class _ImageCarousel extends State<ImageCarousel> {
                 setState(() {
                   selectedImage = "None";
                   if (widget.checkParent()[1] == widget.index) {
-                    widget.updateParent(selectedImage, index, defaultFunction);
+                    widget.updateParent(
+                        selectedImage, widget.index, defaultFunction);
                   }
                   ClickableHighlightImage currentPage = imagePages[index];
                   for (int i = 0; i < imagePages.length; i++) {
                     String imageURL = imagePages[i].imageUrl;
-                    imagePages[i] = createContainer(imageURL);
+                    imagePages[i] = createContainer(imageURL, i);
                   }
                 }),
               },

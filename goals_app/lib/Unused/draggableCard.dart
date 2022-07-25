@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:goals_app/Screens/Priorities/editPriority.dart';
+import 'package:goals_app/Unused/editPriority.dart';
 
 import '../Objects/Priority.dart';
 import '../Screens/ArgumentPassThroughScreens/editPriotitiesArguments.dart';

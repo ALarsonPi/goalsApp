@@ -48,11 +48,12 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
     Global.getPriorities();
   }
 
-  void saveAndDelete(List<Priority> prioritiesToDelete) {
+  void saveAndDelete(List<Priority> prioritiesToSave) {
     setState(() {
       isEdit = !isEdit;
-      for (var priority in prioritiesToDelete) {
-        Global.userPriorities.remove(priority);
+      Global.userPriorities.clear();
+      for (var priority in prioritiesToSave) {
+        Global.userPriorities.add(priority);
       }
     });
   }

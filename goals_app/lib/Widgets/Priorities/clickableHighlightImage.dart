@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ClickableHighlightImage extends StatefulWidget {
   ClickableHighlightImage(this.imageUrl, this.parentFunction, this.checkParent,
-      this.clearParents, this.index,
+      this.clearParents, this.index, this.shouldBeHighlighted,
       {Key? key})
       : super(key: key);
   String imageUrl;
@@ -10,6 +10,7 @@ class ClickableHighlightImage extends StatefulWidget {
   Function checkParent;
   Function clearParents;
   bool isHighlighted = false;
+  bool shouldBeHighlighted = true;
   int index;
 
   @override
@@ -27,11 +28,27 @@ class _ClickableHighlightImage extends State<ClickableHighlightImage> {
     possibleColors.add(Colors.transparent);
     possibleColors.add(Colors.red);
 
+    if (widget.shouldBeHighlighted) {
+      widget.isHighlighted = true;
+    }
+
     super.initState();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+  }
+
   void changeHighlightColor() {
-    if (!mounted) return;
+    if (!mounted) {
+      return;
+    }
     setState(() {
       if (widget.checkParent()[0] && widget.checkParent()[1] == widget.index) {
         widget.isHighlighted = !widget.isHighlighted;

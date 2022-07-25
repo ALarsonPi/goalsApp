@@ -1,8 +1,7 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/browseImageArguments.dart';
-import 'package:goals_app/Screens/Priorities/editPriority.dart';
+import 'package:goals_app/Unused/editPriority.dart';
 import 'package:goals_app/Widgets/Priorities/imageCarousel.dart';
 import 'package:goals_app/Unused/verticalCarouselPageView.dart';
 import 'package:goals_app/global.dart';
@@ -45,33 +44,7 @@ class _BrowseImagesScreen extends State<BrowseImagesScreen> {
   }
 
   _cropImage() async {
-    //Maybe try cropping again once
-    //we it's coming from Firebase
-
-    // var filePathName = selectedImage;
-    // filePathName.replaceAll(":", "");
-    // filePathName.replaceAll(".", "");
-    // filePathName.replaceAll("/", "");
-    // var myFile = await _makeFile(filePathName);
-
-    // //XFile? image = await ImagePicker.platform.getImage(source: source);
-    // Image myImage = Image(
-    //     image:
-    //         NetworkToFileImage(url: selectedImage, file: myFile, debug: true));
-    // debugPrint(myImage.toString());
-
-    // var myNetworkFileImage =
-    //     NetworkToFileImage(url: selectedImage, file: myFile, debug: true);
-
-    // CroppedFile? cropped = await ImageCropper.platform.cropImage(
-    //   sourcePath: myNetworkFileImage.file!.path,
-    //   aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
-    //   compressQuality: 100,
-    //   maxWidth: 700,
-    //   maxHeight: 700,
-    //   compressFormat: ImageCompressFormat.jpg,
-    // );
-    // selectedImage = cropped!.path;
+    //Maybe allow the user to crop these in the future?
 
     args.parentFunctionToChangeImage(selectedImage);
     Navigator.pop(context, true);
@@ -89,8 +62,9 @@ class _BrowseImagesScreen extends State<BrowseImagesScreen> {
     tappableCurrentImage[somethingIsHighlighted[1] as int]();
     //Highlight current
     tapChildDetector();
-    imageCarousels[0];
   }
+
+  setStateForButton() {}
 
   getSelectImageFromCarousel(
       String imageUrl, int index, Function clickableChildFunction) {
@@ -111,69 +85,32 @@ class _BrowseImagesScreen extends State<BrowseImagesScreen> {
 
   @override
   void initState() {
-    bool isUsingVertical = false;
+    double carouselHeight = 200;
 
-    double carouselSize = 200;
-    if (isUsingVertical) {
-      carouselSize = 300;
-    }
-    for (var pictureHolder in Global.listOfNaturePictures) {
-      natureUrlList.add(pictureHolder.url);
-    }
-    for (var pictureHolder in Global.listOfStudyPictures) {
-      studyUrlList.add(pictureHolder.url);
-    }
-    for (var pictureHolder in Global.listOfFoodPictures) {
-      foodUrlList.add(pictureHolder.url);
-    }
-    for (var pictureHolder in Global.listOfHobbyPictures) {
-      hobbiesUrlList.add(pictureHolder.url);
+    List<String> listDescriptions = List.empty(growable: true);
+    for (String listDescription in Global.listOfImageLists.keys) {
+      listDescriptions.add(listDescription);
     }
 
-    tappableCurrentImage.add(defaultFunction);
-    imageCarousels.add(ImageCarousel(
-        natureUrlList,
-        "Nature/Animal Images",
-        carouselSize,
-        true,
-        getSelectImageFromCarousel,
-        0,
-        checkIfSomethingIsHighlighted,
-        clearParents));
-
-    tappableCurrentImage.add(defaultFunction);
-    imageCarousels.add(ImageCarousel(
-        hobbiesUrlList,
-        "Activities",
-        carouselSize,
-        true,
-        getSelectImageFromCarousel,
-        1,
-        checkIfSomethingIsHighlighted,
-        clearParents));
-
-    tappableCurrentImage.add(defaultFunction);
-    imageCarousels.add(ImageCarousel(
-        studyUrlList,
-        "Study Images",
-        carouselSize,
-        true,
-        getSelectImageFromCarousel,
-        2,
-        checkIfSomethingIsHighlighted,
-        clearParents));
-
-    tappableCurrentImage.add(defaultFunction);
-    imageCarousels.add(ImageCarousel(
-        foodUrlList,
-        "Food Images",
-        carouselSize,
-        true,
-        getSelectImageFromCarousel,
-        3,
-        checkIfSomethingIsHighlighted,
-        clearParents));
-
+    int i = 0;
+    for (var currentImageList in Global.listOfImageLists.values) {
+      List<String> urls = List.empty(growable: true);
+      for (pictureHolder myPicHolder in currentImageList) {
+        urls.add(myPicHolder.url);
+      }
+      tappableCurrentImage.add(defaultFunction);
+      imageCarousels.add(ImageCarousel(
+          urls,
+          listDescriptions[i],
+          carouselHeight,
+          true,
+          getSelectImageFromCarousel,
+          i,
+          checkIfSomethingIsHighlighted,
+          clearParents,
+          somethingIsHighlighted));
+      i++;
+    }
     super.initState();
   }
 
@@ -192,14 +129,20 @@ class _BrowseImagesScreen extends State<BrowseImagesScreen> {
     Function currentFunction = currentCarousel.updateParent;
     List<String> currentList = currentCarousel.urlList;
     currentCarousel.createState;
-    return ImageCarousel(currentList, title, height, endless, currentFunction,
-        index, checkIfSomethingIsHighlighted, clearParents);
+    return ImageCarousel(
+        currentList,
+        title,
+        height,
+        endless,
+        currentFunction,
+        index,
+        checkIfSomethingIsHighlighted,
+        clearParents,
+        somethingIsHighlighted);
   }
 
   @override
   Widget build(BuildContext context) {
-    bool verticalCarousel = true;
-
     List<Padding> fullCarouselList = List.empty(growable: true);
     for (var currentCarousel in imageCarousels) {
       fullCarouselList.add(createImageCarouselWithPadding(currentCarousel));
@@ -224,11 +167,6 @@ class _BrowseImagesScreen extends State<BrowseImagesScreen> {
               height: MediaQuery.of(context).size.height * 0.72,
               child: ListView(
                 children: [
-                  // VerticalCarouselPageView(
-                  //     imageCarousels,
-                  //     MediaQuery.of(context).size.height * 0.7,
-                  //     getSelectImageFromCarousel),
-
                   ...fullCarouselList,
                 ],
               ),

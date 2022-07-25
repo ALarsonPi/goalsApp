@@ -40,7 +40,7 @@ class _ReorderScreen extends State<ReorderScreen> {
             IconButton(
               onPressed: () => {
                 setState(() {
-                  widget.changeScreens(deletedPriorities);
+                  widget.changeScreens(currentPriorities);
                 })
               },
               icon: const Icon(Icons.save),
