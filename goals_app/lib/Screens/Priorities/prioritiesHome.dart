@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:goals_app/Objects/Priority.dart';
+import 'package:goals_app/Screens/ArgumentPassThroughScreens/priorityHomeArguments.dart';
 import 'package:goals_app/Screens/Priorities/individualPriority.dart';
 import 'package:goals_app/Screens/Priorities/reorderScreen.dart';
 import 'package:goals_app/Widgets/Priorities/priorityCarousel.dart';
@@ -8,6 +9,8 @@ import '../../global.dart';
 
 class PriorityHomeScreen extends StatefulWidget {
   PriorityHomeScreen({Key? key}) : super(key: key);
+
+  static const routeName = "/priorityHomeArgs";
 
   @override
   State<StatefulWidget> createState() {
@@ -58,7 +61,7 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
     });
   }
 
-  Widget getCurrentWidgetContent() {
+  Widget getCurrentWidgetContent(int currentDisplayIndex) {
     if (isEdit) {
       return ReorderScreen(saveAndDelete);
     } else {
@@ -92,7 +95,7 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
                   padding: const EdgeInsets.only(top: 36.0),
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.6,
-                    child: const PriorityCarousel(),
+                    child: PriorityCarousel(currentDisplayIndex),
                   ),
                 ),
               ],
@@ -105,6 +108,8 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return getCurrentWidgetContent();
+    final args =
+        ModalRoute.of(context)!.settings.arguments as PriorityHomeArguments;
+    return getCurrentWidgetContent(args.currentIndex);
   }
 }

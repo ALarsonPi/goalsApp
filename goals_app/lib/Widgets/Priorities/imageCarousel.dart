@@ -53,7 +53,9 @@ class _ImageCarousel extends State<ImageCarousel> {
       widget.checkParent,
       widget.clearParents,
       widget.index,
-      widget.shouldHighlightValue[1] == widget.index && localIndex == 0,
+      widget.shouldHighlightValue[1] == widget.index &&
+          localIndex == 0 &&
+          widget.shouldHighlightValue[0],
     );
   }
 

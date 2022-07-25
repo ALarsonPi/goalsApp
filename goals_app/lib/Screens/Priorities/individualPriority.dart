@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:goals_app/Screens/ArgumentPassThroughScreens/priorityHomeArguments.dart';
+import 'package:goals_app/Screens/Priorities/prioritiesHome.dart';
 import 'package:goals_app/Unused/editPriority.dart';
 import 'package:goals_app/global.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -348,7 +350,11 @@ class _IndividualPriority extends State<IndividualPriority> {
                         children: [
                           IconButton(
                             onPressed: () => {
-                              Navigator.pushNamed(context, '/'),
+                              Navigator.pushNamed(
+                                context,
+                                PriorityHomeScreen.routeName,
+                                arguments: PriorityHomeArguments(args.index),
+                              ),
                             },
                             icon: const Icon(
                               Icons.arrow_back,

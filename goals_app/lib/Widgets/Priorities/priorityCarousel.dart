@@ -10,7 +10,8 @@ import 'package:page_view_indicators/circle_page_indicator.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class PriorityCarousel extends StatefulWidget {
-  const PriorityCarousel({Key? key}) : super(key: key);
+  int currentIndex;
+  PriorityCarousel(this.currentIndex, {Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -23,7 +24,7 @@ class _PriorityCarousel extends State<PriorityCarousel> {
   List imageUrlList = List.empty(growable: true);
   CarouselController controller = CarouselController();
   int currentPage = 0;
-  final _currentPageNotifier = ValueNotifier<int>(0);
+  late final _currentPageNotifier = ValueNotifier<int>(widget.currentIndex);
 
   @override
   void initState() {
@@ -65,6 +66,7 @@ class _PriorityCarousel extends State<PriorityCarousel> {
             height: 300,
             enableInfiniteScroll: false,
             viewportFraction: 0.75,
+            initialPage: widget.currentIndex,
           ),
         ),
         const SizedBox(
