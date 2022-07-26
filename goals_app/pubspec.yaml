@@ -43,6 +43,7 @@ dependencies:
   image_picker: ^0.8.5+3
   network_to_file_image: ^4.0.1
   path_provider: ^2.0.11
+  syncfusion_flutter_gauges: ^20.2.39
 
 dev_dependencies:
   flutter_test:

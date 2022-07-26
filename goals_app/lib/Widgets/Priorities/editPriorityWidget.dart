@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:goals_app/Objects/Goal.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../Screens/ArgumentPassThroughScreens/browseImageArguments.dart';
 import '../../Screens/browseImages.dart';
 import '../../global.dart';
-import '../Goals/goalsList.dart';
 
 class EditPriorityWidget extends StatelessWidget {
   Function changeParentImage;
@@ -13,8 +13,14 @@ class EditPriorityWidget extends StatelessWidget {
   Function getImage;
   int currentPriorityIndex;
   final bool _inProcess;
-  EditPriorityWidget(this.currentPriorityIndex, this._inProcess,
-      this.changeParentImage, this.saveChangesToPriorityTitle, this.getImage,
+  List<Goal> buttonsToDisplay;
+  EditPriorityWidget(
+      this.currentPriorityIndex,
+      this._inProcess,
+      this.changeParentImage,
+      this.saveChangesToPriorityTitle,
+      this.getImage,
+      this.buttonsToDisplay,
       {Key? key})
       : super(key: key);
 
@@ -125,23 +131,6 @@ class EditPriorityWidget extends StatelessWidget {
                 padding: EdgeInsets.only(left: 24.0, right: 24.0),
                 child: Divider(thickness: 1, color: Colors.grey),
               ),
-
-              Text("HI"),
-              Text("HI"),
-
-              Text("HI"),
-
-              Text("HI"),
-
-              //HOW TO GET THIS TO WORK IN LISTVIEW
-              // Expanded(
-              //   child: GoalsList(currentPriorityIndex),
-              //),
-              //GoalsList(currentPriorityIndex),
-
-              //I want to add this into the list view... I guess it should
-              //have a different version where it's not a listview?/?
-              //GoalsList(currentPriorityIndex),
             ],
           ),
         ],

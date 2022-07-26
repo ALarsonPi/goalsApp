@@ -4,12 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/priorityHomeArguments.dart';
 import 'package:goals_app/Screens/Priorities/prioritiesHome.dart';
 import 'package:goals_app/Unused/editPriority.dart';
+import 'package:goals_app/Widgets/Priorities/normalPriorityWidget.dart';
 import 'package:goals_app/global.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../../Widgets/Goals/goalsList.dart';
+import '../../Objects/Goal.dart';
+import '../../Widgets/Goals/goalButton.dart';
+import '../../Unused/goalsList.dart';
 import '../../Widgets/Priorities/editPriorityWidget.dart';
+import '../../Widgets/Priorities/gridListIconRow.dart';
 import '../ArgumentPassThroughScreens/browseImageArguments.dart';
 import '../ArgumentPassThroughScreens/editPriotitiesArguments.dart';
 import '../ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
@@ -199,54 +203,31 @@ class _IndividualPriority extends State<IndividualPriority> {
     }
   }
 
-  getEditWidget() {
+  getEditWidget(List<Goal> buttons) {
     return (shouldEdit)
-        ? EditPriorityWidget(
-            args.index, _inProcess, changeImage, saveTitleTextChanges, getImage)
-        : const Text("");
+        ? EditPriorityWidget(args.index, _inProcess, changeImage,
+            saveTitleTextChanges, getImage, buttons)
+        : NormalPriorityWidget(args.index, buttons);
   }
 
   @override
   Widget build(BuildContext context) {
+    List<GoalButton> justForTesting = List.empty(growable: true);
+    Goal testGoal = Goal("default", "3", "4", "whyToComplete", "whenToComplete",
+        "whereToComplete");
+    justForTesting.add(GoalButton(testGoal, false));
+    justForTesting.add(GoalButton(testGoal, false));
+    justForTesting.add(GoalButton(testGoal, false));
+    List<Goal> goalsJustForTesting = List.empty(growable: true);
+    goalsJustForTesting.add(testGoal);
+    goalsJustForTesting.add(testGoal);
+    goalsJustForTesting.add(testGoal);
+    goalsJustForTesting.add(testGoal);
+    goalsJustForTesting.add(testGoal);
+    goalsJustForTesting.add(testGoal);
+    goalsJustForTesting.add(testGoal);
+
     return Scaffold(
-      // appBar: AppBar(
-      //   toolbarHeight: MediaQuery.of(context).size.height * 0.05,
-      //   leading: IconButton(
-      //     onPressed: () => {
-      //       Navigator.pushNamed(context, '/'),
-      //     },
-      //     icon: const Icon(
-      //       Icons.arrow_back,
-      //       size: 14.0,
-      //     ),
-      //     color: Colors.white,
-      //   ),
-      //   actions: [
-      //     IconButton(
-      //       onPressed: () => {
-      //         Navigator.pushNamed(context, EditPriorityScreen.routeName,
-      //             arguments: PriorityScreenArguments(
-      //                 Global.userPriorities[args.index], args.index))
-      //       },
-      //       icon: const Icon(
-      //         Icons.edit,
-      //         size: 14,
-      //       ),
-      //       color: Colors.white,
-      //       highlightColor: Colors.grey,
-      //     ),
-      //     IconButton(
-      //         onPressed: () => {
-      //               Global.userPriorities.removeAt(args.index),
-      //               Navigator.pushNamed(context, '/'),
-      //             },
-      //         icon: const Icon(
-      //           Icons.delete,
-      //           size: 14.0,
-      //         ),
-      //         color: Colors.redAccent),
-      //   ],
-      // ),
       body: Column(
         children: [
           Container(
@@ -289,40 +270,15 @@ class _IndividualPriority extends State<IndividualPriority> {
               ],
             ),
           ),
-          (!shouldEdit)
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: Column(
-                    children: [
-                      Center(
-                        child: Text(Global.userPriorities[args.index].name,
-                            style: const TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold)),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 24.0, right: 24.0),
-                        child: Divider(thickness: 1, color: Colors.grey),
-                      ),
-                    ],
-                  ),
-                )
-              : const Text(""),
-          (!shouldEdit)
-              ? Expanded(
-                  child: GoalsList(args.index),
-                )
-              : const Text(""),
-          (shouldEdit)
-              ? Expanded(
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: getEditWidget(),
-                      ),
-                    ],
-                  ),
-                )
-              : const Text(""),
+          Expanded(
+            child: Column(
+              children: [
+                Expanded(
+                  child: getEditWidget(goalsJustForTesting),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
