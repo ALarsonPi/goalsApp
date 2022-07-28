@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
+import 'package:goals_app/Screens/ArgumentPassThroughScreens/newGoalArguements.dart';
+import 'package:goals_app/Screens/Goals/newGoalScreen.dart';
+import 'package:goals_app/Screens/Goals/newPriority.dart';
 import 'package:goals_app/Screens/Priorities/individualPriority.dart';
 import 'package:goals_app/Screens/browseImages.dart';
 import 'package:goals_app/Screens/splashScreen.dart';
@@ -34,6 +37,8 @@ class AppRouter extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => SplashScreen(),
+          '/new-priority': (context) => NewPriorityScreen(),
+          NewGoalScreen.routeName: ((context) => NewGoalScreen()),
           PriorityHomeScreen.routeName: ((context) => PriorityHomeScreen()),
           BrowseImagesScreen.routeName: (context) => BrowseImagesScreen(),
           IndividualPriority.routeName: (context) => const IndividualPriority(),

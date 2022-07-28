@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:goals_app/Screens/ArgumentPassThroughScreens/newGoalArguements.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/priorityHomeArguments.dart';
+import 'package:goals_app/Screens/Goals/newGoalScreen.dart';
 import 'package:goals_app/Screens/Priorities/prioritiesHome.dart';
 import 'package:goals_app/Unused/editPriority.dart';
 import 'package:goals_app/Widgets/Priorities/normalPriorityWidget.dart';
@@ -228,6 +230,12 @@ class _IndividualPriority extends State<IndividualPriority> {
     goalsJustForTesting.add(testGoal);
 
     return Scaffold(
+      // floatingActionButton: FloatingActionButton(
+      //     child: const Icon(Icons.add),
+      //     onPressed: () => {
+      //           Navigator.pushNamed(context, NewGoalScreen.routeName,
+      //               arguments: NewGoalArguments(args.index))
+      //         }),
       body: Column(
         children: [
           Container(

@@ -65,6 +65,12 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
       return ReorderScreen(saveAndDelete);
     } else {
       return Scaffold(
+        floatingActionButton: FloatingActionButton(
+            onPressed: () => {
+                  Navigator.pushNamed(context, '/new-priority'),
+                },
+            foregroundColor: Colors.white,
+            child: const Icon(Icons.add)),
         appBar: AppBar(
             automaticallyImplyLeading: false,
             title: Text(
@@ -83,25 +89,28 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
                 ),
               ),
             ]),
-        body: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-          Container(
-            color: Colors.transparent,
-            height: MediaQuery.of(context).size.height * 0.8,
-            child: Column(
-              // ignore: prefer_const_literals_to_create_immutables
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 36.0),
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.6,
-                    child: PriorityCarousel(currentDisplayIndex,
-                        getNotificationFromChildOfSlideChange),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              color: Colors.transparent,
+              height: MediaQuery.of(context).size.height * 0.8,
+              child: Column(
+                // ignore: prefer_const_literals_to_create_immutables
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 36.0),
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.6,
+                      child: PriorityCarousel(currentDisplayIndex,
+                          getNotificationFromChildOfSlideChange),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ]),
+          ],
+        ),
       );
     }
   }

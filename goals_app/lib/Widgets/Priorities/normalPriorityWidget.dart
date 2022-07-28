@@ -63,9 +63,10 @@ class _NormalPriorityWidget extends State<NormalPriorityWidget> {
       myGoalButtons.add(GoalButton(goal, isGridMode));
     }
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 8.0),
+          padding: const EdgeInsets.only(left: 8.0, top: 8.0),
           child: Center(
             child: Text(Global.userPriorities[widget.currentPriorityIndex].name,
                 style:

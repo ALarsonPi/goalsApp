@@ -96,30 +96,35 @@ class Global {
           "Probably in the morning is best for me, and at night as much as I can",
           "Kneeling at my bedside");
       priority1Goals.add(exampleGoal);
+
       userPriorities.add(
-        Priority("Coming closer to God", listOfNaturePictures[0].url,
+        Priority(
+            "Social",
+            listOfStudyPictures[listOfStudyPictures.length - 1].url,
             priority1Goals),
       );
 
       List<Goal> priority2Goals = List.empty(growable: true);
       userPriorities.add(
-        Priority("Family", listOfNaturePictures[3].url, priority2Goals),
+        Priority("Physical", listOfHobbyPictures[0].url, priority2Goals),
       );
 
       List<Goal> priority3Goals = List.empty(growable: true);
       userPriorities.add(
-        Priority("Work", listOfHobbyPictures[0].url, priority3Goals),
+        Priority("Intellectual", listOfStudyPictures[0].url, priority3Goals),
       );
 
       List<Goal> priority4Goals = List.empty(growable: true);
       userPriorities.add(
         Priority(
-            "Self-Improvement", listOfNaturePictures[1].url, priority4Goals),
+            "Emotional",
+            listOfNaturePictures[listOfNaturePictures.length - 1].url,
+            priority4Goals),
       );
 
       List<Goal> priority5Goals = List.empty(growable: true);
       userPriorities.add(
-        Priority("Chillin", listOfFoodPictures[0].url, priority5Goals),
+        Priority("Spiritual", listOfNaturePictures[1].url, priority5Goals),
       );
     }
   }

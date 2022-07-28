@@ -4,14 +4,14 @@ import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualPriorityA
 
 import '../../Screens/Priorities/individualPriority.dart';
 
-class pageViewCard extends StatelessWidget {
+class PriorityCard extends StatelessWidget {
   final double _boxHeight;
   final double heightMultiplier;
   final double widthMultiplier;
   final String imageURL;
   final int index;
   final String name;
-  const pageViewCard(this._boxHeight, this.heightMultiplier,
+  const PriorityCard(this._boxHeight, this.heightMultiplier,
       this.widthMultiplier, this.imageURL, this.index, this.name,
       {Key? key})
       : super(key: key);

@@ -44,6 +44,8 @@ dependencies:
   network_to_file_image: ^4.0.1
   path_provider: ^2.0.11
   syncfusion_flutter_gauges: ^20.2.39
+  flutter_form_builder: ^7.4.0
+  reorderable_carousel: ^0.3.2+1
 
 dev_dependencies:
   flutter_test:

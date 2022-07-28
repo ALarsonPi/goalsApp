@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goals_app/Unused/PriorityCardWithReorder.dart';
 import 'package:goals_app/Widgets/Priorities/priorityCard.dart';
 import 'package:page_view_indicators/circle_page_indicator.dart';
 import '../global.dart';
@@ -39,13 +40,14 @@ class _PageView extends State<MyPageView> {
           itemCount: Global.userPriorities.length,
           controller: _pageController,
           itemBuilder: (BuildContext context, int index) {
-            return pageViewCard(
+            return PriorityCardWithReorder(
                 _boxHeight,
                 widget.multiplier,
                 1.0,
                 Global.userPriorities[index].imageUrl,
                 index,
-                Global.userPriorities[index].name);
+                Global.userPriorities[index].name,
+                false);
           },
           onPageChanged: (int index) {
             _currentPageNotifier.value = index;
