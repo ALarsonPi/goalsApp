@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:goals_app/Unused/draggableCard.dart';
 import 'package:goals_app/global.dart';
@@ -27,106 +29,60 @@ class _ReorderScreen extends State<ReorderScreen> {
   List<Priority> currentPriorities = List.empty(growable: true);
   List<Priority> deletedPriorities = List.empty(growable: true);
 
+  Widget _proxyDecorator(Widget child, int index, Animation<double> animation) {
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (BuildContext context, Widget? child) {
+        final double animValue = Curves.easeInOut.transform(animation.value);
+        final double elevation = lerpDouble(0, 6, animValue)!;
+        return Material(
+          elevation: elevation,
+          color: const Color(0xFF708C8C),
+          shadowColor: Colors.grey[300],
+          //Colors.black12[300],
+          child: child,
+        );
+      },
+      child: child,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: const Text(
-            "Priorities",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text("HOLD and DRAG to reorder",
+              style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic)),
+        ),
+        Expanded(
+          child: ReorderableListView(
+            proxyDecorator: _proxyDecorator,
+            shrinkWrap: true,
+            onReorder: (int oldIndex, int newIndex) {
+              setState(() {
+                if (newIndex > oldIndex) newIndex--;
+                final item = currentPriorities.removeAt(oldIndex);
+                currentPriorities.insert(newIndex, item);
+                widget.changeScreens(currentPriorities);
+              });
+            },
+            children: [
+              for (final priority in currentPriorities)
+                Card(
+                  key: ValueKey(priority),
+                  color: Colors.white,
+                  elevation: 2,
+                  child: ListTile(
+                      leading: const Icon(Icons.swap_vert_circle),
+                      title: Text((priority.name))),
+                ),
+            ],
           ),
-          actions: <Widget>[
-            IconButton(
-              onPressed: () => {
-                setState(() {
-                  widget.changeScreens(currentPriorities);
-                })
-              },
-              icon: const Icon(Icons.save),
-            ),
-          ]),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text("HOLD and DRAG to reorder",
-                style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic)),
-          ),
-          Container(
-              color: Colors.transparent,
-              height: MediaQuery.of(context).size.height * 0.8,
-              child: Column(
-                children: [
-                  ReorderableListView(
-                    shrinkWrap: true,
-                    onReorder: (int oldIndex, int newIndex) {
-                      setState(() {
-                        if (newIndex > oldIndex) newIndex--;
-                        final item = currentPriorities.removeAt(oldIndex);
-                        currentPriorities.insert(newIndex, item);
-                      });
-                    },
-                    children: [
-                      for (final priority in currentPriorities)
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          key: ValueKey(priority),
-                          child: ListTile(
-                            leading: const Icon(Icons.swap_vert_circle),
-                            title: Text(
-                                ("${currentPriorities.indexOf(priority) + 1}. ${priority.name}")),
-                            trailing: IconButton(
-                                onPressed: () => {
-                                      setState(
-                                        () => {
-                                          currentPriorities.remove(priority),
-                                          deletedPriorities.add(priority),
-                                        },
-                                      ),
-                                    },
-                                icon: const Icon(Icons.delete),
-                                color: Colors.redAccent),
-                          ),
-                        ),
-                    ],
-                  ),
-                  Expanded(
-                    child: ListView(
-                      shrinkWrap: true,
-                      children: [
-                        for (var deletedItem in deletedPriorities)
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10, right: 10),
-                            child: ListTile(
-                              leading: const Icon(Icons.circle),
-                              title: Text(
-                                (deletedItem.name),
-                                style: const TextStyle(
-                                    decoration: TextDecoration.lineThrough),
-                              ),
-                              trailing: IconButton(
-                                onPressed: () => {
-                                  setState(
-                                    () => {
-                                      deletedPriorities.remove(deletedItem),
-                                      currentPriorities.add(deletedItem),
-                                    },
-                                  ),
-                                },
-                                icon: const Icon(Icons.restore_from_trash,
-                                    color: Colors.greenAccent),
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                ],
-              )),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

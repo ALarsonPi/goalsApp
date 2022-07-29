@@ -1,0 +1,4 @@
+enum IconsEnum {
+  priorityHome,
+  priorityButtons,
+}

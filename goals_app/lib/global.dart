@@ -88,6 +88,11 @@ class Global {
   static getPriorities() {
     if (userPriorities.isEmpty) {
       List<Goal> priority1Goals = List.empty(growable: true);
+      List<Goal> priority2Goals = List.empty(growable: true);
+      List<Goal> priority3Goals = List.empty(growable: true);
+      List<Goal> priority4Goals = List.empty(growable: true);
+      List<Goal> priority5Goals = List.empty(growable: true);
+
       Goal exampleGoal = Goal(
           "Pray every day for 30 days",
           "17",
@@ -95,7 +100,7 @@ class Global {
           "Praying is an act of faith and acting in faith brings miracles",
           "Probably in the morning is best for me, and at night as much as I can",
           "Kneeling at my bedside");
-      priority1Goals.add(exampleGoal);
+      priority5Goals.add(exampleGoal);
 
       userPriorities.add(
         Priority(
@@ -104,17 +109,14 @@ class Global {
             priority1Goals),
       );
 
-      List<Goal> priority2Goals = List.empty(growable: true);
       userPriorities.add(
         Priority("Physical", listOfHobbyPictures[0].url, priority2Goals),
       );
 
-      List<Goal> priority3Goals = List.empty(growable: true);
       userPriorities.add(
         Priority("Intellectual", listOfStudyPictures[0].url, priority3Goals),
       );
 
-      List<Goal> priority4Goals = List.empty(growable: true);
       userPriorities.add(
         Priority(
             "Emotional",
@@ -122,7 +124,6 @@ class Global {
             priority4Goals),
       );
 
-      List<Goal> priority5Goals = List.empty(growable: true);
       userPriorities.add(
         Priority("Spiritual", listOfNaturePictures[1].url, priority5Goals),
       );

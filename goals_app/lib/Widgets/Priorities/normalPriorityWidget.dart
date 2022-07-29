@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:goals_app/Objects/Goal.dart';
+import 'package:goals_app/Objects/IconsEnum.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -79,7 +80,7 @@ class _NormalPriorityWidget extends State<NormalPriorityWidget> {
         ),
         SizedBox(
           height: 30,
-          child: GridListIconRow(setGoalButtonSize),
+          child: GridListIconRow(setGoalButtonSize, IconsEnum.priorityButtons),
         ),
         Expanded(
           child: getCurrentListGridView(),
