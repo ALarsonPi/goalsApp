@@ -230,12 +230,12 @@ class _IndividualPriority extends State<IndividualPriority> {
     goalsJustForTesting.add(testGoal);
 
     return Scaffold(
-      // floatingActionButton: FloatingActionButton(
-      //     child: const Icon(Icons.add),
-      //     onPressed: () => {
-      //           Navigator.pushNamed(context, NewGoalScreen.routeName,
-      //               arguments: NewGoalArguments(args.index))
-      //         }),
+      floatingActionButton: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () => {
+                Navigator.pushNamed(context, NewGoalScreen.routeName,
+                    arguments: NewGoalArguments(args.index))
+              }),
       body: Column(
         children: [
           Container(

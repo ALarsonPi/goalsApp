@@ -21,7 +21,7 @@ class _GridListIconRow extends State<GridListIconRow> {
   void initState() {
     if (widget.iconSet == IconsEnum.priorityHome) {
       iconsToShow.add(const Icon(Icons.account_balance_wallet));
-      iconsToShow.add(const Icon(Icons.account_tree));
+      iconsToShow.add(const Icon(Icons.list));
     } else if (widget.iconSet == IconsEnum.priorityButtons) {
       iconsToShow.add(const Icon(Icons.menu));
       iconsToShow.add(const Icon(Icons.grid_view));
@@ -48,7 +48,8 @@ class _GridListIconRow extends State<GridListIconRow> {
     Color color1 = Colors.grey;
     Color color2 = Colors.black;
     return Padding(
-      padding: const EdgeInsets.only(right: 20.0),
+      padding: EdgeInsets.only(
+          right: (widget.iconSet == IconsEnum.priorityButtons) ? 20.0 : 5.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [

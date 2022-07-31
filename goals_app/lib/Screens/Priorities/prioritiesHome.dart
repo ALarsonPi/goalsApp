@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 import 'package:goals_app/Objects/IconsEnum.dart';
 import 'package:goals_app/Objects/Priority.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/priorityHomeArguments.dart';
 import 'package:goals_app/Screens/Priorities/individualPriority.dart';
-import 'package:goals_app/Screens/Priorities/reorderScreen.dart';
+import 'package:goals_app/Unused/reorderScreen.dart';
 import 'package:goals_app/Widgets/Priorities/gridListIconRow.dart';
 import 'package:goals_app/Widgets/Priorities/priorityCarousel.dart';
 import 'package:goals_app/Widgets/Priorities/priorityExpandedList.dart';
@@ -26,6 +27,7 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
   List<Priority> priorities = List.empty(growable: true);
   bool isEdit = false;
   bool isList = false;
+  bool areSettingsOpen = false;
 
   @override
   void initState() {
@@ -60,6 +62,127 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
     });
   }
 
+  getCircleIconWidget(
+      BuildContext context, IconButton iconButton, Color borderColor) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 8.0),
+      child: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          // Circle shape
+          shape: BoxShape.circle,
+          color: Colors.black,
+          // The border you want
+          border: Border.all(
+            width: 2.0,
+            color: borderColor,
+          ),
+        ),
+        child: iconButton,
+      ),
+    );
+  }
+
+  getMenuIcon() {
+    return IconButton(
+        padding: const EdgeInsets.only(right: 12.0),
+        constraints: const BoxConstraints(),
+        onPressed: () => {
+              setState(() {
+                areSettingsOpen = !areSettingsOpen;
+              }),
+            },
+        icon: Icon(
+          (areSettingsOpen) ? Icons.menu_open : Icons.menu,
+          color: Colors.white,
+        ));
+  }
+
+  showInfoToast(BuildContext context) async {
+    var myToastContext = ToastContext();
+    myToastContext.init(context);
+    return Toast.show("HOLD and DRAG to reorder",
+        duration: Toast.lengthLong, gravity: Toast.bottom);
+  }
+
+  getInfoIcon() {
+    return IconButton(
+      padding: const EdgeInsets.only(right: 8.0),
+      constraints: const BoxConstraints(),
+      onPressed: () => {
+        setState(() {
+          isEdit = !isEdit;
+        }),
+        showInfoToast(context),
+      },
+      icon: const Icon(
+        Icons.info,
+        color: Colors.white,
+        size: 20,
+        //color: (isEdit) ? Colors.black87 : Colors.white,
+      ),
+    );
+  }
+
+  getSettingsIcon() {
+    return IconButton(
+      padding: const EdgeInsets.only(right: 12.0),
+      constraints: const BoxConstraints(),
+      onPressed: () => {},
+      icon: const Icon(Icons.settings, size: 22.0),
+    );
+  }
+
+  getSettingsMenu(BuildContext context) {
+    return
+        // (areSettingsOpen)
+        //     ?
+        Padding(
+      padding: const EdgeInsets.only(top: 14.0, bottom: 14.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          GridListIconRow(setListViewState, IconsEnum.priorityHome)
+          // getCircleIconWidget(
+          //   context,
+          //   IconButton(
+          //     onPressed: () => {
+          //       setState(() {
+          //         isList = false;
+          //       }),
+          //     },
+          //     icon: const Icon(
+          //       Icons.account_balance_wallet,
+          //       size: 20.0,
+          //     ),
+          //     color: Colors.white,
+          //   ),
+          //   Colors.white,
+          // ),
+          // getCircleIconWidget(
+          //   context,
+          //   IconButton(
+          //     onPressed: () => {
+          //       setState(() {
+          //         isList = true;
+          //       }),
+          //     },
+          //     icon: const Icon(
+          //       Icons.list,
+          //       size: 20,
+          //     ),
+          //     color: Colors.white,
+          //     highlightColor: Colors.grey,
+          //   ),
+          //   Colors.white,
+          // ),
+        ],
+      ),
+    );
+    //: const Text("");
+  }
+
   Widget getCurrentWidgetContent(int currentDisplayIndex) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -69,61 +192,59 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
           foregroundColor: Colors.white,
           child: const Icon(Icons.add)),
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        bottom: const TabBar(
-          tabs: [
-            Tab(
-              icon: Icon(Icons.account_balance_wallet),
-            ),
-            Tab(
-              icon: Icon(Icons.account_tree),
-            ),
-            Tab(
-              icon: Icon(Icons.edit),
-            ),
-          ],
-        ),
+        centerTitle: true,
         title: const Text(
           "Priorities",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
         ),
-      ),
-      body: TabBarView(
-        children: [
-          //Priority Carousel
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+        actions: [
+          Row(
             children: [
-              // Padding(
-              //   padding: const EdgeInsets.all(8.0),
-              //   child:
-              //       GridListIconRow(setListViewState, IconsEnum.priorityHome),
-              // ),
-              Container(
-                color: Colors.transparent,
-                height: MediaQuery.of(context).size.height * 0.75,
-                child: Column(
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 36.0),
-                      child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.6,
-                        child: PriorityCarousel(currentDisplayIndex,
-                            getNotificationFromChildOfSlideChange),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              getInfoIcon(),
+              getSettingsIcon(),
             ],
           ),
+        ],
+        automaticallyImplyLeading: false,
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          getSettingsMenu(context),
+          (!isList)
+              ? Expanded(
+                  child: Container(
+                    color: Colors.transparent,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 0.0),
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.6,
+                            child: PriorityCarousel(currentDisplayIndex,
+                                getNotificationFromChildOfSlideChange),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              : Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: PriorityExpandedList(isEdit),
+                  ),
+                ),
+          // Padding(
+          //     padding: const EdgeInsets.all(8.0),
+          //     child: PriorityExpandedList(isEdit),
+          //   ),
 
           //Priority List
-          PriorityExpandedList(priorities),
+          //PriorityExpandedList(priorities),
 
           //Edit / Reorder List
-          ReorderScreen(saveAndDelete),
+          //ReorderScreen(saveAndDelete),
         ],
       ),
     );
@@ -140,9 +261,6 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: getCurrentWidgetContent(args.currentIndex),
-    );
+    return getCurrentWidgetContent(args.currentIndex);
   }
 }

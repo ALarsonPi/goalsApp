@@ -71,6 +71,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+  dropdown_button2:
+    dependency: "direct main"
+    description:
+      name: dropdown_button2
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.7.1"
   fake_async:
     dependency: transitive
     description:
@@ -441,6 +448,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.9"
+  toast:
+    dependency: "direct main"
+    description:
+      name: toast
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.0"
   typed_data:
     dependency: transitive
     description:

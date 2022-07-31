@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:goals_app/Unused/draggableCard.dart';
 import 'package:goals_app/global.dart';
 
-import '../../Objects/Priority.dart';
+import '../Objects/Priority.dart';
 
 class ReorderScreen extends StatefulWidget {
   Function changeScreens;
