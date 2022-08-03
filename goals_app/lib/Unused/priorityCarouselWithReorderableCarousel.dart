@@ -28,6 +28,12 @@ class PriorityCarouselWithReorder extends StatefulWidget {
   }
 }
 
+//Maybe worth just starting over and
+//trying again on the Carousel with Reorder
+//just try doing it without 'instructions'
+//Just build a component and try and
+//get it to look like the normal Carousel?
+
 class _PriorityCarouselWithReorder extends State<PriorityCarouselWithReorder> {
   List imageUrlList = List.empty(growable: true);
   CarouselController controller = CarouselController();
@@ -43,6 +49,8 @@ class _PriorityCarouselWithReorder extends State<PriorityCarouselWithReorder> {
     super.initState();
   }
 
+  defaultFunction() {}
+
   getWidgetContent() {
     List items = List.empty(growable: true);
 
@@ -54,7 +62,7 @@ class _PriorityCarouselWithReorder extends State<PriorityCarouselWithReorder> {
       items.add(
         (!widget.isEditMode)
             ? PriorityCard(cardHeight, heightMultiplier, widthMultiplier,
-                priority.imageUrl, index, priority.name)
+                priority.imageUrl, index, priority.name, defaultFunction)
             : Card(
                 child: PriorityCardWithReorder(
                     cardHeight,
@@ -87,6 +95,7 @@ class _PriorityCarouselWithReorder extends State<PriorityCarouselWithReorder> {
             enlargeCenterPage: true,
             autoPlay: false,
             aspectRatio: 12 / 9,
+            //width: 300,
             height: 300,
             enableInfiniteScroll: false,
             viewportFraction: 0.75,
@@ -137,10 +146,12 @@ class _PriorityCarouselWithReorder extends State<PriorityCarouselWithReorder> {
             //   });
             // },
             itemBuilder: (boxSize, index, isSelected) {
-              return items[index];
+              return Expanded(
+                child: items[index],
+              );
             },
             draggedItemBuilder: (itemWidth, index) {
-              return items[index];
+              return Expanded(child: items[index]);
             },
             onReorder: (oldIndex, newIndex) {
               // items have be reordered, update our list
@@ -162,28 +173,29 @@ class _PriorityCarouselWithReorder extends State<PriorityCarouselWithReorder> {
           ),
         ),
       );
-      CarouselSlider(
-        carouselController: controller,
-        items: [
-          ...items,
-        ],
-        options: CarouselOptions(
-          onPageChanged: (index, reason) => {
-            setState(() {
-              _currentPageNotifier.value = index;
-              currentPage = index;
-              widget.notifyParentOfSlideChange(currentPage);
-            })
-          },
-          enlargeCenterPage: true,
-          autoPlay: false,
-          aspectRatio: 12 / 9,
-          height: 300,
-          enableInfiniteScroll: false,
-          viewportFraction: 0.75,
-          initialPage: widget.currentIndex,
-        ),
-      );
+      // CarouselSlider(
+      //   carouselController: controller,
+      //   items: [
+      //     ...items,
+      //   ],
+      //   options: CarouselOptions(
+      //     onPageChanged: (index, reason) => {
+      //       setState(() {
+      //         _currentPageNotifier.value = index;
+      //         currentPage = index;
+      //         widget.notifyParentOfSlideChange(currentPage);
+      //       })
+      //     },
+      //     enlargeCenterPage: true,
+      //     autoPlay: false,
+      //     aspectRatio: 12 / 9,
+      //     height: 300,
+      //     enableInfiniteScroll: false,
+      //     viewportFraction: 0.75,
+      //     initialPage: widget.currentIndex,
+      //   ),
+      // );
+
     }
     return contents;
   }
@@ -192,7 +204,12 @@ class _PriorityCarouselWithReorder extends State<PriorityCarouselWithReorder> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ...getWidgetContent(),
+        Expanded(
+            child: Row(
+          children: [
+            ...getWidgetContent(),
+          ],
+        )),
       ],
     );
   }

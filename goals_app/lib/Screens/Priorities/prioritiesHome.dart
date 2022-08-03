@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:goals_app/Unused/rowExample.dart';
+import 'package:goals_app/Widgets/Priorities/priorityCard.dart';
+import 'package:reorderable_carousel/reorderable_carousel.dart';
 import 'package:toast/toast.dart';
 import 'package:goals_app/Objects/IconsEnum.dart';
 import 'package:goals_app/Objects/Priority.dart';
@@ -9,6 +12,7 @@ import 'package:goals_app/Widgets/Priorities/gridListIconRow.dart';
 import 'package:goals_app/Widgets/Priorities/priorityCarousel.dart';
 import 'package:goals_app/Widgets/Priorities/priorityExpandedList.dart';
 import '../../Unused/CardLabel.dart';
+import '../../Unused/PriorityCarouselWithReorderableCarousel.dart';
 import '../../global.dart';
 
 class PriorityHomeScreen extends StatefulWidget {
@@ -59,6 +63,7 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
   setListViewState(bool isList) {
     setState(() {
       this.isList = isList;
+      if (isList) isBeingLongHeld = false;
     });
   }
 
@@ -143,44 +148,32 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          GridListIconRow(setListViewState, IconsEnum.priorityHome)
-          // getCircleIconWidget(
-          //   context,
+          // if (isBeingLongHeld)
           //   IconButton(
-          //     onPressed: () => {
-          //       setState(() {
-          //         isList = false;
-          //       }),
-          //     },
-          //     icon: const Icon(
-          //       Icons.account_balance_wallet,
-          //       size: 20.0,
-          //     ),
-          //     color: Colors.white,
-          //   ),
-          //   Colors.white,
-          // ),
-          // getCircleIconWidget(
-          //   context,
-          //   IconButton(
-          //     onPressed: () => {
-          //       setState(() {
-          //         isList = true;
-          //       }),
-          //     },
-          //     icon: const Icon(
-          //       Icons.list,
-          //       size: 20,
-          //     ),
-          //     color: Colors.white,
-          //     highlightColor: Colors.grey,
-          //   ),
-          //   Colors.white,
-          // ),
+          //       onPressed: () => {
+          //             setState(() {
+          //               isBeingLongHeld = !isBeingLongHeld;
+          //             })
+          //           },
+          //       icon: const Icon(Icons.save)),
+          GridListIconRow(setListViewState, IconsEnum.priorityHome),
         ],
       ),
     );
     //: const Text("");
+  }
+
+  bool isBeingLongHeld = false;
+  void changeLongHoldStatus() {
+    setState(() {
+      isBeingLongHeld = !isBeingLongHeld;
+    });
+  }
+
+  void changeLongHoldStatusAndGoToSlideAt(int goToSlide) {
+    setState(() {
+      isBeingLongHeld = !isBeingLongHeld;
+    });
   }
 
   Widget getCurrentWidgetContent(int currentDisplayIndex) {
@@ -208,7 +201,7 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
         automaticallyImplyLeading: false,
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           getSettingsMenu(context),
           (!isList)
@@ -220,9 +213,16 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
                         Padding(
                           padding: const EdgeInsets.only(top: 0.0),
                           child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.6,
-                            child: PriorityCarousel(currentDisplayIndex,
-                                getNotificationFromChildOfSlideChange),
+                            height: (!isBeingLongHeld)
+                                ? MediaQuery.of(context).size.height * 0.6
+                                : MediaQuery.of(context).size.height * 0.7,
+                            child: (!isBeingLongHeld)
+                                ? PriorityCarousel(
+                                    currentDisplayIndex,
+                                    getNotificationFromChildOfSlideChange,
+                                    changeLongHoldStatus)
+                                : RowExample(
+                                    changeLongHoldStatusAndGoToSlideAt),
                           ),
                         ),
                       ],

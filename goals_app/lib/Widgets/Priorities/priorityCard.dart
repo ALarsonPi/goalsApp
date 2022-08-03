@@ -11,8 +11,9 @@ class PriorityCard extends StatelessWidget {
   final String imageURL;
   final int index;
   final String name;
-  const PriorityCard(this._boxHeight, this.heightMultiplier,
-      this.widthMultiplier, this.imageURL, this.index, this.name,
+  Function notifyParentOfLongHold;
+  PriorityCard(this._boxHeight, this.heightMultiplier, this.widthMultiplier,
+      this.imageURL, this.index, this.name, this.notifyParentOfLongHold,
       {Key? key})
       : super(key: key);
 
@@ -31,6 +32,12 @@ class PriorityCard extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget currentImage = getImageWidget();
     return GestureDetector(
+      onLongPress: () => {
+        notifyParentOfLongHold(),
+      },
+      onLongPressEnd: (LongPressEndDetails) => {
+        notifyParentOfLongHold(),
+      },
       onTap: () => {
         Navigator.pushNamed(
           context,

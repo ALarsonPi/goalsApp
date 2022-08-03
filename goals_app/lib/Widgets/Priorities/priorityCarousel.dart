@@ -11,8 +11,10 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class PriorityCarousel extends StatefulWidget {
   Function notifyParentOfSlideChange;
+  Function notifyParentOfLongHold;
   int currentIndex;
   PriorityCarousel(this.currentIndex, this.notifyParentOfSlideChange,
+      this.notifyParentOfLongHold,
       {Key? key})
       : super(key: key);
 
@@ -40,12 +42,15 @@ class _PriorityCarousel extends State<PriorityCarousel> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Initial Page");
+    debugPrint(widget.currentIndex.toString());
     List items = List.empty(growable: true);
 
     int index = 0;
     for (Priority priority in Global.userPriorities) {
       items.add(
-        PriorityCard(300, 1.0, 0.9, priority.imageUrl, index, priority.name),
+        PriorityCard(300, 1.0, 0.9, priority.imageUrl, index, priority.name,
+            widget.notifyParentOfLongHold),
       );
       index++;
     }
