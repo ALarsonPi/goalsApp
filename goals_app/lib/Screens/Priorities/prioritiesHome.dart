@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:goals_app/Unused/rowExample.dart';
+import 'package:goals_app/Screens/Priorities/rowExample.dart';
 import 'package:goals_app/Widgets/Priorities/priorityCard.dart';
 import 'package:reorderable_carousel/reorderable_carousel.dart';
 import 'package:toast/toast.dart';

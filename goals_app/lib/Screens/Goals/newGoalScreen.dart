@@ -1,5 +1,7 @@
+import 'package:dropdown_button2/custom_dropdown_button2.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class NewGoalScreen extends StatefulWidget {
@@ -14,26 +16,30 @@ class NewGoalScreen extends StatefulWidget {
 class _NewGoalScreen extends State<NewGoalScreen> {
   final _formKey = GlobalKey<FormBuilderState>();
 
-  List<String> possibleTimeFrames = List.empty(growable: true);
-  List<String> helperWords = List.empty(growable: true);
+  bool shouldShowRepeatContent = false;
+  bool shouldShowDateContent = false;
+  bool shouldShowRewardContent = false;
+  DateTime? currentDate =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+  DateTime todaysDate =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
   @override
   void initState() {
-    possibleTimeFrames.add("day");
-    possibleTimeFrames.add("week");
-    possibleTimeFrames.add("month");
-    possibleTimeFrames.add("3 months");
-    possibleTimeFrames.add("6 months");
-    possibleTimeFrames.add("9 months");
-    possibleTimeFrames.add("year");
-    possibleTimeFrames.add("2 years");
-    possibleTimeFrames.add("5 years");
-    possibleTimeFrames.add("10 years");
-
-    helperWords.add("per");
-    helperWords.add("by");
-    helperWords.add("in a");
     super.initState();
+  }
+
+  showFlutterDatePicker() async {
+    DateTime? newDate = await showDatePicker(
+      context: context,
+      initialDate: todaysDate,
+      firstDate: todaysDate,
+      lastDate: DateTime(2100),
+    );
+    setState(() {
+      currentDate = newDate;
+      currentDate ??= todaysDate;
+    });
   }
 
   @override
@@ -90,6 +96,8 @@ class _NewGoalScreen extends State<NewGoalScreen> {
                 ),
                 FormBuilderTextField(
                   name: "goal",
+                  minLines: 2,
+                  maxLines: 4,
                   decoration: const InputDecoration(
                     labelText: "What are you going to do?",
                     floatingLabelAlignment: FloatingLabelAlignment.start,
@@ -107,41 +115,135 @@ class _NewGoalScreen extends State<NewGoalScreen> {
                     //),
                   ),
                 ),
-                const SizedBox(height: 30),
-                DropdownButtonFormField2(
-                    buttonPadding:
-                        const EdgeInsets.only(left: 15.0, right: 15.0),
-                    buttonHeight: 40.0,
-                    decoration: InputDecoration(
-                      isDense: true,
-                      contentPadding: EdgeInsets.zero,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15.0)),
-                    ),
-                    isExpanded: true,
-                    scrollbarAlwaysShow: true,
-                    hint: const Text('Number of times'),
-                    icon: const Icon(
-                      Icons.arrow_drop_down,
-                      color: Colors.black45,
-                    ),
-                    items: possibleTimeFrames
-                        .map((item) => DropdownMenuItem<String>(
-                            value: item,
-                            child: Text(item,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                ))))
-                        .toList(),
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.05,
+                      right: MediaQuery.of(context).size.width * 0.35),
+                  child: FormBuilderCheckbox(
+                    controlAffinity: ListTileControlAffinity.trailing,
+                    name: "Repeat",
+                    title: const Text("Repeat?",
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold)),
+                    onChanged: ((value) => {
+                          setState(() {
+                            shouldShowRepeatContent = value!;
+                          }),
+                        }),
+                  ),
+                ),
+                if (shouldShowRepeatContent)
+                  FormBuilderTextField(
+                    maxLines: 1,
+                    minLines: 1,
+                    name: "numRepeat",
                     validator: (value) {
-                      if (value == null) {
-                        return 'Please select time frame.';
+                      if (value == null || value == '') {
+                        return 'Please select a number';
+                      } else if (int.parse(value) > 1000) {
+                        return 'Please select a realistic number';
                       }
                     },
-                    onChanged: (value) {},
-                    onSaved: (value) {}
-                    //name: "numTimes", items: [DropdownMenuItem(child: child)])
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ], // Only numbers can be entered
+
+                    decoration: const InputDecoration(
+                      labelText: "Enter number of times to repeat",
+                      hintText: '',
+                      floatingLabelAlignment: FloatingLabelAlignment.start,
+                      hintStyle: TextStyle(fontStyle: FontStyle.italic),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 1, color: Colors.grey),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 1.5, color: Colors.green),
+                      ),
                     ),
+                  ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.05,
+                      right: MediaQuery.of(context).size.width * 0.3),
+                  child: FormBuilderCheckbox(
+                    controlAffinity: ListTileControlAffinity.trailing,
+                    name: "Date",
+                    title: const Text("End Date?",
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold)),
+                    onChanged: ((value) => {
+                          setState(() {
+                            shouldShowDateContent = value!;
+                          }),
+                        }),
+                  ),
+                ),
+                if (shouldShowDateContent)
+                  Row(
+                    children: [
+                      ElevatedButton(
+                          onPressed: () => {
+                                showFlutterDatePicker(),
+                                // setState(() {
+                                //   if (showFlutterDatePicker() != null) {
+                                //     currentDate = showFlutterDatePicker();
+                                //   }
+                                // }),
+                              },
+                          child: const Text("Select Date")),
+                      Text(
+                          '${currentDate?.year}/${currentDate?.month}/${currentDate?.day}',
+                          style: const TextStyle(fontStyle: FontStyle.italic)),
+                    ],
+                  ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.05,
+                      right: MediaQuery.of(context).size.width * 0.35),
+                  child: FormBuilderCheckbox(
+                    controlAffinity: ListTileControlAffinity.trailing,
+                    name: "reward",
+                    title: const Text("Reward?",
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold)),
+                    onChanged: ((value) => {
+                          setState(() {
+                            shouldShowRewardContent = value!;
+                          }),
+                        }),
+                  ),
+                ),
+                if (shouldShowRewardContent)
+                  FormBuilderTextField(
+                    maxLines: 1,
+                    minLines: 1,
+                    name: "rewardPicker",
+                    validator: (value) {
+                      if (value == null || value == '') {
+                        return 'Please select a number';
+                      } else if (int.parse(value) > 1000) {
+                        return 'Please select a realistic number';
+                      }
+                    },
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ], // Only numbers can be entered
+
+                    decoration: const InputDecoration(
+                      labelText: "Enter number of times to repeat",
+                      hintText: '',
+                      floatingLabelAlignment: FloatingLabelAlignment.start,
+                      hintStyle: TextStyle(fontStyle: FontStyle.italic),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 1, color: Colors.grey),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 1.5, color: Colors.green),
+                      ),
+                    ),
+                  ),
                 FormBuilderTextField(
                   name: "why",
                   decoration: const InputDecoration(

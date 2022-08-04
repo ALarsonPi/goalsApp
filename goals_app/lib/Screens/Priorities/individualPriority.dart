@@ -138,28 +138,37 @@ class _IndividualPriority extends State<IndividualPriority> {
                 ),
                 Colors.white,
               ),
-              IconButton(
-                  onPressed: () => {
-                        setState(() {
-                          areSettingsOpen = !areSettingsOpen;
-                        }),
-                      },
-                  icon: const Icon(
-                    Icons.menu_open,
-                    color: Colors.white,
-                  )),
+              getCircleIconWidget(
+                  context,
+                  IconButton(
+                      onPressed: () => {
+                            setState(() {
+                              areSettingsOpen = !areSettingsOpen;
+                            }),
+                          },
+                      icon: const Icon(
+                        Icons.menu_open,
+                        color: Colors.white,
+                        size: 20.0,
+                      )),
+                  Colors.white)
             ],
           )
-        : IconButton(
-            onPressed: () => {
-                  setState(() {
-                    areSettingsOpen = !areSettingsOpen;
-                  }),
-                },
-            icon: const Icon(
-              Icons.menu,
-              color: Colors.white,
-            ));
+        : getCircleIconWidget(
+            context,
+            IconButton(
+              onPressed: () => {
+                setState(() {
+                  areSettingsOpen = !areSettingsOpen;
+                }),
+              },
+              icon: const Icon(
+                Icons.menu,
+                color: Colors.white,
+                size: 20.0,
+              ),
+            ),
+            Colors.white);
   }
 
   changeImage(String newURL) {
@@ -256,19 +265,24 @@ class _IndividualPriority extends State<IndividualPriority> {
                     children: [
                       Row(
                         children: [
-                          IconButton(
-                            onPressed: () => {
-                              Navigator.pushNamed(
-                                context,
-                                PriorityHomeScreen.routeName,
-                                arguments: PriorityHomeArguments(args.index),
+                          getCircleIconWidget(
+                              context,
+                              IconButton(
+                                onPressed: () => {
+                                  Navigator.pushNamed(
+                                    context,
+                                    PriorityHomeScreen.routeName,
+                                    arguments:
+                                        PriorityHomeArguments(args.index),
+                                  ),
+                                },
+                                icon: const Icon(
+                                  Icons.arrow_back,
+                                  size: 20.0,
+                                ),
+                                color: Colors.white,
                               ),
-                            },
-                            icon: const Icon(
-                              Icons.arrow_back,
-                            ),
-                            color: Colors.white,
-                          ),
+                              Colors.white),
                         ],
                       ),
                       getSettingsMenu(context),

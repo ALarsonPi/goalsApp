@@ -11,6 +11,8 @@ class ReorderCarousel extends StatefulWidget {
   }
 }
 
+defaultFunction() {}
+
 class _ReorderCarousel extends State<ReorderCarousel> {
   @override
   Widget build(BuildContext context) {
@@ -29,12 +31,12 @@ class _ReorderCarousel extends State<ReorderCarousel> {
       //   });
       // },
       itemBuilder: (boxSize, index, isSelected) {
-        return PriorityCard(
-            boxSize, 1.0, 1.0, Global.userPriorities[index].name, index, "sup");
+        return PriorityCard(boxSize, 1.0, 1.0,
+            Global.userPriorities[index].name, index, "sup", defaultFunction);
       },
       draggedItemBuilder: (itemWidth, index) {
         return PriorityCard(itemWidth, 1.0, 1.0,
-            Global.userPriorities[index].name, index, "sup");
+            Global.userPriorities[index].name, index, "sup", defaultFunction);
       },
       onReorder: (oldIndex, newIndex) {
         // items have be reordered, update our list
