@@ -3,6 +3,8 @@ class Goal {
   String goalProgress;
   String goalTarget;
 
+  String? completeByDate;
+  String? reward;
   String? whyToComplete;
   String? whenToComplete;
   String? whereToComplete;

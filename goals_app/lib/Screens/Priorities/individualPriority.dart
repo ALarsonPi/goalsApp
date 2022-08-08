@@ -223,20 +223,12 @@ class _IndividualPriority extends State<IndividualPriority> {
 
   @override
   Widget build(BuildContext context) {
-    List<GoalButton> justForTesting = List.empty(growable: true);
-    Goal testGoal = Goal("default", "3", "4", "whyToComplete", "whenToComplete",
-        "whereToComplete");
-    justForTesting.add(GoalButton(testGoal, false));
-    justForTesting.add(GoalButton(testGoal, false));
-    justForTesting.add(GoalButton(testGoal, false));
-    List<Goal> goalsJustForTesting = List.empty(growable: true);
-    goalsJustForTesting.add(testGoal);
-    goalsJustForTesting.add(testGoal);
-    goalsJustForTesting.add(testGoal);
-    goalsJustForTesting.add(testGoal);
-    goalsJustForTesting.add(testGoal);
-    goalsJustForTesting.add(testGoal);
-    goalsJustForTesting.add(testGoal);
+    List<Goal> currentPriorityGoals = Global.userPriorities[args.index].goals;
+    List<GoalButton> currGoalsButtons = List.empty(growable: true);
+    for (Goal goal in currentPriorityGoals) {
+      currGoalsButtons.add(GoalButton(goal, true, args.index));
+    }
+    //GoalButton(currentGoal, isGridMode)
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -296,7 +288,7 @@ class _IndividualPriority extends State<IndividualPriority> {
             child: Column(
               children: [
                 Expanded(
-                  child: getEditWidget(goalsJustForTesting),
+                  child: getEditWidget(currentPriorityGoals),
                 ),
               ],
             ),

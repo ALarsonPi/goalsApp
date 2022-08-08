@@ -61,7 +61,8 @@ class _NormalPriorityWidget extends State<NormalPriorityWidget> {
   Widget build(BuildContext context) {
     myGoalButtons.clear();
     for (var goal in widget.goals) {
-      myGoalButtons.add(GoalButton(goal, isGridMode));
+      myGoalButtons
+          .add(GoalButton(goal, isGridMode, widget.currentPriorityIndex));
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,

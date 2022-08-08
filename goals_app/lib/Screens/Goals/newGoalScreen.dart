@@ -3,6 +3,13 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
+import 'package:goals_app/Screens/Priorities/individualPriority.dart';
+import 'package:intl/intl.dart';
+
+import '../../Objects/Goal.dart';
+import '../../global.dart';
+import '../ArgumentPassThroughScreens/newGoalArguements.dart';
 
 class NewGoalScreen extends StatefulWidget {
   static const routeName = "/extractPriorityIndexForNewGoal";
@@ -14,7 +21,10 @@ class NewGoalScreen extends StatefulWidget {
 }
 
 class _NewGoalScreen extends State<NewGoalScreen> {
-  final _formKey = GlobalKey<FormBuilderState>();
+  late final _formKey;
+  bool isValidForm = false;
+
+  late Goal newGoal;
 
   bool shouldShowRepeatContent = false;
   bool shouldShowDateContent = false;
@@ -24,8 +34,13 @@ class _NewGoalScreen extends State<NewGoalScreen> {
   DateTime todaysDate =
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
 
+  late final args =
+      ModalRoute.of(context)!.settings.arguments as NewGoalArguments;
+
   @override
   void initState() {
+    _formKey = GlobalKey<FormBuilderState>();
+    newGoal = Goal("null", "null", "null", null, null, null);
     super.initState();
   }
 
@@ -40,6 +55,13 @@ class _NewGoalScreen extends State<NewGoalScreen> {
       currentDate = newDate;
       currentDate ??= todaysDate;
     });
+  }
+
+  String? validateText(String? value, String invalidText) {
+    if (value!.isEmpty) {
+      return invalidText;
+    }
+    return null;
   }
 
   @override
@@ -74,10 +96,10 @@ class _NewGoalScreen extends State<NewGoalScreen> {
             },
             autovalidateMode: AutovalidateMode.onUserInteraction,
             initialValue: const {
-              'goal': '',
-              'why': '',
-              'when': '',
-              'where': '',
+              // 'goal': '',
+              // 'why': '',
+              // 'when': '',
+              // 'where': '',
             },
 
             //USE ONLY IF NEEDED
@@ -86,18 +108,51 @@ class _NewGoalScreen extends State<NewGoalScreen> {
             child: Padding(
               padding: const EdgeInsets.all(12.0),
               child: Column(children: [
-                const Padding(
-                  padding: EdgeInsets.only(top: 8.0, bottom: 12.0),
+                //CURRENT Priority Name
+                // Padding(
+                //   padding: const EdgeInsets.only(bottom: 16.0),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       Expanded(
+                //         child: FittedBox(
+                //           child: Text(
+                //             Global.userPriorities[args.priorityIndex].name,
+                //             style: const TextStyle(
+                //                 fontSize: 24, fontWeight: FontWeight.bold),
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 12.0, top: 8.0, bottom: 12.0),
                   child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text("I want to...",
+                    alignment: Alignment.centerLeft,
+                    child: Row(children: const [
+                      Text("*",
                           style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold))),
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.redAccent)),
+                      Text("I want to...",
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold)),
+                    ]),
+                  ),
                 ),
                 FormBuilderTextField(
                   name: "goal",
                   minLines: 2,
                   maxLines: 4,
+                  validator: (value) {
+                    if (value == null || value == '') {
+                      return 'Please enter a goal';
+                    }
+                  },
                   decoration: const InputDecoration(
                     labelText: "What are you going to do?",
                     floatingLabelAlignment: FloatingLabelAlignment.start,
@@ -106,9 +161,13 @@ class _NewGoalScreen extends State<NewGoalScreen> {
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(width: 1, color: Colors.grey),
                     ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(width: 1, color: Colors.redAccent),
+                    ),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(width: 1.5, color: Colors.green),
                     ),
+
                     // border: InputBorder(
                     //   borderSide: BorderSide(
                     //       color: Colors.grey, style: BorderStyle.solid, width: 2.0),
@@ -121,7 +180,8 @@ class _NewGoalScreen extends State<NewGoalScreen> {
                       right: MediaQuery.of(context).size.width * 0.35),
                   child: FormBuilderCheckbox(
                     controlAffinity: ListTileControlAffinity.trailing,
-                    name: "Repeat",
+                    name: "repeat",
+                    contentPadding: EdgeInsets.zero,
                     title: const Text("Repeat?",
                         style: TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold)),
@@ -138,11 +198,12 @@ class _NewGoalScreen extends State<NewGoalScreen> {
                     minLines: 1,
                     name: "numRepeat",
                     validator: (value) {
-                      if (value == null || value == '') {
+                      if ((value == null || value == '')) {
                         return 'Please select a number';
                       } else if (int.parse(value) > 1000) {
                         return 'Please select a realistic number';
                       }
+                      return null;
                     },
                     keyboardType: TextInputType.number,
                     inputFormatters: [
@@ -151,11 +212,15 @@ class _NewGoalScreen extends State<NewGoalScreen> {
 
                     decoration: const InputDecoration(
                       labelText: "Enter number of times to repeat",
-                      hintText: '',
+                      hintText: '1 by default',
                       floatingLabelAlignment: FloatingLabelAlignment.start,
                       hintStyle: TextStyle(fontStyle: FontStyle.italic),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 1, color: Colors.grey),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 1, color: Colors.redAccent),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 1.5, color: Colors.green),
@@ -167,6 +232,7 @@ class _NewGoalScreen extends State<NewGoalScreen> {
                       left: MediaQuery.of(context).size.width * 0.05,
                       right: MediaQuery.of(context).size.width * 0.3),
                   child: FormBuilderCheckbox(
+                    contentPadding: EdgeInsets.zero,
                     controlAffinity: ListTileControlAffinity.trailing,
                     name: "Date",
                     title: const Text("End Date?",
@@ -180,23 +246,31 @@ class _NewGoalScreen extends State<NewGoalScreen> {
                   ),
                 ),
                 if (shouldShowDateContent)
-                  Row(
-                    children: [
-                      ElevatedButton(
-                          onPressed: () => {
-                                showFlutterDatePicker(),
-                                // setState(() {
-                                //   if (showFlutterDatePicker() != null) {
-                                //     currentDate = showFlutterDatePicker();
-                                //   }
-                                // }),
-                              },
-                          child: const Text("Select Date")),
-                      Text(
-                          '${currentDate?.year}/${currentDate?.month}/${currentDate?.day}',
-                          style: const TextStyle(fontStyle: FontStyle.italic)),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Row(
+                      children: [
+                        ElevatedButton(
+                            onPressed: () => {
+                                  showFlutterDatePicker(),
+                                  // setState(() {
+                                  //   if (showFlutterDatePicker() != null) {
+                                  //     currentDate = showFlutterDatePicker();
+                                  //   }
+                                  // }),
+                                },
+                            child: const Text("Select Date")),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12.0),
+                          child: Text(DateFormat.yMMMEd().format(currentDate!),
+                              style:
+                                  const TextStyle(fontStyle: FontStyle.italic)),
+                        ),
+                      ],
+                    ),
                   ),
+
+                //Reward
                 Padding(
                   padding: EdgeInsets.only(
                       left: MediaQuery.of(context).size.width * 0.05,
@@ -215,82 +289,149 @@ class _NewGoalScreen extends State<NewGoalScreen> {
                   ),
                 ),
                 if (shouldShowRewardContent)
-                  FormBuilderTextField(
-                    maxLines: 1,
-                    minLines: 1,
-                    name: "rewardPicker",
-                    validator: (value) {
-                      if (value == null || value == '') {
-                        return 'Please select a number';
-                      } else if (int.parse(value) > 1000) {
-                        return 'Please select a realistic number';
-                      }
-                    },
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                    ], // Only numbers can be entered
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 8.0, right: 8.0, bottom: 18.0),
+                    child: FormBuilderTextField(
+                      maxLines: 3,
+                      minLines: 1,
+                      name: "rewardPicker",
+                      validator: ((value) => validateText(
+                          value, 'Please enter a reward (if you want one!)')),
+                      decoration: const InputDecoration(
+                        labelText: "How'll you reward yourself when done?",
+                        hintText: '',
+                        floatingLabelAlignment: FloatingLabelAlignment.start,
+                        hintStyle: TextStyle(fontStyle: FontStyle.italic),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 1, color: Colors.grey),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(width: 1, color: Colors.redAccent),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(width: 1.5, color: Colors.green),
+                        ),
+                      ),
+                    ),
+                  ),
 
+                //Optional Fields
+
+                //WHY?
+                const Padding(
+                  padding: EdgeInsets.only(left: 12.0, top: 8.0, bottom: 4.0),
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("I'll do this because...",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold))),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: FormBuilderTextField(
+                    minLines: 1,
+                    maxLines: 3,
+                    name: "why",
                     decoration: const InputDecoration(
-                      labelText: "Enter number of times to repeat",
-                      hintText: '',
-                      floatingLabelAlignment: FloatingLabelAlignment.start,
-                      hintStyle: TextStyle(fontStyle: FontStyle.italic),
+                      labelText: "What's your why?",
+                      labelStyle: TextStyle(fontStyle: FontStyle.italic),
+                      hintText: 'Why',
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 1, color: Colors.grey),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 1, color: Colors.redAccent),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 1.5, color: Colors.green),
                       ),
                     ),
                   ),
-                FormBuilderTextField(
-                  name: "why",
-                  decoration: const InputDecoration(
-                      labelText: "Why do you want to complete this?",
-                      hintText: 'Why'),
                 ),
-                FormBuilderTextField(
-                  name: "when",
-                  decoration: const InputDecoration(
-                      labelText: "When do you want to do this activity?",
-                      hintText: 'When'),
+
+                //WHEN
+                const Padding(
+                  padding: EdgeInsets.only(left: 12.0, top: 8.0, bottom: 4.0),
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text("I'll do this at...",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold))),
                 ),
-                FormBuilderTextField(
-                  name: "where",
-                  decoration: const InputDecoration(
-                      labelText: "Where do you want to do this activity?",
-                      hintText: 'Where'),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: FormBuilderTextField(
+                    minLines: 1,
+                    maxLines: 3,
+                    name: "whenWhere",
+                    decoration: const InputDecoration(
+                      labelText: "Certain time? Certain place?",
+                      labelStyle: TextStyle(fontStyle: FontStyle.italic),
+                      hintText: 'When',
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 1, color: Colors.grey),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 1, color: Colors.redAccent),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(width: 1.5, color: Colors.green),
+                      ),
+                    ),
+                  ),
                 ),
-                ElevatedButton(
-                  onPressed: () => {
-                    _formKey.currentState?.reset(),
-                    //Closes keyboard if open
-                    FocusScope.of(context).unfocus(),
-                  },
-                  child: const Text("Reset All"),
-                ),
-                ElevatedButton(
-                  onPressed: () => {
-                    //How to access a field value in the form
-                    textInTextField =
-                        _formKey.currentState?.fields["goal"]?.value,
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () => {
+                          //How to access a field value in the form
+                          textInTextField =
+                              _formKey.currentState?.fields["goal"]?.value,
 
-                    //How to access all the values of the form
-                    _formKey.currentState?.value,
+                          isValidForm = _formKey.currentState!.validate(),
 
-                    //How to save all fields before submitting
-                    _formKey.currentState?.save(),
-
-                    //How to save one field
-                    _formKey.currentState?.fields["exampleTextField"]?.save(),
-
-                    //For optional fields if they are blank maybe
-                    //set them as disabled and then you can use the
-                    //skipDisabled: true in the main form so that
-                    //when submitting those won't be saved
-                  },
-                  child: const Text("Do All"),
+                          if (isValidForm)
+                            {
+                              _formKey.currentState?.save(),
+                              newGoal.name =
+                                  _formKey.currentState?.value['goal'],
+                              newGoal.goalTarget =
+                                  _formKey.currentState?.value['numRepeat'] ??
+                                      '1',
+                              newGoal.goalProgress = '0',
+                              if (shouldShowDateContent)
+                                {
+                                  newGoal.completeByDate =
+                                      DateFormat.yMMMEd().format(currentDate!),
+                                },
+                              newGoal.reward = _formKey
+                                      .currentState?.value['rewardPicker'] ??
+                                  'null',
+                              newGoal.whyToComplete =
+                                  _formKey.currentState?.value['why'] ?? 'null',
+                              newGoal.whenToComplete =
+                                  _formKey.currentState?.value['whenWhere'] ??
+                                      'null',
+                              Global.userPriorities[args.priorityIndex].goals
+                                  .add(newGoal),
+                              Navigator.pushNamed(
+                                  context, IndividualPriority.routeName,
+                                  arguments: IndividualPriorityArgumentScreen(
+                                      args.priorityIndex)),
+                            },
+                        },
+                        child: const Text("SUBMIT"),
+                      ),
+                    ],
+                  ),
                 ),
               ]),
             ),
