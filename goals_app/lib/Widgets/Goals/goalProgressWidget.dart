@@ -44,22 +44,34 @@ class _GoalProgressWidget extends State<GoalProgressWidget> {
             padding: const EdgeInsets.only(top: 8.0, left: 12.0, right: 12.0),
             child: Stack(
               children: [
-                ButtonTheme(
-                  height: 1,
-                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  child: TextButton(
-                    onPressed: () => {
-                      setState(() {
-                        currentProgress++;
-                        widget.updateGoal(currentProgress.toString());
-                      }),
-                    },
-                    child: const Text(
-                      "+",
-                      style: TextStyle(height: 1, fontSize: 48),
-                    ),
-                  ),
-                ),
+                (currentProgress < int.parse(widget.goalAmount))
+                    ? ButtonTheme(
+                        height: 1,
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        child: TextButton(
+                          onPressed: () => {
+                            setState(() {
+                              currentProgress++;
+                              widget.updateGoal(currentProgress.toString());
+                            }),
+                          },
+                          child: const Text(
+                            "+",
+                            style: TextStyle(height: 1, fontSize: 48),
+                          ),
+                        ),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.only(right: 20.0),
+                        child: Column(children: const [
+                          Icon(Icons.check,
+                              size: 60, color: Colors.greenAccent),
+                          Text(
+                            "Finished",
+                            style: TextStyle(fontStyle: FontStyle.italic),
+                          )
+                        ]),
+                      ),
               ],
             ),
           ),

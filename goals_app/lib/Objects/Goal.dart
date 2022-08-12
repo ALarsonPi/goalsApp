@@ -3,6 +3,8 @@ class Goal {
   String goalProgress;
   String goalTarget;
 
+  bool isChildGoal;
+
   String? completeByDate;
   String? reward;
   String? whyToComplete;
@@ -12,7 +14,7 @@ class Goal {
   List<Goal> subGoals = List.empty(growable: true);
 
   Goal(this.name, this.goalProgress, this.goalTarget, this.whyToComplete,
-      this.whenToComplete, this.whereToComplete);
+      this.whenToComplete, this.whereToComplete, this.isChildGoal);
 
   setName(String newName) {
     name = newName;

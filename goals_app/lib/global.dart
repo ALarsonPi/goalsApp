@@ -84,6 +84,7 @@ class Global {
   ];
 
   static List<Priority> userPriorities = List.empty(growable: true);
+  static CustomStack<Goal> depthStack = CustomStack();
 
   static getPriorities() {
     if (userPriorities.isEmpty) {
@@ -99,7 +100,8 @@ class Global {
           "30",
           "Praying is an act of faith and acting in faith brings miracles",
           "Probably in the morning is best for me, and at night as much as I can",
-          "Kneeling at my bedside");
+          "Kneeling at my bedside",
+          false);
       priority5Goals.add(exampleGoal);
 
       userPriorities.add(
@@ -135,4 +137,20 @@ class pictureHolder {
   String url;
   String description;
   pictureHolder(this.url, this.description);
+}
+
+class CustomStack<E> {
+  final _list = List.empty(growable: true);
+
+  void push(E value) => _list.add(value);
+
+  E pop() => _list.removeLast();
+
+  E get top => _list.last;
+
+  bool get isEmpty => _list.isEmpty;
+  bool get isNotEmpty => _list.isNotEmpty;
+
+  @override
+  String toString() => _list.toString();
 }

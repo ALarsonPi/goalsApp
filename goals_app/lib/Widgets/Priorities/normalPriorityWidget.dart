@@ -13,8 +13,16 @@ import 'gridListIconRow.dart';
 
 class NormalPriorityWidget extends StatefulWidget {
   int currentPriorityIndex;
-  List<Goal> goals;
-  NormalPriorityWidget(this.currentPriorityIndex, this.goals, {Key? key});
+  bool isPriority;
+  late Goal currGoal;
+  List<Goal>? goals;
+  NormalPriorityWidget(this.currentPriorityIndex, this.isPriority, this.goals,
+      {Goal? currentGoal, Key? key})
+      : super(key: key) {
+    if (currentGoal != null) {
+      currGoal = currentGoal;
+    }
+  }
   @override
   State<StatefulWidget> createState() {
     return _NormalPriorityWidget();
@@ -60,10 +68,16 @@ class _NormalPriorityWidget extends State<NormalPriorityWidget> {
   @override
   Widget build(BuildContext context) {
     myGoalButtons.clear();
-    for (var goal in widget.goals) {
-      myGoalButtons
-          .add(GoalButton(goal, isGridMode, widget.currentPriorityIndex));
+    if (widget.goals != null) {
+      int? numGoals = widget.goals?.length;
+      Goal? currGoalThing;
+      for (int i = 0; i < numGoals!; i++) {
+        currGoalThing = widget.goals?.elementAt(i);
+        myGoalButtons.add(GoalButton(
+            currGoalThing!, isGridMode, widget.currentPriorityIndex));
+      }
     }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [

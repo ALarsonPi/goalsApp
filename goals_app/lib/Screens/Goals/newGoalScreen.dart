@@ -3,6 +3,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualGoalArguments.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
 import 'package:goals_app/Screens/Priorities/individualPriority.dart';
 import 'package:intl/intl.dart';
@@ -10,6 +11,7 @@ import 'package:intl/intl.dart';
 import '../../Objects/Goal.dart';
 import '../../global.dart';
 import '../ArgumentPassThroughScreens/newGoalArguements.dart';
+import 'individualGoal.dart';
 
 class NewGoalScreen extends StatefulWidget {
   static const routeName = "/extractPriorityIndexForNewGoal";
@@ -40,8 +42,38 @@ class _NewGoalScreen extends State<NewGoalScreen> {
   @override
   void initState() {
     _formKey = GlobalKey<FormBuilderState>();
-    newGoal = Goal("null", "null", "null", null, null, null);
+    newGoal = Goal("null", "null", "null", null, null, null, false);
     super.initState();
+  }
+
+  void addGoalGloballyAndNavigateBack() {
+    if (args.isComingFromPriority) {
+      Global.userPriorities[args.priorityIndex].goals.add(newGoal);
+    } else {
+      debugPrint("Is this var non null?");
+      debugPrint(args.currentGoal.toString());
+      newGoal.isChildGoal = true;
+      args.currentGoal.subGoals.add(newGoal);
+    }
+    navigateBack();
+  }
+
+  void navigateBack() {
+    debugPrint("Current Args Priority Index: ");
+    debugPrint(args.priorityIndex.toString());
+    if (args.isComingFromPriority) {
+      Navigator.pushNamed(context, IndividualPriority.routeName,
+          arguments: IndividualPriorityArgumentScreen(args.priorityIndex));
+    } else {
+      Navigator.pushNamed(
+        context,
+        IndividualGoal.routeName,
+        arguments: IndividualGoalArguments(
+          args.currentGoal,
+          args.priorityIndex,
+        ),
+      );
+    }
   }
 
   showFlutterDatePicker() async {
@@ -420,12 +452,7 @@ class _NewGoalScreen extends State<NewGoalScreen> {
                               newGoal.whenToComplete =
                                   _formKey.currentState?.value['whenWhere'] ??
                                       'null',
-                              Global.userPriorities[args.priorityIndex].goals
-                                  .add(newGoal),
-                              Navigator.pushNamed(
-                                  context, IndividualPriority.routeName,
-                                  arguments: IndividualPriorityArgumentScreen(
-                                      args.priorityIndex)),
+                              addGoalGloballyAndNavigateBack(),
                             },
                         },
                         child: const Text("SUBMIT"),

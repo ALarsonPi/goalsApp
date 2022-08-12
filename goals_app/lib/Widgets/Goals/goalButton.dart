@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:goals_app/Objects/Goal.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualGoalArguments.dart';
 import 'package:goals_app/Screens/Goals/individualGoal.dart';
+import 'package:goals_app/global.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class GoalButton extends StatelessWidget {
@@ -57,6 +58,7 @@ class GoalButton extends StatelessWidget {
   }
 
   goToIndividualGoalScreen(context) {
+    Global.depthStack.push(currentGoal);
     Navigator.pushNamed(context, IndividualGoal.routeName,
         arguments: IndividualGoalArguments(
           currentGoal,

@@ -218,7 +218,7 @@ class _IndividualPriority extends State<IndividualPriority> {
     return (shouldEdit)
         ? EditPriorityWidget(args.index, _inProcess, changeImage,
             saveTitleTextChanges, getImage, buttons)
-        : NormalPriorityWidget(args.index, buttons);
+        : NormalPriorityWidget(args.index, true, buttons);
   }
 
   @override
@@ -234,8 +234,11 @@ class _IndividualPriority extends State<IndividualPriority> {
       floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
           onPressed: () => {
-                Navigator.pushNamed(context, NewGoalScreen.routeName,
-                    arguments: NewGoalArguments(args.index))
+                Navigator.pushNamed(
+                  context,
+                  NewGoalScreen.routeName,
+                  arguments: NewGoalArguments(args.index, true),
+                ),
               }),
       body: Column(
         children: [
