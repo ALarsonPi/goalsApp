@@ -42,6 +42,6 @@ class Goal {
 
   @override
   String toString() {
-    return "Goal\nName: $name\nCurrent Progress: $goalProgress out of $goalTarget\nGoal Why: $whyToComplete\nGoal Why: $whereToComplete\nGoal Why: $whenToComplete";
+    return "Goal\nName: $name\nCurrent Progress: $goalProgress out of $goalTarget\nGoal Why: $whyToComplete\nGoal Where: $whereToComplete\nGoal When: $whenToComplete\nIs Child: $isChildGoal\nTo complete by: $completeByDate\nReward: $reward";
   }
 }

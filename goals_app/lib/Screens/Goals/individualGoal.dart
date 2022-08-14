@@ -5,6 +5,7 @@ import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualPriorityA
 import 'package:goals_app/Screens/Priorities/individualPriority.dart';
 import 'package:goals_app/Widgets/Goals/goalProgressWidget.dart';
 import 'package:goals_app/Widgets/Priorities/normalPriorityWidget.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../../Objects/Goal.dart';
 import '../../Widgets/Goals/goalButton.dart';
@@ -26,42 +27,63 @@ class IndividualGoal extends StatefulWidget {
 class _IndividualGoal extends State<IndividualGoal> {
   late final args =
       ModalRoute.of(context)!.settings.arguments as IndividualGoalArguments;
+  List<GoalDisplayItem> attributesToDisplayForThisGoal =
+      List.empty(growable: true);
 
-  var titles = ['Trying to finish by: ', 'Remember...', 'When', 'Where'];
-  var icons = [
-    const Icon(Icons.watch_later),
-    const Icon(Icons.info),
-    const Icon(Icons.watch),
-    const Icon(Icons.where_to_vote_outlined),
-  ];
+  late GoalDisplayItem finishByDate;
+  late GoalDisplayItem why;
+  late GoalDisplayItem when;
+  late GoalDisplayItem where;
 
-  //Will be defined in Build
-  var content = [];
-
-  removeNullFields() {
-    List toRemove = List.empty(growable: true);
-    for (var currentField in content) {
-      if (currentField == "null") {
-        int indexToRemove = content.indexOf(currentField);
-        toRemove.add(indexToRemove);
-      }
-    }
-    for (var valueToRemove in toRemove) {
-      content.removeAt(valueToRemove);
-      titles.removeAt(valueToRemove);
-      icons.removeAt(valueToRemove);
-    }
+  @override
+  void initState() {
+    super.initState();
   }
 
   List fillListViewWithOptionalFields() {
+    finishByDate = GoalDisplayItem(
+      const Icon(Icons.watch_later),
+      'Trying to finish by: ',
+      args.currGoal.completeByDate ?? "null",
+    );
+    why = GoalDisplayItem(
+      const Icon(Icons.info),
+      'Remember...',
+      args.currGoal.whyToComplete ?? "null",
+    );
+    when = GoalDisplayItem(
+      const Icon(Icons.watch),
+      'When',
+      args.currGoal.whenToComplete ?? "null",
+    );
+    where = GoalDisplayItem(
+      const Icon(Icons.where_to_vote_outlined),
+      'Where',
+      args.currGoal.whereToComplete ?? "null",
+    );
+
+    attributesToDisplayForThisGoal.clear();
+    if (finishByDate.content != "null") {
+      attributesToDisplayForThisGoal.add(finishByDate);
+    }
+    if (why.content != "null") {
+      attributesToDisplayForThisGoal.add(why);
+    }
+    if (when.content != "null") {
+      attributesToDisplayForThisGoal.add(when);
+    }
+    if (where.content != "null") {
+      attributesToDisplayForThisGoal.add(where);
+    }
+
     List<ListTile> thingsToAdd = List.empty(growable: true);
-    for (int i = 0; i < content.length; i++) {
+    for (int i = 0; i < attributesToDisplayForThisGoal.length; i++) {
       thingsToAdd.add(ListTile(
-        leading: icons[i],
-        title: Text(titles[i],
+        leading: attributesToDisplayForThisGoal[i].icon,
+        title: Text(attributesToDisplayForThisGoal[i].title,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24)),
         subtitle: Text(
-          content[i],
+          attributesToDisplayForThisGoal[i].content,
           // style: const TextStyle(
           //     fontWeight: FontWeight.normal, fontSize: 16),
         ),
@@ -97,30 +119,80 @@ class _IndividualGoal extends State<IndividualGoal> {
   List getSubgoalsButtons() {
     List<GoalButton> currGoalsButtons = List.empty(growable: true);
     for (Goal goal in args.currGoal.subGoals) {
-      currGoalsButtons.add(GoalButton(goal, true, args.currPriorityIndex));
+      currGoalsButtons.add(GoalButton(
+          goal, Global.goalButtonsInGridView, args.currPriorityIndex));
     }
     return currGoalsButtons;
   }
 
+  setGoalButtonSize(bool isGridMode) {
+    setState(() {
+      if (isGridMode) {
+        Global.goalButtonsInGridView = true;
+      } else {
+        Global.goalButtonsInGridView = false;
+      }
+    });
+  }
+
+  checkIfAlertIsNeeded() {
+    if (int.parse(args.currGoal.goalProgress) == 0) {
+      goToNewGoalScreen();
+    } else {
+      Alert(
+        context: context,
+        type: AlertType.warning,
+        title: "NEW GOAL ALERT",
+        desc: "Making a sub-goal will reset progress on current goal.",
+        buttons: [
+          DialogButton(
+            onPressed: () => {
+              Navigator.of(context, rootNavigator: true).pop(),
+            },
+            gradient: const LinearGradient(colors: [
+              Color.fromRGBO(116, 116, 191, 1.0),
+              Color.fromRGBO(52, 138, 199, 1.0)
+            ]),
+            child: const Text(
+              "Cancel",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          ),
+          DialogButton(
+            onPressed: () => {
+              Navigator.of(context, rootNavigator: true).pop(),
+              goToNewGoalScreen(),
+            },
+            gradient: const LinearGradient(colors: [
+              Color.fromRGBO(116, 116, 191, 1.0),
+              Color.fromRGBO(52, 138, 199, 1.0)
+            ]),
+            child: const Text(
+              "OK",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          )
+        ],
+      ).show();
+    }
+  }
+
+  goToNewGoalScreen() {
+    Navigator.pushNamed(
+      context,
+      NewGoalScreen.routeName,
+      arguments: NewGoalArguments(args.currPriorityIndex, false,
+          currentGoal: args.currGoal),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    content = [
-      args.currGoal.completeByDate ?? "null",
-      args.currGoal.whyToComplete ?? "null",
-      args.currGoal.whenToComplete ?? "null",
-      args.currGoal.whereToComplete ?? "null",
-    ];
-    removeNullFields();
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
           onPressed: () => {
-                Navigator.pushNamed(
-                  context,
-                  NewGoalScreen.routeName,
-                  arguments: NewGoalArguments(args.currPriorityIndex, false,
-                      currentGoal: args.currGoal),
-                ),
+                checkIfAlertIsNeeded(),
               }),
       appBar: AppBar(
         leading: IconButton(
@@ -174,36 +246,50 @@ class _IndividualGoal extends State<IndividualGoal> {
                     ),
                     //Container with Progress / completion
                     Padding(
-                      padding: const EdgeInsets.only(left: 0.0, right: 8.0),
-                      child: GoalProgressWidget(args.currGoal.goalProgress,
-                          args.currGoal.goalTarget, updateGoalGlobally),
+                      padding: EdgeInsets.only(
+                          left: (args.currGoal.subGoals.isEmpty) ? 0.0 : 16.0,
+                          right: 8.0),
+                      child: GoalProgressWidget(
+                          args.currGoal.goalProgress,
+                          args.currGoal.goalTarget,
+                          updateGoalGlobally,
+                          setGoalButtonSize,
+                          args.currGoal),
                     ),
                     //Additional optional fields
-                    if (content.isNotEmpty) ...fillListViewWithOptionalFields(),
+                    if (args.currGoal.subGoals.isEmpty)
+                      ...fillListViewWithOptionalFields(),
                   ],
                 );
               },
-              childCount: 1, // 1000 list items
+              childCount: 1,
             ),
           ),
-          SliverFillRemaining(
-            hasScrollBody: true,
-            child: Column(
-              children: <Widget>[
-                // Expanded(child: Container(color: Colors.red)),
-                Expanded(
-                  child: NormalPriorityWidget(
-                    args.currPriorityIndex,
-                    false,
-                    args.currGoal.subGoals,
-                    currentGoal: args.currGoal,
+          if (args.currGoal.subGoals.isNotEmpty)
+            SliverFillRemaining(
+              hasScrollBody: true,
+              child: Column(
+                children: <Widget>[
+                  Expanded(
+                    child: NormalPriorityWidget(
+                      args.currPriorityIndex,
+                      false,
+                      args.currGoal.subGoals,
+                      currentGoal: args.currGoal,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
         ],
       ),
     );
   }
+}
+
+class GoalDisplayItem {
+  GoalDisplayItem(this.icon, this.title, this.content);
+  Icon icon;
+  String title;
+  String content;
 }

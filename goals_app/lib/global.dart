@@ -85,6 +85,7 @@ class Global {
 
   static List<Priority> userPriorities = List.empty(growable: true);
   static CustomStack<Goal> depthStack = CustomStack();
+  static bool goalButtonsInGridView = false;
 
   static getPriorities() {
     if (userPriorities.isEmpty) {

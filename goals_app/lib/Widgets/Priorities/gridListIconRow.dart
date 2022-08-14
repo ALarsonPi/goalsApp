@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goals_app/global.dart';
 import '../../Objects/IconsEnum.dart';
 
 class GridListIconRow extends StatefulWidget {
@@ -29,7 +30,7 @@ class _GridListIconRow extends State<GridListIconRow> {
     super.initState();
   }
 
-  bool isGridMode = false;
+  bool isGridMode = Global.goalButtonsInGridView;
 
   changeToGridMode() {
     setState(() {

@@ -16,13 +16,16 @@ class GoalButton extends StatelessWidget {
 
   getRadialIndicator() {
     return GaugeAnnotation(
-      positionFactor: 0.1,
-      angle: 90,
-      widget: Text(
-        '${currentGoal.goalProgress} / ${currentGoal.goalTarget}',
-        style: const TextStyle(fontSize: 11),
-      ),
-    );
+        positionFactor: 0.1,
+        angle: 90,
+        widget: (currentGoal.goalProgress != currentGoal.goalTarget)
+            ? Text('${currentGoal.goalProgress} / ${currentGoal.goalTarget}',
+                style: const TextStyle(fontSize: 11))
+            : const Icon(
+                Icons.check,
+                color: Colors.greenAccent,
+                size: 25,
+              ));
   }
 
   getEntireRadialWidget() {
@@ -31,7 +34,7 @@ class GoalButton extends StatelessWidget {
       axes: <RadialAxis>[
         RadialAxis(
           minimum: 0,
-          maximum: 100,
+          maximum: double.parse(currentGoal.goalTarget),
           showLabels: false,
           showTicks: false,
           annotations: [
@@ -43,10 +46,12 @@ class GoalButton extends StatelessWidget {
             color: Colors.white,
             thicknessUnit: GaugeSizeUnit.factor,
           ),
-          pointers: const <GaugePointer>[
+          pointers: <GaugePointer>[
             RangePointer(
               color: Colors.greenAccent,
-              value: 20,
+              value: (double.parse(currentGoal.goalProgress) != 0.0)
+                  ? double.parse(currentGoal.goalProgress)
+                  : 0.0,
               cornerStyle: CornerStyle.bothCurve,
               width: 0.2,
               sizeUnit: GaugeSizeUnit.factor,

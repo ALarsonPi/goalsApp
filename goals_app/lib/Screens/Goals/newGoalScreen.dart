@@ -50,10 +50,10 @@ class _NewGoalScreen extends State<NewGoalScreen> {
     if (args.isComingFromPriority) {
       Global.userPriorities[args.priorityIndex].goals.add(newGoal);
     } else {
-      debugPrint("Is this var non null?");
-      debugPrint(args.currentGoal.toString());
       newGoal.isChildGoal = true;
       args.currentGoal.subGoals.add(newGoal);
+      args.currentGoal.goalProgress = "0";
+      args.currentGoal.goalTarget = args.currentGoal.subGoals.length.toString();
     }
     navigateBack();
   }

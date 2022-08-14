@@ -41,16 +41,20 @@ class _NormalPriorityWidget extends State<NormalPriorityWidget> {
   setGoalButtonSize(bool isGridMode) {
     setState(() {
       if (isGridMode) {
-        this.isGridMode = true;
+        Global.goalButtonsInGridView = true;
       } else {
-        this.isGridMode = false;
+        Global.goalButtonsInGridView = false;
       }
     });
   }
 
   getCurrentListGridView() {
-    return (isGridMode)
+    var physicsType = (widget.isPriority)
+        ? const AlwaysScrollableScrollPhysics()
+        : const NeverScrollableScrollPhysics();
+    return (Global.goalButtonsInGridView)
         ? GridView.count(
+            physics: physicsType,
             crossAxisCount: 2,
             children: [
               ...myGoalButtons,
@@ -58,6 +62,7 @@ class _NormalPriorityWidget extends State<NormalPriorityWidget> {
           )
         : ListView(
             shrinkWrap: true,
+            physics: physicsType,
             padding: const EdgeInsets.all(0.0),
             children: [
               ...myGoalButtons,
@@ -68,35 +73,46 @@ class _NormalPriorityWidget extends State<NormalPriorityWidget> {
   @override
   Widget build(BuildContext context) {
     myGoalButtons.clear();
+    int numSubGoalsCompleted = 0;
     if (widget.goals != null) {
       int? numGoals = widget.goals?.length;
       Goal? currGoalThing;
       for (int i = 0; i < numGoals!; i++) {
         currGoalThing = widget.goals?.elementAt(i);
-        myGoalButtons.add(GoalButton(
-            currGoalThing!, isGridMode, widget.currentPriorityIndex));
+        if (currGoalThing!.goalProgress == currGoalThing.goalTarget) {
+          numSubGoalsCompleted++;
+        }
+        myGoalButtons.add(GoalButton(currGoalThing!,
+            Global.goalButtonsInGridView, widget.currentPriorityIndex));
       }
     }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 8.0, top: 8.0),
-          child: Center(
-            child: Text(Global.userPriorities[widget.currentPriorityIndex].name,
-                style:
-                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+        if (widget.isPriority)
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, top: 8.0),
+            child: Center(
+              child: Text(
+                  Global.userPriorities[widget.currentPriorityIndex].name,
+                  style: const TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.bold)),
+            ),
           ),
-        ),
-        const Padding(
-          padding: EdgeInsets.only(left: 24.0, right: 24.0),
-          child: Divider(thickness: 1, color: Colors.grey),
-        ),
-        SizedBox(
-          height: 30,
-          child: GridListIconRow(setGoalButtonSize, IconsEnum.priorityButtons),
-        ),
+        if (widget.isPriority)
+          const Padding(
+            padding: EdgeInsets.only(left: 24.0, right: 24.0),
+            child: Divider(thickness: 1, color: Colors.grey),
+          ),
+        if (widget.isPriority ||
+            (!widget.isPriority &&
+                widget.currGoal.subGoals.length == numSubGoalsCompleted))
+          SizedBox(
+            height: 30,
+            child:
+                GridListIconRow(setGoalButtonSize, IconsEnum.priorityButtons),
+          ),
         Expanded(
           child: getCurrentListGridView(),
         ),

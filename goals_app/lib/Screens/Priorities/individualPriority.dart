@@ -53,6 +53,7 @@ class _IndividualPriority extends State<IndividualPriority> {
         });
       }
     }();
+    super.initState();
   }
 
   bool recievedNewBrowsedImage = false;
@@ -214,7 +215,7 @@ class _IndividualPriority extends State<IndividualPriority> {
     }
   }
 
-  getEditWidget(List<Goal> buttons) {
+  getMainWidget(List<Goal> buttons) {
     return (shouldEdit)
         ? EditPriorityWidget(args.index, _inProcess, changeImage,
             saveTitleTextChanges, getImage, buttons)
@@ -291,7 +292,7 @@ class _IndividualPriority extends State<IndividualPriority> {
             child: Column(
               children: [
                 Expanded(
-                  child: getEditWidget(currentPriorityGoals),
+                  child: getMainWidget(currentPriorityGoals),
                 ),
               ],
             ),
