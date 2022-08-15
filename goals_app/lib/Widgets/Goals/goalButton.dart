@@ -68,6 +68,7 @@ class GoalButton extends StatelessWidget {
         arguments: IndividualGoalArguments(
           currentGoal,
           currPriorityIndex,
+          false,
         ));
   }
 

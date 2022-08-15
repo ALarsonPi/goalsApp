@@ -16,6 +16,11 @@ class Priority {
 
   @override
   String toString() {
-    return "Priority\nName: $name\n$imageUrl";
+    String toPrint = "";
+    toPrint += "Priority\nName: $name\n$imageUrl\n";
+    for (int i = 0; i < goals.length; i++) {
+      toPrint += goals[i].toString();
+    }
+    return toPrint;
   }
 }

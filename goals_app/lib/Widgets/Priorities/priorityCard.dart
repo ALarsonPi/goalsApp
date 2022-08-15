@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
+import 'package:goals_app/global.dart';
 
 import '../../Screens/Priorities/individualPriority.dart';
 
@@ -39,6 +40,8 @@ class PriorityCard extends StatelessWidget {
         notifyParentOfLongHold(),
       },
       onTap: () => {
+        debugPrint("HERE IS THE CURRENT PRIORITY"),
+        debugPrint(Global.userPriorities[index].toString()),
         Navigator.pushNamed(
           context,
           IndividualPriority.routeName,

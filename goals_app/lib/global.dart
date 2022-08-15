@@ -86,6 +86,8 @@ class Global {
   static List<Priority> userPriorities = List.empty(growable: true);
   static CustomStack<Goal> depthStack = CustomStack();
   static bool goalButtonsInGridView = false;
+  static bool priorityIsInListView = false;
+  static int priorityLastOpen = -1;
 
   static getPriorities() {
     if (userPriorities.isEmpty) {
@@ -97,6 +99,7 @@ class Global {
 
       Goal exampleGoal = Goal(
           "Pray every day for 30 days",
+          4,
           "17",
           "30",
           "Praying is an act of faith and acting in faith brings miracles",

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualGoalArguments.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
+import 'package:goals_app/Screens/ArgumentPassThroughScreens/priorityHomeArguments.dart';
 import 'package:goals_app/Screens/Priorities/individualPriority.dart';
+import 'package:goals_app/Screens/Priorities/prioritiesHome.dart';
 import 'package:goals_app/Widgets/Goals/goalProgressWidget.dart';
 import 'package:goals_app/Widgets/Priorities/normalPriorityWidget.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -104,6 +106,11 @@ class _IndividualGoal extends State<IndividualGoal> {
   }
 
   navigateBackArrow() {
+    if (args.comingFromListView) {
+      Navigator.pushNamed(context, PriorityHomeScreen.routeName,
+          arguments: PriorityHomeArguments(args.currPriorityIndex));
+      return;
+    }
     if (!args.currGoal.isChildGoal) {
       Navigator.pushNamed(context, IndividualPriority.routeName,
           arguments: IndividualPriorityArgumentScreen(args.currPriorityIndex));
@@ -111,8 +118,8 @@ class _IndividualGoal extends State<IndividualGoal> {
       Global.depthStack.pop();
       Goal currParentGoal = Global.depthStack.top;
       Navigator.pushNamed(context, IndividualGoal.routeName,
-          arguments:
-              IndividualGoalArguments(currParentGoal, args.currPriorityIndex));
+          arguments: IndividualGoalArguments(
+              currParentGoal, args.currPriorityIndex, false));
     }
   }
 
@@ -196,7 +203,9 @@ class _IndividualGoal extends State<IndividualGoal> {
               }),
       appBar: AppBar(
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: (!args.comingFromListView)
+              ? const Icon(Icons.arrow_back, color: Colors.white)
+              : const Icon(Icons.home),
           onPressed: () => navigateBackArrow(),
         ),
         centerTitle: true,

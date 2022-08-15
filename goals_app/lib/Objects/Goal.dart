@@ -3,6 +3,8 @@ class Goal {
   String goalProgress;
   String goalTarget;
 
+  int currPriorityIndex;
+
   bool isChildGoal;
 
   String? completeByDate;
@@ -13,8 +15,15 @@ class Goal {
 
   List<Goal> subGoals = List.empty(growable: true);
 
-  Goal(this.name, this.goalProgress, this.goalTarget, this.whyToComplete,
-      this.whenToComplete, this.whereToComplete, this.isChildGoal);
+  Goal(
+      this.name,
+      this.currPriorityIndex,
+      this.goalProgress,
+      this.goalTarget,
+      this.whyToComplete,
+      this.whenToComplete,
+      this.whereToComplete,
+      this.isChildGoal);
 
   setName(String newName) {
     name = newName;
@@ -42,6 +51,12 @@ class Goal {
 
   @override
   String toString() {
-    return "Goal\nName: $name\nCurrent Progress: $goalProgress out of $goalTarget\nGoal Why: $whyToComplete\nGoal Where: $whereToComplete\nGoal When: $whenToComplete\nIs Child: $isChildGoal\nTo complete by: $completeByDate\nReward: $reward";
+    String toPrint = "";
+    toPrint +=
+        "Goal\nName: $name\nCurrent Progress: $goalProgress out of $goalTarget\nGoal Why: $whyToComplete\nGoal Where: $whereToComplete\nGoal When: $whenToComplete\nIs Child: $isChildGoal\nTo complete by: $completeByDate\nReward: $reward\n";
+    for (Goal currGoal in subGoals) {
+      toPrint += currGoal.toString();
+    }
+    return toPrint;
   }
 }

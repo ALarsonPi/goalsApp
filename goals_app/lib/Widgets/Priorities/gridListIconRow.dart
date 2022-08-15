@@ -17,20 +17,21 @@ class GridListIconRow extends StatefulWidget {
 
 class _GridListIconRow extends State<GridListIconRow> {
   List<Icon> iconsToShow = List.empty(growable: true);
+  bool isGridMode = false;
 
   @override
   void initState() {
     if (widget.iconSet == IconsEnum.priorityHome) {
+      isGridMode = Global.priorityIsInListView;
       iconsToShow.add(const Icon(Icons.account_balance_wallet));
       iconsToShow.add(const Icon(Icons.list));
     } else if (widget.iconSet == IconsEnum.priorityButtons) {
+      isGridMode = Global.goalButtonsInGridView;
       iconsToShow.add(const Icon(Icons.menu));
       iconsToShow.add(const Icon(Icons.grid_view));
     }
     super.initState();
   }
-
-  bool isGridMode = Global.goalButtonsInGridView;
 
   changeToGridMode() {
     setState(() {

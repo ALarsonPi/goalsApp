@@ -42,7 +42,7 @@ class _NewGoalScreen extends State<NewGoalScreen> {
   @override
   void initState() {
     _formKey = GlobalKey<FormBuilderState>();
-    newGoal = Goal("null", "null", "null", null, null, null, false);
+    newGoal = Goal("null", 0, "null", "null", null, null, null, false);
     super.initState();
   }
 
@@ -53,6 +53,7 @@ class _NewGoalScreen extends State<NewGoalScreen> {
       newGoal.isChildGoal = true;
       args.currentGoal.subGoals.add(newGoal);
       args.currentGoal.goalProgress = "0";
+      newGoal.currPriorityIndex = args.priorityIndex;
       args.currentGoal.goalTarget = args.currentGoal.subGoals.length.toString();
     }
     navigateBack();
@@ -71,6 +72,7 @@ class _NewGoalScreen extends State<NewGoalScreen> {
         arguments: IndividualGoalArguments(
           args.currentGoal,
           args.priorityIndex,
+          false,
         ),
       );
     }

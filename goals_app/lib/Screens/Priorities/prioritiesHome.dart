@@ -30,7 +30,6 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
   List<String> urls = List.empty(growable: true);
   List<Priority> priorities = List.empty(growable: true);
   bool isEdit = false;
-  bool isList = false;
   bool areSettingsOpen = false;
 
   @override
@@ -62,8 +61,8 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
 
   setListViewState(bool isList) {
     setState(() {
-      this.isList = isList;
-      if (isList) isBeingLongHeld = false;
+      Global.priorityIsInListView = isList;
+      if (Global.priorityIsInListView) isBeingLongHeld = false;
     });
   }
 
@@ -204,7 +203,7 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           getSettingsMenu(context),
-          (!isList)
+          (!Global.priorityIsInListView)
               ? Expanded(
                   child: Container(
                     color: Colors.transparent,
@@ -232,19 +231,9 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
               : Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: PriorityExpandedList(isEdit),
+                    child: PriorityExpandedList(isEdit, true),
                   ),
                 ),
-          // Padding(
-          //     padding: const EdgeInsets.all(8.0),
-          //     child: PriorityExpandedList(isEdit),
-          //   ),
-
-          //Priority List
-          //PriorityExpandedList(priorities),
-
-          //Edit / Reorder List
-          //ReorderScreen(saveAndDelete),
         ],
       ),
     );
