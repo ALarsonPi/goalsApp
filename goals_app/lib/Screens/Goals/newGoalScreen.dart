@@ -60,8 +60,6 @@ class _NewGoalScreen extends State<NewGoalScreen> {
   }
 
   void navigateBack() {
-    debugPrint("Current Args Priority Index: ");
-    debugPrint(args.priorityIndex.toString());
     if (args.isComingFromPriority) {
       Navigator.pushNamed(context, IndividualPriority.routeName,
           arguments: IndividualPriorityArgumentScreen(args.priorityIndex));

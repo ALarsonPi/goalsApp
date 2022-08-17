@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:goals_app/Objects/Priority.dart';
@@ -28,6 +30,20 @@ class _RowExampleState extends State<RowExample> {
   @override
   void initState() {
     super.initState();
+  }
+
+  getImage(Priority priority) {
+    if (priority.imageUrl.toString().contains("http")) {
+      return Image.network(
+        priority.imageUrl,
+        fit: BoxFit.cover,
+      );
+    } else {
+      return Image.file(
+        File(priority.imageUrl),
+        fit: BoxFit.cover,
+      );
+    }
   }
 
   @override
@@ -76,8 +92,9 @@ class _RowExampleState extends State<RowExample> {
                                 alignment: const Alignment(-0.0, -0.0),
                                 widthFactor: 1.0,
                                 heightFactor: 1.0,
-                                child: Image.network(priority.imageUrl,
-                                    fit: BoxFit.cover),
+                                child: getImage(priority),
+                                // Image.network(priority.imageUrl,
+                                //     fit: BoxFit.cover),
                               ),
                             ),
                           ),
@@ -121,7 +138,7 @@ class _RowExampleState extends State<RowExample> {
                                       alignment: Alignment.topCenter,
                                       child: Text(
                                         "Priority ${Global.userPriorities.indexOf(priority) + 1}",
-                                        style: TextStyle(fontSize: 12),
+                                        style: const TextStyle(fontSize: 12),
                                       ),
                                     ),
                                   ),
@@ -144,8 +161,6 @@ class _RowExampleState extends State<RowExample> {
       setState(() {
         Priority currPriority = Global.userPriorities.removeAt(oldIndex);
         Global.userPriorities.insert(newIndex, currPriority);
-        debugPrint(newIndex.toString());
-        //widget.notifyParentOfLongHold(newIndex);
       });
     }
 
@@ -157,9 +172,9 @@ class _RowExampleState extends State<RowExample> {
           crossAxisSpacing: 1,
           mainAxisSpacing: 6,
           crossAxisCount: 2,
-          children: _columns,
           padding: EdgeInsets.zero,
           onReorder: _onReorder,
+          children: _columns,
         ),
       ),
     );

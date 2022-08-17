@@ -42,8 +42,6 @@ class _PriorityCarousel extends State<PriorityCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Initial Page");
-    debugPrint(widget.currentIndex.toString());
     List items = List.empty(growable: true);
 
     int index = 0;

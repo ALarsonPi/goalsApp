@@ -129,7 +129,8 @@ class _IndividualPriority extends State<IndividualPriority> {
                 IconButton(
                   onPressed: () => {
                     Global.userPriorities.removeAt(args.index),
-                    Navigator.pushNamed(context, '/'),
+                    Navigator.pushNamed(context, PriorityHomeScreen.routeName,
+                        arguments: PriorityHomeArguments(0)),
                   },
                   icon: const Icon(
                     Icons.delete,
@@ -222,6 +223,14 @@ class _IndividualPriority extends State<IndividualPriority> {
         : NormalPriorityWidget(args.index, true, buttons);
   }
 
+  goToNewGoalScreen() {
+    Navigator.pushNamed(
+      context,
+      NewGoalScreen.routeName,
+      arguments: NewGoalArguments(args.index, true),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Goal> currentPriorityGoals = Global.userPriorities[args.index].goals;
@@ -229,17 +238,11 @@ class _IndividualPriority extends State<IndividualPriority> {
     for (Goal goal in currentPriorityGoals) {
       currGoalsButtons.add(GoalButton(goal, true, args.index));
     }
-    //GoalButton(currentGoal, isGridMode)
-
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
           onPressed: () => {
-                Navigator.pushNamed(
-                  context,
-                  NewGoalScreen.routeName,
-                  arguments: NewGoalArguments(args.index, true),
-                ),
+                goToNewGoalScreen(),
               }),
       body: Column(
         children: [

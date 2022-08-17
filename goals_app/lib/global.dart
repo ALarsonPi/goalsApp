@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 import 'Objects/Priority.dart';
 import 'Objects/Goal.dart';
 
@@ -89,6 +91,48 @@ class Global {
   static bool priorityIsInListView = false;
   static int priorityLastOpen = -1;
 
+  static bool removeGoal(int currPriorityIndex, Goal goalToRemove) {
+    List<Goal> priorityGoals = userPriorities[currPriorityIndex].goals;
+    //If we find the goal is directly in the priority, remove it there
+    int index = 0;
+    for (Goal currGoal in priorityGoals) {
+      if (currGoal == goalToRemove) {
+        userPriorities[currPriorityIndex].goals.removeAt(index);
+        return true;
+      }
+      index++;
+    }
+
+    //if not, it's a child of another goal, and we need to find it in the tree
+    //If it's never found, return true so we just navegate back to the main priority
+    recursiveRemoveGoalHelper(
+        userPriorities[currPriorityIndex].goals, goalToRemove);
+    return !isFoundRecursively;
+  }
+
+  static bool isFoundRecursively = false;
+  static recursiveRemoveGoalHelper(List<Goal> goalsList, Goal goalToRemove) {
+    for (Goal currGoal in goalsList) {
+      if (currGoal.subGoals.isNotEmpty) {
+        int subGoalIndex = 0;
+        for (Goal subGoal in currGoal.subGoals) {
+          if (subGoal == goalToRemove) {
+            currGoal.subGoals.removeAt(subGoalIndex);
+            int currentGoalTarget = int.parse(currGoal.goalTarget);
+            if (currentGoalTarget != 1) {
+              currGoal.setGoalTarget((currentGoalTarget - 1).toString());
+            }
+            isFoundRecursively = true;
+            return true;
+          }
+          subGoalIndex++;
+        }
+        recursiveRemoveGoalHelper(currGoal.subGoals, goalToRemove);
+      }
+    }
+    return false;
+  }
+
   static getPriorities() {
     if (userPriorities.isEmpty) {
       List<Goal> priority1Goals = List.empty(growable: true);
@@ -106,6 +150,27 @@ class Global {
           "Probably in the morning is best for me, and at night as much as I can",
           "Kneeling at my bedside",
           false);
+      Goal exampleSubGoal1 = Goal(
+          "Make sure to ask blessings on friends and fam in prayers",
+          4,
+          "4",
+          "30",
+          "Praying is an act of faith and acting in faith brings miracles",
+          "Probably in the morning is best for me, and at night as much as I can",
+          "Kneeling at my bedside",
+          true);
+      Goal exampleSubGoal2 = Goal(
+          "Ask for things I need in life",
+          4,
+          "29",
+          "30",
+          "Praying is an act of faith and acting in faith brings miracles",
+          "Probably in the morning is best for me, and at night as much as I can",
+          "Kneeling at my bedside",
+          true);
+      exampleGoal.subGoals.add(exampleSubGoal1);
+      exampleGoal.subGoals.add(exampleSubGoal2);
+
       priority5Goals.add(exampleGoal);
 
       userPriorities.add(

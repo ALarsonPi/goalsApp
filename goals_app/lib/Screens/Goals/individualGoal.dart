@@ -95,21 +95,18 @@ class _IndividualGoal extends State<IndividualGoal> {
   }
 
   updateGoalGlobally(String newValue) {
-    if (!args.currGoal.isChildGoal) {
-      int currentGoalIndex = Global.userPriorities[args.currPriorityIndex].goals
-          .indexOf(args.currGoal);
-      Global.userPriorities[args.currPriorityIndex].goals[currentGoalIndex]
-          .goalProgress = newValue;
-    } else {
-      args.currGoal.goalProgress = newValue;
-    }
+    args.currGoal.goalProgress = newValue;
+  }
+
+  navigateHome() {
+    Navigator.pushNamed(context, PriorityHomeScreen.routeName,
+        arguments: PriorityHomeArguments(args.currPriorityIndex));
+    return;
   }
 
   navigateBackArrow() {
     if (args.comingFromListView) {
-      Navigator.pushNamed(context, PriorityHomeScreen.routeName,
-          arguments: PriorityHomeArguments(args.currPriorityIndex));
-      return;
+      navigateHome();
     }
     if (!args.currGoal.isChildGoal) {
       Navigator.pushNamed(context, IndividualPriority.routeName,
@@ -195,6 +192,7 @@ class _IndividualGoal extends State<IndividualGoal> {
 
   @override
   Widget build(BuildContext context) {
+    bool isInTopLevel;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
@@ -202,16 +200,96 @@ class _IndividualGoal extends State<IndividualGoal> {
                 checkIfAlertIsNeeded(),
               }),
       appBar: AppBar(
-        leading: IconButton(
-          icon: (!args.comingFromListView)
-              ? const Icon(Icons.arrow_back, color: Colors.white)
-              : const Icon(Icons.home),
-          onPressed: () => navigateBackArrow(),
-        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+            child:
+                GestureDetector(onTap: () => {}, child: const Icon(Icons.edit)),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, right: 24.0),
+            child: GestureDetector(
+              onTap: () => {
+                isInTopLevel =
+                    Global.removeGoal(args.currPriorityIndex, args.currGoal),
+                if (isInTopLevel)
+                  {
+                    Navigator.pushNamed(context, IndividualPriority.routeName,
+                        arguments: IndividualPriorityArgumentScreen(
+                            args.currPriorityIndex)),
+                  }
+                else
+                  {
+                    Global.depthStack.pop(),
+                    Navigator.pushNamed(context, IndividualGoal.routeName,
+                        arguments: IndividualGoalArguments(
+                            Global.depthStack.top,
+                            args.currPriorityIndex,
+                            false)),
+                  }
+              },
+              child: const Icon(Icons.delete, size: 22.0, color: Colors.white),
+            ),
+          ),
+        ],
+        titleSpacing: 0.0,
+
+        // leading: Row(
+        //   children: [
+        //     Visibility(
+        //       visible: !args.comingFromListView,
+        //       child: IconButton(
+        //         icon: (!args.comingFromListView)
+        //             ? const Icon(Icons.arrow_back, color: Colors.white)
+        //             : const Icon(Icons.home),
+        //         onPressed: () => navigateBackArrow(),
+        //       ),
+        //     ),
+        //     GestureDetector(
+        //         onTap: () => {
+        //               navigateHome(),
+        //             },
+        //         child: const Icon(Icons.home)),
+        //   ],
+        // ),
         centerTitle: true,
-        title: const Text(
-          "Goal",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+        automaticallyImplyLeading: false,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Visibility(
+              visible: !args.comingFromListView,
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () => navigateBackArrow(),
+              ),
+            ),
+            //before
+            Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: (args.comingFromListView)
+                      ? const EdgeInsets.only(left: 24.0, right: 48.0)
+                      : const EdgeInsets.only(left: 8.0, right: 24.0),
+                  child: GestureDetector(
+                    child: const Icon(Icons.home),
+                    onTap: () => navigateHome(),
+                  ),
+                ),
+              ],
+            ),
+            const Expanded(
+              child: Center(
+                child: Text(
+                  "Goal",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                ),
+              ),
+            ),
+            //after
+          ],
         ),
       ),
       body: CustomScrollView(

@@ -57,7 +57,7 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
         var getNewExpandedList = PriorityExpandedList(
           widget.isInEditMode,
           false,
-          currSubGoals: [...subGoal.subGoals],
+          currSubGoals: [subGoal],
         );
         contentToReturn.add(getNewExpandedList);
       } else {
@@ -65,12 +65,7 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
           ListTile(
               onTap: () => {
                     Global.priorityLastOpen = subGoal.currPriorityIndex,
-                    Navigator.pushNamed(
-                      context,
-                      IndividualGoal.routeName,
-                      arguments: IndividualGoalArguments(
-                          subGoal, subGoal.currPriorityIndex, true),
-                    ),
+                    navigateToGoal(subGoal),
                   },
               title: Text(
                 "Goal: ${subGoal.name}",
@@ -83,7 +78,20 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
     return contentToReturn;
   }
 
-  getCircleIconWidget(BuildContext context, Widget child, Color borderColor) {
+  navigateToGoal(Goal goalToNavTo) {
+    Navigator.pushNamed(
+      context,
+      IndividualGoal.routeName,
+      arguments: IndividualGoalArguments(
+        goalToNavTo,
+        goalToNavTo.currPriorityIndex,
+        true,
+      ),
+    );
+  }
+
+  getCircleIconWidget(
+      BuildContext context, Widget child, Color borderColor, priorityOrGoal) {
     return (widget.isPriority)
         ? Padding(
             padding: const EdgeInsets.only(right: 6.0),
@@ -103,7 +111,13 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
               child: child,
             ),
           )
-        : const Text("HI");
+        : GestureDetector(
+            onTap: () {
+              if (priorityOrGoal is Goal) {
+                navigateToGoal(priorityOrGoal);
+              }
+            },
+            child: const Icon(Icons.web_rounded));
   }
 
   Widget _proxyDecorator(Widget child, int index, Animation<double> animation) {
@@ -153,11 +167,13 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
     } else {
       listToUse = Global.userPriorities;
     }
+
     return ReorderableListView.builder(
       shrinkWrap: true,
       proxyDecorator: _proxyDecorator,
       itemBuilder: (BuildContext context, int index) {
         return Card(
+          elevation: (!widget.isPriority) ? 0 : 2,
           key: ValueKey(listToUse![index]),
           child: ExpansionTile(
             initiallyExpanded: (mounted && isExpanded[index]),
@@ -180,6 +196,7 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
               Colors.white,
               //getCurrentColorText(index),
               //Theme.of(context).colorScheme.primary,
+              listToUse[index],
             ),
             onExpansionChanged: (bool expanding) => {
               setState(() {

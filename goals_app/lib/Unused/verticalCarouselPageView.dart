@@ -23,7 +23,6 @@ class _VerticalCarouselPageView extends State<VerticalCarouselPageView> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint(widget.imageCarousels.length.toString());
     return Column(
       children: [
         const Text(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:goals_app/Objects/Goal.dart';
 import 'package:goals_app/Objects/IconsEnum.dart';
+import 'package:goals_app/Widgets/Priorities/noGoalsPrompt.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -48,7 +49,10 @@ class _NormalPriorityWidget extends State<NormalPriorityWidget> {
     });
   }
 
-  getCurrentListGridView() {
+  getButtons() {
+    if (myGoalButtons.isEmpty) {
+      return NoGoalsPrompt();
+    }
     var physicsType = (widget.isPriority)
         ? const AlwaysScrollableScrollPhysics()
         : const NeverScrollableScrollPhysics();
@@ -105,7 +109,7 @@ class _NormalPriorityWidget extends State<NormalPriorityWidget> {
             padding: EdgeInsets.only(left: 24.0, right: 24.0),
             child: Divider(thickness: 1, color: Colors.grey),
           ),
-        if (widget.isPriority ||
+        if (widget.goals!.isNotEmpty && widget.isPriority ||
             (!widget.isPriority &&
                 widget.currGoal.subGoals.length == numSubGoalsCompleted))
           SizedBox(
@@ -114,7 +118,7 @@ class _NormalPriorityWidget extends State<NormalPriorityWidget> {
                 GridListIconRow(setGoalButtonSize, IconsEnum.priorityButtons),
           ),
         Expanded(
-          child: getCurrentListGridView(),
+          child: getButtons(),
         ),
       ],
     );
