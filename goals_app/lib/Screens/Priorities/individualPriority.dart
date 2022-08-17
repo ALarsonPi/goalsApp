@@ -220,7 +220,7 @@ class _IndividualPriority extends State<IndividualPriority> {
     return (shouldEdit)
         ? EditPriorityWidget(args.index, _inProcess, changeImage,
             saveTitleTextChanges, getImage, buttons)
-        : NormalPriorityWidget(args.index, true, buttons);
+        : NormalPriorityWidget(args.index, true, buttons, false);
   }
 
   goToNewGoalScreen() {
@@ -236,7 +236,7 @@ class _IndividualPriority extends State<IndividualPriority> {
     List<Goal> currentPriorityGoals = Global.userPriorities[args.index].goals;
     List<GoalButton> currGoalsButtons = List.empty(growable: true);
     for (Goal goal in currentPriorityGoals) {
-      currGoalsButtons.add(GoalButton(goal, true, args.index));
+      currGoalsButtons.add(GoalButton(goal, true, args.index, false));
     }
     return Scaffold(
       floatingActionButton: FloatingActionButton(

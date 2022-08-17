@@ -6,6 +6,7 @@ import 'package:goals_app/Screens/Goals/newGoalScreen.dart';
 import 'package:goals_app/Screens/Goals/newPriority.dart';
 import 'package:goals_app/Screens/Priorities/individualPriority.dart';
 import 'package:goals_app/Screens/browseImages.dart';
+import 'package:goals_app/Screens/optionsScreen.dart';
 import 'package:goals_app/Screens/splashScreen.dart';
 import 'package:goals_app/Unused/editPriority.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/editPriotitiesArguments.dart';
@@ -37,7 +38,9 @@ class AppRouter extends StatelessWidget {
             ),
         initialRoute: '/',
         routes: {
+          //Global
           '/': (context) => SplashScreen(),
+          OptionsScreen.routeName: ((context) => OptionsScreen()),
 
           //Priorities
           '/new-priority': (context) => NewPriorityScreen(),

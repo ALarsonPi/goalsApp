@@ -20,7 +20,8 @@ class _GoalsList extends State<GoalsList> {
   @override
   void initState() {
     for (var goal in widget.goals) {
-      myGoalButtons.add(GoalButton(goal, false, widget.currentPriorityIndex));
+      myGoalButtons
+          .add(GoalButton(goal, false, widget.currentPriorityIndex, false));
     }
     super.initState();
   }

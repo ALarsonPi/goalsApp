@@ -10,7 +10,9 @@ class GoalButton extends StatelessWidget {
   Goal currentGoal;
   bool isGridMode;
   int currPriorityIndex;
+  bool isComingFromListView;
   GoalButton(this.currentGoal, this.isGridMode, this.currPriorityIndex,
+      this.isComingFromListView,
       {Key? key})
       : super(key: key);
 
@@ -64,11 +66,12 @@ class GoalButton extends StatelessWidget {
 
   goToIndividualGoalScreen(context) {
     Global.depthStack.push(currentGoal);
+    debugPrint(isComingFromListView.toString());
     Navigator.pushNamed(context, IndividualGoal.routeName,
         arguments: IndividualGoalArguments(
           currentGoal,
           currPriorityIndex,
-          false,
+          isComingFromListView,
         ));
   }
 

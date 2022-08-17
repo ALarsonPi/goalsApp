@@ -15,9 +15,11 @@ import 'gridListIconRow.dart';
 class NormalPriorityWidget extends StatefulWidget {
   int currentPriorityIndex;
   bool isPriority;
+  bool isComingFromListView;
   late Goal currGoal;
   List<Goal>? goals;
   NormalPriorityWidget(this.currentPriorityIndex, this.isPriority, this.goals,
+      this.isComingFromListView,
       {Goal? currentGoal, Key? key})
       : super(key: key) {
     if (currentGoal != null) {
@@ -51,7 +53,7 @@ class _NormalPriorityWidget extends State<NormalPriorityWidget> {
 
   getButtons() {
     if (myGoalButtons.isEmpty) {
-      return NoGoalsPrompt();
+      return NoGoalsPrompt(0);
     }
     var physicsType = (widget.isPriority)
         ? const AlwaysScrollableScrollPhysics()
@@ -86,8 +88,15 @@ class _NormalPriorityWidget extends State<NormalPriorityWidget> {
         if (currGoalThing!.goalProgress == currGoalThing.goalTarget) {
           numSubGoalsCompleted++;
         }
-        myGoalButtons.add(GoalButton(currGoalThing!,
-            Global.goalButtonsInGridView, widget.currentPriorityIndex));
+        myGoalButtons.add(
+          GoalButton(
+            currGoalThing,
+            Global.goalButtonsInGridView,
+            widget.currentPriorityIndex,
+            false,
+            //widget.isComingFromListView
+          ),
+        );
       }
     }
 

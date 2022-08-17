@@ -116,15 +116,16 @@ class _IndividualGoal extends State<IndividualGoal> {
       Goal currParentGoal = Global.depthStack.top;
       Navigator.pushNamed(context, IndividualGoal.routeName,
           arguments: IndividualGoalArguments(
-              currParentGoal, args.currPriorityIndex, false));
+              currParentGoal, args.currPriorityIndex, args.comingFromListView));
     }
   }
 
   List getSubgoalsButtons() {
     List<GoalButton> currGoalsButtons = List.empty(growable: true);
     for (Goal goal in args.currGoal.subGoals) {
-      currGoalsButtons.add(GoalButton(
-          goal, Global.goalButtonsInGridView, args.currPriorityIndex));
+      debugPrint(args.comingFromListView.toString());
+      currGoalsButtons.add(GoalButton(goal, Global.goalButtonsInGridView,
+          args.currPriorityIndex, args.comingFromListView));
     }
     return currGoalsButtons;
   }
@@ -192,6 +193,7 @@ class _IndividualGoal extends State<IndividualGoal> {
 
   @override
   Widget build(BuildContext context) {
+    args.setComingFromListView(false);
     bool isInTopLevel;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -221,11 +223,12 @@ class _IndividualGoal extends State<IndividualGoal> {
                 else
                   {
                     Global.depthStack.pop(),
-                    Navigator.pushNamed(context, IndividualGoal.routeName,
-                        arguments: IndividualGoalArguments(
-                            Global.depthStack.top,
-                            args.currPriorityIndex,
-                            false)),
+                    Navigator.pushNamed(
+                      context,
+                      IndividualGoal.routeName,
+                      arguments: IndividualGoalArguments(Global.depthStack.top,
+                          args.currPriorityIndex, args.comingFromListView),
+                    ),
                   }
               },
               child: const Icon(Icons.delete, size: 22.0, color: Colors.white),
@@ -363,6 +366,7 @@ class _IndividualGoal extends State<IndividualGoal> {
                       false,
                       args.currGoal.subGoals,
                       currentGoal: args.currGoal,
+                      args.comingFromListView,
                     ),
                   ),
                 ],

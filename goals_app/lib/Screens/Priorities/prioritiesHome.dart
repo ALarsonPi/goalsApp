@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:goals_app/Screens/ArgumentPassThroughScreens/settingsScreenArguements.dart';
 import 'package:goals_app/Screens/Priorities/rowExample.dart';
+import 'package:goals_app/Screens/optionsScreen.dart';
+import 'package:goals_app/Widgets/Priorities/noGoalsPrompt.dart';
 import 'package:goals_app/Widgets/Priorities/priorityCard.dart';
 import 'package:reorderable_carousel/reorderable_carousel.dart';
 import 'package:toast/toast.dart';
@@ -129,11 +132,30 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
     );
   }
 
+  getAddNewIcon() {
+    return IconButton(
+      padding: const EdgeInsets.only(right: 8.0),
+      constraints: const BoxConstraints(),
+      onPressed: () => {
+        Navigator.pushNamed(context, '/new-priority'),
+      },
+      icon: const Icon(
+        Icons.add,
+        color: Colors.white,
+        size: 25,
+        //color: (isEdit) ? Colors.black87 : Colors.white,
+      ),
+    );
+  }
+
   getSettingsIcon() {
     return IconButton(
       padding: const EdgeInsets.only(right: 12.0),
       constraints: const BoxConstraints(),
-      onPressed: () => {},
+      onPressed: () => {
+        Navigator.pushNamed(context, OptionsScreen.routeName,
+            arguments: SettingsScreenArguements(args.currentIndex)),
+      },
       icon: const Icon(Icons.settings, size: 22.0),
     );
   }
@@ -192,50 +214,56 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
         actions: [
           Row(
             children: [
-              getInfoIcon(),
+              //getInfoIcon(),
+              getAddNewIcon(),
               getSettingsIcon(),
             ],
           ),
         ],
         automaticallyImplyLeading: false,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          getSettingsMenu(context),
-          (!Global.priorityIsInListView)
-              ? Expanded(
-                  child: Container(
-                    color: Colors.transparent,
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 0.0),
-                          child: SizedBox(
-                            height: (!isBeingLongHeld)
-                                ? MediaQuery.of(context).size.height * 0.6
-                                : MediaQuery.of(context).size.height * 0.7,
-                            child: (!isBeingLongHeld)
-                                ? PriorityCarousel(
-                                    currentDisplayIndex,
-                                    getNotificationFromChildOfSlideChange,
-                                    changeLongHoldStatus)
-                                : RowExample(
-                                    changeLongHoldStatusAndGoToSlideAt),
+      body: (Global.userPriorities.isNotEmpty)
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                getSettingsMenu(context),
+                (!Global.priorityIsInListView)
+                    ? Expanded(
+                        child: Container(
+                          color: Colors.transparent,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 0.0),
+                                child: SizedBox(
+                                  height: (!isBeingLongHeld)
+                                      ? MediaQuery.of(context).size.height * 0.6
+                                      : MediaQuery.of(context).size.height *
+                                          0.7,
+                                  child: (!isBeingLongHeld)
+                                      ? PriorityCarousel(
+                                          currentDisplayIndex,
+                                          getNotificationFromChildOfSlideChange,
+                                          changeLongHoldStatus)
+                                      : RowExample(
+                                          changeLongHoldStatusAndGoToSlideAt),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                )
-              : Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: PriorityExpandedList(isEdit, true),
-                  ),
-                ),
-        ],
-      ),
+                      )
+                    : Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: PriorityExpandedList(isEdit, true),
+                        ),
+                      ),
+              ],
+            )
+          : Center(
+              child: NoGoalsPrompt(1),
+            ),
     );
   }
 
