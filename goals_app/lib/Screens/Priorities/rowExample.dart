@@ -48,6 +48,20 @@ class _RowExampleState extends State<RowExample> {
 
   @override
   Widget build(BuildContext context) {
+    double paddingMultiplier = 0.1;
+    double sizeOfCardMultiplier = 0.03;
+    if (MediaQuery.of(context).size.height > 1500) {
+      paddingMultiplier = 0.002;
+    } else if (MediaQuery.of(context).size.height > 1000) {
+      paddingMultiplier = 0.005;
+    } else if (MediaQuery.of(context).size.height > 750) {
+      paddingMultiplier = 0.215;
+      sizeOfCardMultiplier = 0.01;
+    } else if (MediaQuery.of(context).size.height > 500) {
+      paddingMultiplier = 0.25;
+      sizeOfCardMultiplier = 0.03;
+    }
+
     double _height = 150;
     double _width = MediaQuery.of(context).size.width * 0.5;
     _columns = <Widget>[
@@ -64,8 +78,7 @@ class _RowExampleState extends State<RowExample> {
           key: ValueKey(priority.name),
           child: Padding(
             padding: EdgeInsets.only(
-              //top: MediaQuery.of(context).size.height * 0.06,
-              bottom: MediaQuery.of(context).size.height * 0.06,
+              bottom: MediaQuery.of(context).size.height * 0.05,
             ),
             child: FittedBox(
               fit: BoxFit.cover,
@@ -73,14 +86,14 @@ class _RowExampleState extends State<RowExample> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0.08,
+                        top: MediaQuery.of(context).size.height * 0.05,
                         left: 8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
                           height: _height -
-                              MediaQuery.of(context).size.height * 0.07,
+                              MediaQuery.of(context).size.height * 0.03,
                           width: _width,
                           child: FittedBox(
                             fit: BoxFit.fill,
@@ -104,7 +117,8 @@ class _RowExampleState extends State<RowExample> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.27,
+                      top: MediaQuery.of(context).size.height *
+                          paddingMultiplier,
                       left: 3,
                     ),
                     child: Row(
@@ -112,7 +126,8 @@ class _RowExampleState extends State<RowExample> {
                       children: [
                         SizedBox(
                           height: _height / 2 -
-                              (MediaQuery.of(context).size.height * 0.04),
+                              (MediaQuery.of(context).size.height *
+                                  sizeOfCardMultiplier),
                           width: _width + 10,
                           child: ClipRRect(
                             borderRadius: const BorderRadius.only(

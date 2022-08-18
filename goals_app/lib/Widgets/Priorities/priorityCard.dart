@@ -31,6 +31,17 @@ class PriorityCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenSizeMultiplier = 0.15;
+    if (MediaQuery.of(context).size.height > 1500) {
+      screenSizeMultiplier = 0.20;
+    } else if (MediaQuery.of(context).size.height > 1000) {
+      screenSizeMultiplier = 0.24;
+    } else if (MediaQuery.of(context).size.height > 750) {
+      screenSizeMultiplier = 0.295;
+    } else if (MediaQuery.of(context).size.height > 500) {
+      screenSizeMultiplier = 0.38;
+    }
+
     Widget currentImage = getImageWidget();
     return GestureDetector(
       onLongPress: () => {
@@ -56,7 +67,7 @@ class PriorityCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 16.0),
                   child: SizedBox(
-                    height: _boxHeight * (heightMultiplier - 0.3),
+                    height: _boxHeight * (heightMultiplier - 0.20),
                     width: MediaQuery.of(context).size.width *
                         (0.8 - (1 - widthMultiplier)),
                     child: FittedBox(
@@ -82,7 +93,8 @@ class PriorityCard extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * 0.38) *
+                          top: MediaQuery.of(context).size.height *
+                              screenSizeMultiplier) *
                       heightMultiplier,
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width *

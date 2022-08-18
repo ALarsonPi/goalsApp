@@ -4,6 +4,7 @@ import 'package:goals_app/Screens/Priorities/rowExample.dart';
 import 'package:goals_app/Screens/optionsScreen.dart';
 import 'package:goals_app/Widgets/Priorities/noGoalsPrompt.dart';
 import 'package:goals_app/Widgets/Priorities/priorityCard.dart';
+import 'package:goals_app/Unused/randomMotivation.dart';
 import 'package:reorderable_carousel/reorderable_carousel.dart';
 import 'package:toast/toast.dart';
 import 'package:goals_app/Objects/IconsEnum.dart';
@@ -160,7 +161,7 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
     );
   }
 
-  getSettingsMenu(BuildContext context) {
+  Widget getSettingsMenu(BuildContext context) {
     return
         // (areSettingsOpen)
         //     ?
@@ -198,13 +199,17 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
   }
 
   Widget getCurrentWidgetContent(int currentDisplayIndex) {
+    double paddingMultiplier = 0.1;
+    if (MediaQuery.of(context).size.height > 1500) {
+      paddingMultiplier = 0.4;
+    } else if (MediaQuery.of(context).size.height > 1000) {
+      paddingMultiplier = 0.3;
+    } else if (MediaQuery.of(context).size.height > 750) {
+      paddingMultiplier = 0.18;
+    } else if (MediaQuery.of(context).size.height > 500) {
+      paddingMultiplier = 0.05;
+    }
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          onPressed: () => {
-                Navigator.pushNamed(context, '/new-priority'),
-              },
-          foregroundColor: Colors.white,
-          child: const Icon(Icons.add)),
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
@@ -223,43 +228,61 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
         automaticallyImplyLeading: false,
       ),
       body: (Global.userPriorities.isNotEmpty)
-          ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                getSettingsMenu(context),
-                (!Global.priorityIsInListView)
-                    ? Expanded(
-                        child: Container(
-                          color: Colors.transparent,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 0.0),
-                                child: SizedBox(
-                                  height: (!isBeingLongHeld)
-                                      ? MediaQuery.of(context).size.height * 0.6
-                                      : MediaQuery.of(context).size.height *
-                                          0.7,
-                                  child: (!isBeingLongHeld)
-                                      ? PriorityCarousel(
-                                          currentDisplayIndex,
-                                          getNotificationFromChildOfSlideChange,
-                                          changeLongHoldStatus)
-                                      : RowExample(
-                                          changeLongHoldStatusAndGoToSlideAt),
-                                ),
+          ? Padding(
+              padding: const EdgeInsets.only(top: 0.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                        bottom:
+                            (!Global.priorityIsInListView && !isBeingLongHeld)
+                                ? MediaQuery.of(context).size.height *
+                                    paddingMultiplier
+                                : 0.0),
+                    child: Column(
+                      children: [
+                        getSettingsMenu(context),
+                      ],
+                    ),
+                  ),
+                  (!Global.priorityIsInListView)
+                      ? Column(
+                          children: [
+                            Container(
+                              color: Colors.transparent,
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 0.0),
+                                    child: SizedBox(
+                                      height: (!isBeingLongHeld)
+                                          ? MediaQuery.of(context).size.height *
+                                              0.6
+                                          : MediaQuery.of(context).size.height *
+                                              0.7,
+                                      child: (!isBeingLongHeld)
+                                          ? PriorityCarousel(
+                                              currentDisplayIndex,
+                                              getNotificationFromChildOfSlideChange,
+                                              changeLongHoldStatus)
+                                          : RowExample(
+                                              changeLongHoldStatusAndGoToSlideAt),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
+                          ],
+                        )
+                      : Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: PriorityExpandedList(isEdit, true),
                           ),
                         ),
-                      )
-                    : Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: PriorityExpandedList(isEdit, true),
-                        ),
-                      ),
-              ],
+                ],
+              ),
             )
           : Center(
               child: NoGoalsPrompt(1),
