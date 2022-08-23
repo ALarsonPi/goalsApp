@@ -31,11 +31,11 @@ class _ReorderCarousel extends State<ReorderCarousel> {
       //   });
       // },
       itemBuilder: (boxSize, index, isSelected) {
-        return PriorityCard(boxSize, 1.0, 1.0,
+        return PriorityCard(
             Global.userPriorities[index].name, index, "sup", defaultFunction);
       },
       draggedItemBuilder: (itemWidth, index) {
-        return PriorityCard(itemWidth, 1.0, 1.0,
+        return PriorityCard(
             Global.userPriorities[index].name, index, "sup", defaultFunction);
       },
       onReorder: (oldIndex, newIndex) {

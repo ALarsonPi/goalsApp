@@ -61,7 +61,7 @@ class _PriorityCarouselWithReorder extends State<PriorityCarouselWithReorder> {
       double cardHeight = (!widget.isEditMode) ? 300 : 200;
       items.add(
         (!widget.isEditMode)
-            ? PriorityCard(cardHeight, heightMultiplier, widthMultiplier,
+            ? PriorityCard(
                 priority.imageUrl, index, priority.name, defaultFunction)
             : Card(
                 child: PriorityCardWithReorder(

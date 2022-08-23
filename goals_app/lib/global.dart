@@ -148,7 +148,6 @@ class Global {
           "30",
           "Praying is an act of faith and acting in faith brings miracles",
           "Probably in the morning is best for me, and at night as much as I can",
-          "Kneeling at my bedside",
           false);
       Goal exampleSubGoal1 = Goal(
           "Make sure to ask blessings on friends and fam in prayers",
@@ -157,7 +156,6 @@ class Global {
           "30",
           "Praying is an act of faith and acting in faith brings miracles",
           "Probably in the morning is best for me, and at night as much as I can",
-          "Kneeling at my bedside",
           true);
       Goal exampleSubGoal2 = Goal(
           "Ask for things I need in life",
@@ -166,7 +164,6 @@ class Global {
           "30",
           "Praying is an act of faith and acting in faith brings miracles",
           "Probably in the morning is best for me, and at night as much as I can",
-          "Kneeling at my bedside",
           true);
       exampleGoal.subGoals.add(exampleSubGoal1);
       exampleGoal.subGoals.add(exampleSubGoal2);

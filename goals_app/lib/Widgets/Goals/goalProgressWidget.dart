@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../Objects/Goal.dart';
 import '../../Objects/IconsEnum.dart';
 import '../../global.dart';
@@ -8,10 +9,20 @@ class GoalProgressWidget extends StatefulWidget {
   String currentAmount;
   String goalAmount;
   Function updateGoal;
+  Function updateGoalTarget;
   Function changeButtonSize;
   Goal currGoal;
-  GoalProgressWidget(this.currentAmount, this.goalAmount, this.updateGoal,
-      this.changeButtonSize, this.currGoal);
+  bool isInEditMode;
+  GoalProgressWidget(
+      this.currentAmount,
+      this.goalAmount,
+      this.updateGoal,
+      this.changeButtonSize,
+      this.currGoal,
+      this.isInEditMode,
+      this.updateGoalTarget,
+      {Key? key})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -24,9 +35,16 @@ class _GoalProgressWidget extends State<GoalProgressWidget> {
   bool hasSubGoals = false;
   int numSubGoalsComplete = 0;
 
+  String currentProgressString = "";
+  String currentTargetString = "";
+
+  final _controllerCurrent = TextEditingController();
+  final TextEditingController _controllerGoal = TextEditingController();
+
   @override
   void initState() {
-    currentProgress = int.parse(widget.currentAmount);
+    currentProgressString = widget.currentAmount;
+    currentTargetString = widget.goalAmount;
     hasSubGoals = widget.currGoal.subGoals.isNotEmpty;
 
     //if we have subgoals, check them and count how many completed
@@ -60,12 +78,14 @@ class _GoalProgressWidget extends State<GoalProgressWidget> {
 
   @override
   Widget build(BuildContext context) {
+    currentProgress = int.parse(currentProgressString);
+
     String currentNumToDisplay = (hasSubGoals)
         ? numSubGoalsComplete.toString()
         : currentProgress.toString();
     String goalNumToDisplay = (hasSubGoals)
         ? widget.currGoal.subGoals.length.toString()
-        : widget.goalAmount.toString();
+        : currentTargetString.toString();
 
     if (hasSubGoals) {
       widget.currGoal.goalProgress = currentNumToDisplay;
@@ -85,13 +105,74 @@ class _GoalProgressWidget extends State<GoalProgressWidget> {
                 style:
                     const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
-              subtitle: Text(
-                "Current: $currentNumToDisplay\nGoal: $goalNumToDisplay",
-              ),
+              subtitle: (!widget.isInEditMode)
+                  ? Text(
+                      "Current: $currentNumToDisplay\nGoal: $goalNumToDisplay",
+                    )
+                  : Column(
+                      children: [
+                        TextField(
+                          onChanged: (currValue) => {
+                            if (currValue == "")
+                              {
+                                widget.updateGoal(widget.currentAmount),
+                                currentProgressString = widget.currentAmount,
+                              }
+                            else
+                              {
+                                widget.updateGoal(currValue),
+                                currentProgressString = currValue,
+                              }
+                          },
+                          controller: _controllerCurrent,
+                          decoration: InputDecoration(
+                            hintText: "Current: ${widget.currentAmount}",
+                            hintStyle:
+                                const TextStyle(fontStyle: FontStyle.italic),
+                          ),
+                          minLines: 1,
+                          maxLines: 1,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'^[0-9][0-9]*')),
+                          ], // Only numbers can be entered),
+                          maxLengthEnforcement: MaxLengthEnforcement.none,
+                        ),
+                        TextField(
+                          onChanged: (currValue) => {
+                            if (currValue == "")
+                              {
+                                widget.updateGoalTarget(widget.goalAmount),
+                                currentTargetString = widget.goalAmount,
+                              }
+                            else
+                              {
+                                widget.updateGoalTarget(currValue),
+                                currentTargetString = currValue,
+                              }
+                          },
+                          controller: _controllerGoal,
+                          decoration: InputDecoration(
+                            hintText: "Goal: ${widget.goalAmount}",
+                            hintStyle:
+                                const TextStyle(fontStyle: FontStyle.italic),
+                          ),
+                          minLines: 1,
+                          maxLines: 1,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ], // Only numbers can be entered),
+                        ),
+                      ],
+                    ),
             ),
           ),
           Visibility(
-            visible: hasSubGoals &&
+            visible: !widget.isInEditMode &&
+                hasSubGoals &&
                 numSubGoalsComplete != widget.currGoal.subGoals.length,
             child: SizedBox(
               height: 30,
@@ -100,7 +181,7 @@ class _GoalProgressWidget extends State<GoalProgressWidget> {
                   GridListIconRow(setGoalButtonSize, IconsEnum.priorityButtons),
             ),
           ),
-          if (!hasSubGoals)
+          if (!hasSubGoals && !widget.isInEditMode)
             Padding(
               padding: const EdgeInsets.only(
                   top: 8.0, left: 12.0, right: 12.0, bottom: 8.0),
@@ -115,6 +196,8 @@ class _GoalProgressWidget extends State<GoalProgressWidget> {
                             onPressed: () => {
                               setState(() {
                                 currentProgress++;
+                                currentProgressString =
+                                    currentProgress.toString();
                                 widget.updateGoal(currentProgress.toString());
                               }),
                             },

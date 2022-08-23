@@ -42,7 +42,7 @@ class _NewGoalScreen extends State<NewGoalScreen> {
   @override
   void initState() {
     _formKey = GlobalKey<FormBuilderState>();
-    newGoal = Goal("null", 0, "null", "null", null, null, null, false);
+    newGoal = Goal("null", 0, "null", "null", null, null, false);
     super.initState();
   }
 

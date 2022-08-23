@@ -47,7 +47,7 @@ class _PriorityCarousel extends State<PriorityCarousel> {
     int index = 0;
     for (Priority priority in Global.userPriorities) {
       items.add(
-        PriorityCard(300, 1.0, 0.9, priority.imageUrl, index, priority.name,
+        PriorityCard(priority.imageUrl, index, priority.name,
             widget.notifyParentOfLongHold),
       );
       index++;
@@ -69,8 +69,8 @@ class _PriorityCarousel extends State<PriorityCarousel> {
             },
             enlargeCenterPage: true,
             autoPlay: false,
-            aspectRatio: 12 / 9,
-            height: 300,
+            aspectRatio: 10.5 / 9,
+            //height: 275,
             enableInfiniteScroll: false,
             viewportFraction: 0.75,
             initialPage: widget.currentIndex,
@@ -85,14 +85,6 @@ class _PriorityCarousel extends State<PriorityCarousel> {
           dotColor: Colors.black45,
           selectedDotColor: Colors.black26,
         ),
-        // AnimatedSmoothIndicator(
-        //   activeIndex: currentPage,
-        //   count: imageUrlList.length,
-        //   effect: const ScrollingDotsEffect(
-        //       activeDotColor: Color.fromRGBO(0, 0, 0, 0.9),
-        //       dotWidth: 8,
-        //       dotHeight: 8),
-        // ),
       ],
     );
   }

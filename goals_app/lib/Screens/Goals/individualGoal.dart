@@ -8,6 +8,7 @@ import 'package:goals_app/Screens/Priorities/prioritiesHome.dart';
 import 'package:goals_app/Widgets/Goals/goalProgressWidget.dart';
 import 'package:goals_app/Widgets/Priorities/normalPriorityWidget.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:intl/intl.dart';
 
 import '../../Objects/Goal.dart';
 import '../../Widgets/Goals/goalButton.dart';
@@ -32,14 +33,41 @@ class _IndividualGoal extends State<IndividualGoal> {
   List<GoalDisplayItem> attributesToDisplayForThisGoal =
       List.empty(growable: true);
 
+  late String originalName;
   late GoalDisplayItem finishByDate;
   late GoalDisplayItem why;
   late GoalDisplayItem when;
   late GoalDisplayItem where;
 
+  bool isInEditMode = false;
+  int newCurrentAmount = -1;
+  int newGoalAmount = -1;
+  String newWhy = "";
+  String newWhen = "";
+  String newWhere = "";
+
   @override
   void initState() {
     super.initState();
+  }
+
+  DateTime? currentDate =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+  DateTime todaysDate =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+
+  showFlutterDatePicker() async {
+    DateTime? newDate = await showDatePicker(
+      context: context,
+      initialDate: todaysDate,
+      firstDate: todaysDate,
+      lastDate: DateTime(2100),
+    );
+    setState(() {
+      currentDate = newDate;
+      currentDate ??= todaysDate;
+      args.currGoal.completeByDate = DateFormat.yMMMEd().format(currentDate!);
+    });
   }
 
   List fillListViewWithOptionalFields() {
@@ -55,13 +83,8 @@ class _IndividualGoal extends State<IndividualGoal> {
     );
     when = GoalDisplayItem(
       const Icon(Icons.watch),
-      'When',
+      'When/Where',
       args.currGoal.whenToComplete ?? "null",
-    );
-    where = GoalDisplayItem(
-      const Icon(Icons.where_to_vote_outlined),
-      'Where',
-      args.currGoal.whereToComplete ?? "null",
     );
 
     attributesToDisplayForThisGoal.clear();
@@ -74,28 +97,91 @@ class _IndividualGoal extends State<IndividualGoal> {
     if (when.content != "null") {
       attributesToDisplayForThisGoal.add(when);
     }
-    if (where.content != "null") {
-      attributesToDisplayForThisGoal.add(where);
-    }
 
     List<ListTile> thingsToAdd = List.empty(growable: true);
     for (int i = 0; i < attributesToDisplayForThisGoal.length; i++) {
       thingsToAdd.add(ListTile(
         leading: attributesToDisplayForThisGoal[i].icon,
-        title: Text(attributesToDisplayForThisGoal[i].title,
+        title: Text(
+            (attributesToDisplayForThisGoal[i].title == "Remember..." &&
+                    isInEditMode)
+                ? "Why"
+                : attributesToDisplayForThisGoal[i].title,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24)),
-        subtitle: Text(
-          attributesToDisplayForThisGoal[i].content,
-          // style: const TextStyle(
-          //     fontWeight: FontWeight.normal, fontSize: 16),
-        ),
+        subtitle: (attributesToDisplayForThisGoal[i].title ==
+                    "Trying to finish by: " &&
+                isInEditMode)
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ElevatedButton(
+                      onPressed: () => {
+                            showFlutterDatePicker(),
+                            // setState(() {
+                            //   if (showFlutterDatePicker() != null) {
+                            //     currentDate = showFlutterDatePicker();
+                            //   }
+                            // }),
+                          },
+                      child: const Text("Select Date")),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12.0),
+                    child: Text(DateFormat.yMMMEd().format(currentDate!),
+                        style: const TextStyle(fontStyle: FontStyle.italic)),
+                  ),
+                ],
+              )
+            : (!isInEditMode)
+                ? Text(
+                    attributesToDisplayForThisGoal[i].content,
+                    // style: const TextStyle(
+                    //     fontWeight: FontWeight.normal, fontSize: 16),
+                  )
+                : TextField(
+                    onChanged: (currValue) => {
+                      setState(() {
+                        if (currValue != "") {
+                          if (attributesToDisplayForThisGoal[i].title ==
+                              "Remember...") {
+                            args.currGoal.whyToComplete = currValue;
+                          } else if (attributesToDisplayForThisGoal[i].title ==
+                              "When/Where") {
+                            args.currGoal.whenToComplete = currValue;
+                          }
+                        } else {
+                          if (attributesToDisplayForThisGoal[i].title ==
+                              "Remember...") {
+                            args.currGoal.whyToComplete = originalName;
+                          } else if (attributesToDisplayForThisGoal[i].title ==
+                              "When/Where") {
+                            args.currGoal.whenToComplete = originalName;
+                          }
+                        }
+                      }),
+                    },
+                    decoration: InputDecoration(
+                      hintText: attributesToDisplayForThisGoal[i].content,
+                      hintStyle: const TextStyle(fontStyle: FontStyle.italic),
+                    ),
+                    minLines: 1,
+                    maxLines: 3,
+                    keyboardType: TextInputType.number,
+                  ),
       ));
     }
     return thingsToAdd;
   }
 
   updateGoalGlobally(String newValue) {
-    args.currGoal.goalProgress = newValue;
+    setState(() {
+      args.currGoal.goalProgress = newValue;
+    });
+  }
+
+  updateGoalTargetGlobally(String newValue) {
+    setState(() {
+      args.currGoal.goalTarget = newValue;
+    });
   }
 
   navigateHome() {
@@ -123,7 +209,6 @@ class _IndividualGoal extends State<IndividualGoal> {
   List getSubgoalsButtons() {
     List<GoalButton> currGoalsButtons = List.empty(growable: true);
     for (Goal goal in args.currGoal.subGoals) {
-      debugPrint(args.comingFromListView.toString());
       currGoalsButtons.add(GoalButton(goal, Global.goalButtonsInGridView,
           args.currPriorityIndex, args.comingFromListView));
     }
@@ -192,6 +277,12 @@ class _IndividualGoal extends State<IndividualGoal> {
   }
 
   @override
+  void didChangeDependencies() {
+    originalName = args.currGoal.name;
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     args.setComingFromListView(false);
     bool isInTopLevel;
@@ -205,8 +296,18 @@ class _IndividualGoal extends State<IndividualGoal> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-            child:
-                GestureDetector(onTap: () => {}, child: const Icon(Icons.edit)),
+            child: GestureDetector(
+              onTap: () => {
+                setState(() {
+                  isInEditMode = !isInEditMode;
+                  if (!isInEditMode) {}
+                }),
+              },
+              child: Icon(
+                (!isInEditMode) ? Icons.edit : Icons.save,
+                color: (!isInEditMode) ? Colors.white : Colors.yellowAccent,
+              ),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 24.0),
@@ -314,13 +415,34 @@ class _IndividualGoal extends State<IndividualGoal> {
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(
                             title: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  "Goal - ${args.currGoal.name}",
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                )),
+                              alignment: Alignment.centerLeft,
+                              child: (!isInEditMode)
+                                  ? Text(
+                                      "Goal - ${args.currGoal.name}",
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    )
+                                  : TextField(
+                                      onChanged: (currValue) => {
+                                        setState(() {
+                                          if (currValue != "") {
+                                            args.currGoal.name = currValue;
+                                          } else {
+                                            args.currGoal.name = originalName;
+                                          }
+                                        }),
+                                      },
+                                      decoration: InputDecoration(
+                                        hintText: "Goal: ${args.currGoal.name}",
+                                        hintStyle: const TextStyle(
+                                            fontStyle: FontStyle.italic),
+                                      ),
+                                      minLines: 1,
+                                      maxLines: 3,
+                                      keyboardType: TextInputType.number,
+                                    ),
+                            ),
                             subtitle: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
@@ -344,7 +466,9 @@ class _IndividualGoal extends State<IndividualGoal> {
                           args.currGoal.goalTarget,
                           updateGoalGlobally,
                           setGoalButtonSize,
-                          args.currGoal),
+                          args.currGoal,
+                          isInEditMode,
+                          updateGoalTargetGlobally),
                     ),
                     //Additional optional fields
                     if (args.currGoal.subGoals.isEmpty)
