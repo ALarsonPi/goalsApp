@@ -34,36 +34,19 @@ class _RowExampleState extends State<RowExample> {
 
   getImage(Priority priority) {
     if (priority.imageUrl.toString().contains("http")) {
-      return Image.network(
+      return NetworkImage(
         priority.imageUrl,
-        fit: BoxFit.cover,
       );
     } else {
-      return Image.file(
+      return FileImage(
         File(priority.imageUrl),
-        fit: BoxFit.cover,
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    double paddingMultiplier = 0.1;
-    double sizeOfCardMultiplier = 0.03;
-    if (MediaQuery.of(context).size.height > 1500) {
-      paddingMultiplier = 0.002;
-    } else if (MediaQuery.of(context).size.height > 1000) {
-      paddingMultiplier = 0.005;
-    } else if (MediaQuery.of(context).size.height > 750) {
-      paddingMultiplier = 0.215;
-      sizeOfCardMultiplier = 0.01;
-    } else if (MediaQuery.of(context).size.height > 500) {
-      paddingMultiplier = 0.25;
-      sizeOfCardMultiplier = 0.03;
-    }
-
-    double _height = 150;
-    double _width = MediaQuery.of(context).size.width * 0.5;
+    int index = 0;
     _columns = <Widget>[
       for (Priority priority in Global.userPriorities)
         GestureDetector(
@@ -77,96 +60,40 @@ class _RowExampleState extends State<RowExample> {
           },
           key: ValueKey(priority.name),
           child: Padding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).size.height * 0.05,
-            ),
-            child: FittedBox(
-              fit: BoxFit.cover,
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0.05,
-                        left: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: _height -
-                              MediaQuery.of(context).size.height * 0.03,
-                          width: _width,
-                          child: FittedBox(
-                            fit: BoxFit.fill,
-                            child: ClipRRect(
-                              borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(20),
-                                  topRight: Radius.circular(20)),
-                              child: Align(
-                                alignment: const Alignment(-0.0, -0.0),
-                                widthFactor: 1.0,
-                                heightFactor: 1.0,
-                                child: getImage(priority),
-                                // Image.network(priority.imageUrl,
-                                //     fit: BoxFit.cover),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+            padding: const EdgeInsets.all(5),
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 0.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: getImage(priority),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height *
-                          paddingMultiplier,
-                      left: 3,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: _height / 2 -
-                              (MediaQuery.of(context).size.height *
-                                  sizeOfCardMultiplier),
-                          width: _width + 10,
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                                bottomLeft: Radius.circular(20),
-                                bottomRight: Radius.circular(20)),
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 0.0),
-                              child: Card(
-                                borderOnForeground: false,
-                                elevation: 2,
-                                child: ListTile(
-                                  // contentPadding: const EdgeInsets.symmetric(
-                                  //     horizontal: 8.0, vertical: 0.0),
-                                  //minVerticalPadding: 0.0,
-                                  title: AutoSizeText(
-                                    textAlign: TextAlign.center,
-                                    priority.name,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  subtitle: Padding(
-                                    padding: const EdgeInsets.only(top: 3.0),
-                                    child: Align(
-                                      alignment: Alignment.topCenter,
-                                      child: Text(
-                                        "Priority ${Global.userPriorities.indexOf(priority) + 1}",
-                                        style: const TextStyle(fontSize: 12),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                ),
+                Positioned(
+                  bottom: 0.0,
+                  left: 0.0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Card(
+                        color: Colors.white,
+                        child: Text(
+                          "${priority.name} (${++index})",
+                          style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
