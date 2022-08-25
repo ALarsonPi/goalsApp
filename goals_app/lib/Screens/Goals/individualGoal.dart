@@ -337,25 +337,6 @@ class _IndividualGoal extends State<IndividualGoal> {
           ),
         ],
         titleSpacing: 0.0,
-
-        // leading: Row(
-        //   children: [
-        //     Visibility(
-        //       visible: !args.comingFromListView,
-        //       child: IconButton(
-        //         icon: (!args.comingFromListView)
-        //             ? const Icon(Icons.arrow_back, color: Colors.white)
-        //             : const Icon(Icons.home),
-        //         onPressed: () => navigateBackArrow(),
-        //       ),
-        //     ),
-        //     GestureDetector(
-        //         onTap: () => {
-        //               navigateHome(),
-        //             },
-        //         child: const Icon(Icons.home)),
-        //   ],
-        // ),
         centerTitle: true,
         automaticallyImplyLeading: false,
         title: Row(
@@ -397,6 +378,7 @@ class _IndividualGoal extends State<IndividualGoal> {
         ),
       ),
       body: CustomScrollView(
+        shrinkWrap: false,
         slivers: [
           SliverList(
             delegate: SliverChildBuilderDelegate(
@@ -410,7 +392,10 @@ class _IndividualGoal extends State<IndividualGoal> {
                       child: Card(
                         elevation: 3,
                         borderOnForeground: true,
-                        color: const Color.fromARGB(184, 242, 242, 242),
+                        color: (args.currGoal.goalProgress !=
+                                args.currGoal.goalTarget)
+                            ? const Color.fromARGB(184, 242, 242, 242)
+                            : Theme.of(context).secondaryHeaderColor,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ListTile(
@@ -494,6 +479,23 @@ class _IndividualGoal extends State<IndividualGoal> {
                     ),
                   ),
                 ],
+              ),
+            ),
+          if (args.currGoal.goalProgress == '0' &&
+              args.currGoal.subGoals.isEmpty)
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
+                  return const Text(
+                    "Press the '+' at the bottom \nto add a subgoal!",
+                    style: TextStyle(
+                      fontStyle: FontStyle.italic,
+                    ),
+                    textAlign: TextAlign.center,
+                  );
+                },
+                childCount: 1,
+                semanticIndexOffset: 1,
               ),
             ),
         ],

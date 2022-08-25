@@ -57,7 +57,7 @@ class _NormalPriorityWidget extends State<NormalPriorityWidget> {
     }
     var physicsType = (widget.isPriority)
         ? const AlwaysScrollableScrollPhysics()
-        : const NeverScrollableScrollPhysics();
+        : const AlwaysScrollableScrollPhysics();
     return (Global.goalButtonsInGridView)
         ? GridView.count(
             physics: physicsType,

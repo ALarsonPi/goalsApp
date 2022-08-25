@@ -64,7 +64,8 @@ class _RowExampleState extends State<RowExample> {
             child: Stack(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 0.0),
+                  padding: const EdgeInsets.only(
+                      left: 4.0, right: 4.0, bottom: 16.0),
                   child: Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(
@@ -77,20 +78,25 @@ class _RowExampleState extends State<RowExample> {
                 Positioned(
                   bottom: 0.0,
                   left: 0.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Card(
-                        color: Colors.white,
-                        child: Text(
-                          "${priority.name} (${++index})",
-                          style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87),
+                  child: SizedBox(
+                    width: 135,
+                    height: 50,
+                    child: Card(
+                      elevation: 5,
+                      child: ListTile(
+                        title: Padding(
+                          padding:
+                              const EdgeInsets.only(left: 8.0, bottom: 8.0),
+                          child: Text(
+                            "${priority.name} (${++index})",
+                            style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black87),
+                          ),
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ],
