@@ -162,27 +162,15 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
   }
 
   Widget getSettingsMenu(BuildContext context) {
-    return
-        // (areSettingsOpen)
-        //     ?
-        Padding(
+    return Padding(
       padding: const EdgeInsets.only(top: 14.0, bottom: 14.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          // if (isBeingLongHeld)
-          //   IconButton(
-          //       onPressed: () => {
-          //             setState(() {
-          //               isBeingLongHeld = !isBeingLongHeld;
-          //             })
-          //           },
-          //       icon: const Icon(Icons.save)),
           GridListIconRow(setListViewState, IconsEnum.priorityHome),
         ],
       ),
     );
-    //: const Text("");
   }
 
   bool isBeingLongHeld = false;

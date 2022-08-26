@@ -14,6 +14,22 @@ class Priority {
     imageUrl = newImageUrl;
   }
 
+  factory Priority.fromJson(Map<String, dynamic> json) {
+    return Priority(
+      json['name'],
+      json['imageUrl'],
+      json['goals'],
+    );
+  }
+
+  Map<String, dynamic> toJson() => _priorityToJson(this);
+
+  Map<String, dynamic> _priorityToJson(Priority instance) => <String, dynamic>{
+        'imageUrl': instance.imageUrl,
+        'name': instance.name,
+        'goals': instance.goals,
+      };
+
   @override
   String toString() {
     String toPrint = "";

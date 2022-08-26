@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:goals_app/Repositories/data_repository.dart';
 
 import 'Objects/Priority.dart';
 import 'Objects/Goal.dart';
 
 class Global {
+  final DataRepository dataRepo = DataRepository();
+
   static Map listOfImageLists = {
     "Nature/Animal Images": listOfNaturePictures,
     "Activities": listOfHobbyPictures,

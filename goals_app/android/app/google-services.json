@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "64187493073",
+    "project_id": "goalapp-203e5",
+    "storage_bucket": "goalapp-203e5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64187493073:android:5e27bb5c0a87d9327df3f0",
+        "android_client_info": {
+          "package_name": "com.creator.goalsApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "64187493073-9qktaei3tnt96kvs5mrvi6p16j6gggc8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDup9CE3mTjUkYZnUznsxFIF50SAiBp8sA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "64187493073-9qktaei3tnt96kvs5mrvi6p16j6gggc8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "64187493073-5ck8vqjjgj1h5r58sm2pbhos2ah10rpu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.creator.goalsApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
