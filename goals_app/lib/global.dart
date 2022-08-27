@@ -1,6 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:goals_app/Repositories/data_repository.dart';
-
 import 'Objects/Priority.dart';
 import 'Objects/Goal.dart';
 
@@ -136,69 +137,57 @@ class Global {
     return false;
   }
 
-  static getPriorities() {
-    if (userPriorities.isEmpty) {
-      List<Goal> priority1Goals = List.empty(growable: true);
-      List<Goal> priority2Goals = List.empty(growable: true);
-      List<Goal> priority3Goals = List.empty(growable: true);
-      List<Goal> priority4Goals = List.empty(growable: true);
-      List<Goal> priority5Goals = List.empty(growable: true);
+  static addPriority(Priority newPriority) {
+    Global.userPriorities.add(newPriority);
+    // FirebaseFirestore.instance.collection(databaseUserString).add(
+    //       newPriority.toJson(),
+    //     );
+  }
 
-      Goal exampleGoal = Goal(
-          "Pray every day for 30 days",
-          4,
-          "17",
-          "30",
-          "Praying is an act of faith and acting in faith brings miracles",
-          "Probably in the morning is best for me, and at night as much as I can",
-          false);
-      Goal exampleSubGoal1 = Goal(
-          "Make sure to ask blessings on friends and fam in prayers",
-          4,
-          "4",
-          "30",
-          "Praying is an act of faith and acting in faith brings miracles",
-          "Probably in the morning is best for me, and at night as much as I can",
-          true);
-      Goal exampleSubGoal2 = Goal(
-          "Ask for things I need in life",
-          4,
-          "29",
-          "30",
-          "Praying is an act of faith and acting in faith brings miracles",
-          "Probably in the morning is best for me, and at night as much as I can",
-          true);
-      exampleGoal.subGoals.add(exampleSubGoal1);
-      exampleGoal.subGoals.add(exampleSubGoal2);
+  static String databaseUserString = 'user/1/prioritires';
+  static getPriorities() async {
+    //How to tell which user we're on?
+    FirebaseFirestore.instance
+        .collection(databaseUserString)
+        .snapshots()
+        .listen((data) {
+      var allPriorities = data.docs[0]['priorities'];
+      int index = 0;
+      for (var currPriority in allPriorities) {
+        Priority newPriority = Priority.fromJson(currPriority);
+        userPriorities.add(newPriority);
+        index++;
+      }
+    });
 
-      priority5Goals.add(exampleGoal);
+    //if (userPriorities.isEmpty) {
+    //   userPriorities.add(
+    //     Priority(
+    //         "Social",
+    //         listOfStudyPictures[listOfStudyPictures.length - 1].url,
+    //         priority1Goals),
+    //   );
 
-      userPriorities.add(
-        Priority(
-            "Social",
-            listOfStudyPictures[listOfStudyPictures.length - 1].url,
-            priority1Goals),
-      );
+    //   userPriorities.add(
+    //     Priority("Physical", listOfHobbyPictures[0].url, priority2Goals),
+    //   );
 
-      userPriorities.add(
-        Priority("Physical", listOfHobbyPictures[0].url, priority2Goals),
-      );
+    //   userPriorities.add(
+    //     Priority("Intellectual", listOfStudyPictures[0].url, priority3Goals),
+    //   );
 
-      userPriorities.add(
-        Priority("Intellectual", listOfStudyPictures[0].url, priority3Goals),
-      );
+    //   userPriorities.add(
+    //     Priority(
+    //         "Emotional",
+    //         listOfNaturePictures[listOfNaturePictures.length - 1].url,
+    //         priority4Goals),
+    //   );
 
-      userPriorities.add(
-        Priority(
-            "Emotional",
-            listOfNaturePictures[listOfNaturePictures.length - 1].url,
-            priority4Goals),
-      );
+    //   userPriorities.add(
+    //     Priority("Spiritual", listOfNaturePictures[1].url, priority5Goals),
+    //   );
 
-      userPriorities.add(
-        Priority("Spiritual", listOfNaturePictures[1].url, priority5Goals),
-      );
-    }
+    // }
   }
 }
 

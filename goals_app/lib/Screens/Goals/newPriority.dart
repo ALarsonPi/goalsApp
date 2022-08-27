@@ -246,8 +246,7 @@ class _NewPriorityScreen extends State<NewPriorityScreen> {
                                   ? () => {
                                         if (_formKey.currentState!.validate())
                                           {
-                                            Global.userPriorities
-                                                .add(newPriority),
+                                            Global.addPriority(newPriority),
                                             Navigator.pushNamed(context,
                                                 PriorityHomeScreen.routeName,
                                                 arguments:

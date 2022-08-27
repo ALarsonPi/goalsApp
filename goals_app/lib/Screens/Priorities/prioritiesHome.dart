@@ -18,6 +18,7 @@ import 'package:goals_app/Widgets/Priorities/priorityExpandedList.dart';
 import '../../Unused/CardLabel.dart';
 import '../../Unused/PriorityCarouselWithReorderableCarousel.dart';
 import '../../global.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PriorityHomeScreen extends StatefulWidget {
   PriorityHomeScreen({Key? key}) : super(key: key);
@@ -198,6 +199,11 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
       paddingMultiplier = 0.05;
     }
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          child: Icon(
+            Icons.add,
+          )),
       appBar: AppBar(
         centerTitle: true,
         title: const Text(

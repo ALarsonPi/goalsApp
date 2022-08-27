@@ -56,7 +56,9 @@ class _PriorityCarousel extends State<PriorityCarousel> {
       children: [
         CarouselSlider(
           carouselController: controller,
-          items: [
+          items:
+              //[Global.userPriorities.length]
+              [
             ...items,
           ],
           options: CarouselOptions(

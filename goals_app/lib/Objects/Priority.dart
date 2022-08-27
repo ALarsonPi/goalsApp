@@ -15,10 +15,17 @@ class Priority {
   }
 
   factory Priority.fromJson(Map<String, dynamic> json) {
+    List<Goal> priorityGoals = List.empty(growable: true);
+
+    for (var goalJSON in json['goals']) {
+      Goal newGoal = Goal.fromJson(goalJSON);
+      priorityGoals.add(newGoal);
+    }
+
     return Priority(
       json['name'],
       json['imageUrl'],
-      json['goals'],
+      priorityGoals,
     );
   }
 

@@ -2,9 +2,7 @@ class Goal {
   String name;
   String goalProgress;
   String goalTarget;
-
   int currPriorityIndex;
-
   bool isChildGoal;
 
   String? completeByDate;
@@ -36,6 +34,32 @@ class Goal {
   setWhenToComplete(String whenToComplete) {
     this.whenToComplete = whenToComplete;
   }
+
+  factory Goal.fromJson(Map<String, dynamic> json) {
+    return Goal(
+      json['name'],
+      json['currPriorityIndex'],
+      json['goalProgress'],
+      json['goalTarget'],
+      json['whyToComplete'],
+      json['whenToComplete'],
+      json['isChildGoal'],
+    );
+  }
+
+  Map<String, dynamic> toJson() => _goalToJson(this);
+
+  Map<String, dynamic> _goalToJson(Goal instance) => <String, dynamic>{
+        'name': instance.name,
+        'goalProgress': instance.goalProgress,
+        'goalTarget': instance.goalTarget,
+        'currPriorityIndex': instance.currPriorityIndex,
+        'isChildGoal': instance.isChildGoal,
+        'completeByDate': instance.completeByDate,
+        'reward': instance.reward,
+        'whyToComplete': instance.whyToComplete,
+        'whenToComplete': instance.whenToComplete,
+      };
 
   @override
   String toString() {
