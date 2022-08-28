@@ -26,24 +26,18 @@ class PriorityCarousel extends StatefulWidget {
 
 class _PriorityCarousel extends State<PriorityCarousel> {
   List<PriorityCard> pages = List.empty(growable: true);
-  List imageUrlList = List.empty(growable: true);
   CarouselController controller = CarouselController();
   int currentPage = 0;
   late final _currentPageNotifier = ValueNotifier<int>(widget.currentIndex);
 
   @override
   void initState() {
-    for (Priority priority in Global.userPriorities) {
-      imageUrlList.add(priority.imageUrl);
-    }
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    List items = List.empty(growable: true);
-
+    Set items = {};
     int index = 0;
     for (Priority priority in Global.userPriorities) {
       items.add(
@@ -56,9 +50,7 @@ class _PriorityCarousel extends State<PriorityCarousel> {
       children: [
         CarouselSlider(
           carouselController: controller,
-          items:
-              //[Global.userPriorities.length]
-              [
+          items: [
             ...items,
           ],
           options: CarouselOptions(

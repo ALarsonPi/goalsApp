@@ -7,7 +7,6 @@ class NoGoalsPrompt extends StatelessWidget {
     if (type == 0) {
       promptType = PromptType.Goals;
     } else if (type == 1) {
-      debugPrint("Got here");
       promptType = PromptType.Priorities;
     }
   }

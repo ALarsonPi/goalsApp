@@ -66,7 +66,6 @@ class GoalButton extends StatelessWidget {
 
   goToIndividualGoalScreen(context) {
     Global.depthStack.push(currentGoal);
-    debugPrint(isComingFromListView.toString());
     Navigator.pushNamed(context, IndividualGoal.routeName,
         arguments: IndividualGoalArguments(
           currentGoal,

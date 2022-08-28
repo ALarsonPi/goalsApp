@@ -39,20 +39,24 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
 
   @override
   void initState() {
-    for (Priority priority in Global.userPriorities) {
-      priorities.add(priority);
-    }
+    priorities = Global.userPriorities;
     super.initState();
   }
 
   @override
-  void setState(VoidCallback fn) {
-    priorities.clear();
-    for (Priority priority in Global.userPriorities) {
-      priorities.add(priority);
-    }
-    super.setState(fn);
+  void didChangeDependencies() {
+    priorities = Global.userPriorities;
+    super.didChangeDependencies();
   }
+
+  // @override
+  // void setState(VoidCallback fn) {
+  //   priorities.clear();
+  //   for (Priority priority in Global.userPriorities) {
+  //     priorities.add(priority);
+  //   }
+  //   super.setState(fn);
+  // }
 
   void saveAndDelete(List<Priority> prioritiesToSave) {
     setState(() {

@@ -96,12 +96,13 @@ class Global {
   static int priorityLastOpen = -1;
 
   static bool removeGoal(int currPriorityIndex, Goal goalToRemove) {
-    List<Goal> priorityGoals = userPriorities[currPriorityIndex].goals;
+    List<Goal> priorityGoals =
+        userPriorities.elementAt(currPriorityIndex).goals;
     //If we find the goal is directly in the priority, remove it there
     int index = 0;
     for (Goal currGoal in priorityGoals) {
       if (currGoal == goalToRemove) {
-        userPriorities[currPriorityIndex].goals.removeAt(index);
+        userPriorities.elementAt(currPriorityIndex).goals.removeAt(index);
         return true;
       }
       index++;
@@ -138,24 +139,36 @@ class Global {
   }
 
   static addPriority(Priority newPriority) {
-    Global.userPriorities.add(newPriority);
-    // FirebaseFirestore.instance.collection(databaseUserString).add(
-    //       newPriority.toJson(),
-    //     );
+    userPriorities.add(newPriority);
+    FirebaseFirestore.instance.collection(databaseUserString).add(
+          newPriority.toJson(),
+        );
   }
 
-  static String databaseUserString = 'user/1/prioritires';
+  static String databaseUserString = 'users/randomUser1/priorities';
   static getPriorities() async {
+    userPriorities.clear();
+
     //How to tell which user we're on?
     FirebaseFirestore.instance
         .collection(databaseUserString)
         .snapshots()
         .listen((data) {
-      var allPriorities = data.docs[0]['priorities'];
+      var allPrioritiesDocs = data.docs;
       int index = 0;
-      for (var currPriority in allPriorities) {
-        Priority newPriority = Priority.fromJson(currPriority);
-        userPriorities.add(newPriority);
+      for (var currPriorityDoc in allPrioritiesDocs) {
+        Priority newPriority = Priority.fromJson(currPriorityDoc.data());
+        String newPriorityName = newPriority.name;
+        bool isFound = false;
+        for (Priority element in userPriorities) {
+          if (element.name == newPriorityName) {
+            isFound = true;
+          }
+        }
+        if (!isFound) {
+          userPriorities.add(newPriority);
+        }
+
         index++;
       }
     });

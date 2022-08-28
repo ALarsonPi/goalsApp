@@ -95,7 +95,6 @@ class _NewGoalScreen extends State<NewGoalScreen> {
     setState(() {
       currentSlide--;
       if (currentSlide == 0) currentSlide = 1;
-      debugPrint(currentSlide.toString());
     });
   }
 
@@ -103,7 +102,6 @@ class _NewGoalScreen extends State<NewGoalScreen> {
     setState(() {
       currentSlide++;
       if (currentSlide == 4) currentSlide = 3;
-      debugPrint(currentSlide.toString());
     });
   }
 
