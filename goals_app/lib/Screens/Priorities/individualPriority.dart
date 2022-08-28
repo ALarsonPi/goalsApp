@@ -128,7 +128,8 @@ class _IndividualPriority extends State<IndividualPriority> {
                 context,
                 IconButton(
                   onPressed: () => {
-                    Global.userPriorities.removeAt(args.index),
+                    Global.removePriority(
+                        Global.userPriorities.elementAt(args.index)),
                     Navigator.pushNamed(context, PriorityHomeScreen.routeName,
                         arguments: PriorityHomeArguments(0)),
                   },
