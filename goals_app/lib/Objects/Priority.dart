@@ -4,6 +4,7 @@ class Priority {
   String imageUrl;
   String name;
   List<Goal> goals = List.empty(growable: true);
+  String firestoreDocID = "";
   Priority(this.name, this.imageUrl, this.goals);
 
   setName(String newName) {

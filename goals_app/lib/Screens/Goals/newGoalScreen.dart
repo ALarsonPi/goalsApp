@@ -50,7 +50,8 @@ class _NewGoalScreen extends State<NewGoalScreen> {
 
   void addGoalGloballyAndNavigateBack() {
     if (args.isComingFromPriority) {
-      Global.userPriorities[args.priorityIndex].goals.add(newGoal);
+      Global.addGoalToPriority(
+          Global.userPriorities[args.priorityIndex], newGoal);
     } else {
       newGoal.isChildGoal = true;
       args.currentGoal.subGoals.add(newGoal);

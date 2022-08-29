@@ -145,7 +145,35 @@ class Global {
         );
   }
 
-  static removePriority(Priority priorityToRemove) {
+  static addGoalToPriority(Priority priorityOfInterest, Goal newGoal) {
+    priorityOfInterest.goals.add(newGoal);
+    var allPriorities =
+        FirebaseFirestore.instance.collection(databaseUserString);
+    allPriorities.snapshots().forEach((element) {
+      for (var doc in element.docs) {
+        Priority currPriority = Priority.fromJson(doc.data());
+        if (currPriority.name == priorityOfInterest.name) {
+          List goalsJSONs = doc['goals'];
+          bool isFound = false;
+          for (var goal in goalsJSONs) {
+            if (goal['name'] == newGoal.name) {
+              isFound = true;
+            }
+          }
+          if (!isFound) {
+            goalsJSONs.add(newGoal.toJson());
+            doc.reference.update({
+              'name': doc['name'],
+              'imageUrl': doc['imageUrl'],
+              'goals': goalsJSONs,
+            });
+          }
+        }
+      }
+    });
+  }
+
+  static removePriority(Priority priorityToRemove) async {
     int index = userPriorities.indexOf(priorityToRemove);
     userPriorities.removeAt(index);
 
