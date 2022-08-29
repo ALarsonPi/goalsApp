@@ -115,6 +115,52 @@ class Global {
     return !isFoundRecursively;
   }
 
+  static bool removeGoalFirestore(Goal goalToRemove) {
+    Priority parentPriority =
+        userPriorities.elementAt(goalToRemove.currPriorityIndex);
+    debugPrint("Hey this priority is" + parentPriority.name);
+
+    var allPriorities =
+        FirebaseFirestore.instance.collection(databaseUserString);
+    allPriorities.snapshots().forEach((element) {
+      for (var doc in element.docs) {
+        Priority currPriority = Priority.fromJson(doc.data());
+        if (currPriority.name == parentPriority.name) {
+          List goalsJSONs = doc['goals'];
+          debugPrint("Length before " + goalsJSONs.length.toString());
+
+          int index = 0;
+          for (var goalJson in goalsJSONs) {
+            if (goalJson['name'] == goalToRemove.name) {
+              goalsJSONs.removeAt(index);
+            }
+            index++;
+          }
+          debugPrint("Length after " + goalsJSONs.length.toString());
+
+          doc.reference.update({
+            'name': doc['name'],
+            'imageUrl': doc['imageUrl'],
+            'goals': goalsJSONs,
+          });
+        }
+
+        // Priority currPriority = Priority.fromJson(doc.data());
+        // if (currPriority.name == parentPriority.name) {
+        //   debugPrint("We want to delete " +
+        //       goalToRemove.name +
+        //       " in priority " +
+        //       parentPriority.name);
+        // FirebaseFirestore.instance
+        //     .runTransaction((Transaction myTransaction) async {
+        //   myTransaction.delete(doc.reference);
+        // });
+        //}
+      }
+    });
+    return removeGoal(goalToRemove.currPriorityIndex, goalToRemove);
+  }
+
   static bool isFoundRecursively = false;
   static recursiveRemoveGoalHelper(List<Goal> goalsList, Goal goalToRemove) {
     for (Goal currGoal in goalsList) {
@@ -140,9 +186,10 @@ class Global {
 
   static addPriority(Priority newPriority) {
     userPriorities.add(newPriority);
-    FirebaseFirestore.instance.collection(databaseUserString).add(
-          newPriority.toJson(),
-        );
+    //With Internet connection
+    // FirebaseFirestore.instance.collection(databaseUserString).add(
+    //       newPriority.toJson(),
+    //     );
   }
 
   static addGoalToPriority(Priority priorityOfInterest, Goal newGoal) {
@@ -179,14 +226,76 @@ class Global {
 
     var allPriorities =
         FirebaseFirestore.instance.collection(databaseUserString);
-    allPriorities.snapshots().forEach((element) {
+    allPriorities.snapshots().forEach((element) async {
       for (var doc in element.docs) {
         Priority currPriority = Priority.fromJson(doc.data());
         if (currPriority.name == priorityToRemove.name) {
-          FirebaseFirestore.instance
+          await FirebaseFirestore.instance
               .runTransaction((Transaction myTransaction) async {
             myTransaction.delete(doc.reference);
+            updatePriorityIndexes();
           });
+        }
+      }
+    });
+  }
+
+  static updatePriorityIndexes() {
+    var allPriorities =
+        FirebaseFirestore.instance.collection(databaseUserString);
+    allPriorities.snapshots().forEach((element) async {
+      for (var doc in element.docs) {
+        //This may have all docs, including docs that are in
+        //process of being deleted
+        Priority currPriority = Priority.fromJson(doc.data());
+
+        //This function may not be giving the expected result
+        int currIndex = userPriorities.indexWhere((element) {
+          debugPrint("Element Name : " + element.name);
+          debugPrint("currPri Name : " + currPriority.name + "\n");
+
+          return element.name == currPriority.name;
+        });
+        debugPrint("Curr Index: " + currIndex.toString());
+
+        //Indexes not updating correctly
+        //TODO Figure out why it's failing
+
+        //Assuming that not found == -1
+        if (currIndex != -1) {
+          //debugPrint("we want to update" + currPriority.name);
+          //no, but it's coming here, so looks like the indexWhere is working as
+          //it should
+          try {
+            //My thoughts on potential errors
+            //1. Maybe the doc.get isn't right
+            //2. maybe update needs all the fields
+            //3. Maybe need to find a way to ensure that the deleting
+            //is done before the updating of the indexes starts
+
+            //It must be this doc check I think
+            //maybe just need the doc.get('name')
+            //or maybe a different check than .exists
+            //maybe doc.get() isn't even the right
+            //way to check if it's there
+            //Or maybe the best way to solve this is to make sure
+            //that the deletion is complete before starting on the reindexing
+            //or is there a better way to do indexing
+            //hmm. Probably shouldn't use the indexes in the collection
+            //because that is random, so probably using this method of updating after
+            //each deletion is probably best, but looks like it could be optimized
+            //Do I need to provide all fields for the update to work correctly?
+            var docCheck = await doc.get('name').exists;
+            debugPrint(docCheck);
+            if (docCheck) {
+              doc.reference.update({
+                'name': doc['name'],
+                'priorityIndex': currIndex + 1,
+              });
+            }
+          } catch (e) {
+            //debugPrint("Tried to update " + currPriority.name);
+          }
         }
       }
     });
@@ -197,28 +306,30 @@ class Global {
     userPriorities.clear();
 
     //How to tell which user we're on?
-    FirebaseFirestore.instance
-        .collection(databaseUserString)
-        .snapshots()
-        .listen((data) {
-      var allPrioritiesDocs = data.docs;
-      int index = 0;
-      for (var currPriorityDoc in allPrioritiesDocs) {
-        Priority newPriority = Priority.fromJson(currPriorityDoc.data());
-        String newPriorityName = newPriority.name;
-        bool isFound = false;
-        for (Priority element in userPriorities) {
-          if (element.name == newPriorityName) {
-            isFound = true;
-          }
-        }
-        if (!isFound) {
-          userPriorities.add(newPriority);
-        }
+    //Here is the code for when we have online access
+    // FirebaseFirestore.instance
+    //     .collection(databaseUserString)
+    //     .snapshots()
+    //     .listen((data) {
+    //   var allPrioritiesDocs = data.docs;
+    //   int index = 0;
+    //   for (var currPriorityDoc in allPrioritiesDocs) {
+    //     Priority newPriority = Priority.fromJson(currPriorityDoc.data());
+    //     String newPriorityName = newPriority.name;
+    //     bool isFound = false;
+    //     for (Priority element in userPriorities) {
+    //       if (element.name == newPriorityName) {
+    //         isFound = true;
+    //       }
+    //     }
+    //     if (!isFound) {
+    //       userPriorities.add(newPriority);
+    //     }
 
-        index++;
-      }
-    });
+    //     index++;
+    //   }
+    // });
+    // userPriorities.sort((a, b) => a.priorityIndex.compareTo(b.priorityIndex));
 
     //if (userPriorities.isEmpty) {
     //   userPriorities.add(
@@ -227,27 +338,28 @@ class Global {
     //         listOfStudyPictures[listOfStudyPictures.length - 1].url,
     //         priority1Goals),
     //   );
+    List<Goal> emptyGoalsList = List.empty(growable: true);
+    userPriorities.add(
+      Priority("Physical", listOfHobbyPictures[0].url, emptyGoalsList, 1),
+    );
 
-    //   userPriorities.add(
-    //     Priority("Physical", listOfHobbyPictures[0].url, priority2Goals),
-    //   );
+    userPriorities.add(
+      Priority("Intellectual", listOfStudyPictures[0].url, emptyGoalsList, 2),
+    );
 
-    //   userPriorities.add(
-    //     Priority("Intellectual", listOfStudyPictures[0].url, priority3Goals),
-    //   );
+    userPriorities.add(
+      Priority(
+          "Emotional",
+          listOfNaturePictures[listOfNaturePictures.length - 1].url,
+          emptyGoalsList,
+          3),
+    );
 
-    //   userPriorities.add(
-    //     Priority(
-    //         "Emotional",
-    //         listOfNaturePictures[listOfNaturePictures.length - 1].url,
-    //         priority4Goals),
-    //   );
+    userPriorities.add(
+      Priority("Spiritual", listOfNaturePictures[1].url, emptyGoalsList, 4),
+    );
 
-    //   userPriorities.add(
-    //     Priority("Spiritual", listOfNaturePictures[1].url, priority5Goals),
-    //   );
-
-    // }
+    //}
   }
 }
 

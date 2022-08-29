@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/settingsScreenArguements.dart';
-import 'package:goals_app/Screens/Priorities/rowExample.dart';
+import 'package:goals_app/Screens/Priorities/reorderableGridOfCards.dart';
 import 'package:goals_app/Screens/optionsScreen.dart';
 import 'package:goals_app/Widgets/Priorities/noGoalsPrompt.dart';
 import 'package:goals_app/Widgets/Priorities/priorityCard.dart';
@@ -40,12 +40,16 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
   @override
   void initState() {
     priorities = Global.userPriorities;
+    priorities.sort((a, b) => a.priorityIndex.compareTo(b.priorityIndex));
+
     super.initState();
   }
 
   @override
   void didChangeDependencies() {
     priorities = Global.userPriorities;
+    priorities.sort((a, b) => a.priorityIndex.compareTo(b.priorityIndex));
+
     super.didChangeDependencies();
   }
 
@@ -266,7 +270,7 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
                                                 currentDisplayIndex,
                                                 getNotificationFromChildOfSlideChange,
                                                 changeLongHoldStatus)
-                                            : RowExample(
+                                            : ReorderableGridOfCards(
                                                 changeLongHoldStatusAndGoToSlideAt),
                                       ),
                                     ),

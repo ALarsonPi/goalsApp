@@ -13,16 +13,16 @@ import 'package:reorderables/reorderables.dart';
 import '../ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
 import '../../Widgets/Priorities/priorityCarousel.dart';
 
-class RowExample extends StatefulWidget {
+class ReorderableGridOfCards extends StatefulWidget {
   Function notifyParentOfLongHold;
 
-  RowExample(this.notifyParentOfLongHold);
+  ReorderableGridOfCards(this.notifyParentOfLongHold);
 
   @override
-  _RowExampleState createState() => _RowExampleState();
+  _ReorderableGridOfCardsState createState() => _ReorderableGridOfCardsState();
 }
 
-class _RowExampleState extends State<RowExample> {
+class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
   late List<Widget> _columns;
 
   defaultFunction() {}
@@ -46,6 +46,11 @@ class _RowExampleState extends State<RowExample> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Pixel Ratio, width");
+    debugPrint(MediaQuery.of(context).devicePixelRatio.toString());
+    debugPrint(MediaQuery.of(context).size.width.toString());
+    double mediaPixelVar = MediaQuery.of(context).devicePixelRatio - 1.75;
+    if (mediaPixelVar < 1) mediaPixelVar = 1;
     int index = 0;
     _columns = <Widget>[
       for (Priority priority in Global.userPriorities)
@@ -66,11 +71,16 @@ class _RowExampleState extends State<RowExample> {
                 Padding(
                   padding: const EdgeInsets.only(
                       left: 4.0, right: 4.0, bottom: 16.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: getImage(priority),
-                        fit: BoxFit.cover,
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(5),
+                        topRight: Radius.circular(5)),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: getImage(priority),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
@@ -78,21 +88,28 @@ class _RowExampleState extends State<RowExample> {
                 Positioned(
                   bottom: 0.0,
                   left: 0.0,
-                  child: SizedBox(
-                    width: 135,
-                    height: 50,
-                    child: Card(
-                      elevation: 5,
-                      child: ListTile(
-                        title: Padding(
-                          padding:
-                              const EdgeInsets.only(left: 8.0, bottom: 8.0),
-                          child: Text(
-                            "${priority.name} (${++index})",
-                            style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20)),
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width *
+                          0.45 *
+                          mediaPixelVar,
+                      height: 50,
+                      child: Card(
+                        //elevation: 5,
+                        child: ListTile(
+                          title: Padding(
+                            padding:
+                                const EdgeInsets.only(left: 8.0, bottom: 8.0),
+                            child: Text(
+                              "${priority.name} (${++index})",
+                              style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black87),
+                            ),
                           ),
                         ),
                       ),

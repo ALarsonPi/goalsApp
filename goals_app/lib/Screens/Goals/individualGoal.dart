@@ -313,8 +313,7 @@ class _IndividualGoal extends State<IndividualGoal> {
             padding: const EdgeInsets.only(left: 8.0, right: 24.0),
             child: GestureDetector(
               onTap: () => {
-                isInTopLevel =
-                    Global.removeGoal(args.currPriorityIndex, args.currGoal),
+                isInTopLevel = Global.removeGoalFirestore(args.currGoal),
                 if (isInTopLevel)
                   {
                     Navigator.pushNamed(context, IndividualPriority.routeName,

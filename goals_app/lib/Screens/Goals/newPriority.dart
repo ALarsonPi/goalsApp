@@ -26,6 +26,7 @@ class _NewPriorityScreen extends State<NewPriorityScreen> {
     "name",
     "imageUrl",
     List<Goal>.empty(growable: true),
+    -1,
   );
 
   @override
@@ -246,6 +247,9 @@ class _NewPriorityScreen extends State<NewPriorityScreen> {
                                   ? () => {
                                         if (_formKey.currentState!.validate())
                                           {
+                                            newPriority.priorityIndex =
+                                                Global.userPriorities.length +
+                                                    1,
                                             Global.addPriority(newPriority),
                                             Navigator.pushNamed(context,
                                                 PriorityHomeScreen.routeName,

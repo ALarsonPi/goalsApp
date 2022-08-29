@@ -4,8 +4,8 @@ class Priority {
   String imageUrl;
   String name;
   List<Goal> goals = List.empty(growable: true);
-  String firestoreDocID = "";
-  Priority(this.name, this.imageUrl, this.goals);
+  int priorityIndex = -1;
+  Priority(this.name, this.imageUrl, this.goals, this.priorityIndex);
 
   setName(String newName) {
     name = newName;
@@ -27,6 +27,7 @@ class Priority {
       json['name'],
       json['imageUrl'],
       priorityGoals,
+      json['priorityIndex'],
     );
   }
 
@@ -36,6 +37,7 @@ class Priority {
         'imageUrl': instance.imageUrl,
         'name': instance.name,
         'goals': instance.goals,
+        'priorityIndex': instance.priorityIndex,
       };
 
   @override
