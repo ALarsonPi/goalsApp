@@ -199,9 +199,11 @@ class Global {
   static addPriority(Priority newPriority) {
     userPriorities.add(newPriority);
     //Needs Internet connection
+    debugPrint("Should be adding new priority");
     FirebaseFirestore.instance.collection(databaseUserString).add(
           newPriority.toJson(),
         );
+    debugPrint(FirebaseFirestore.instance.collection(databaseUserString).id);
   }
 
   static updateGoalPrioritiesInAppData(
@@ -250,7 +252,12 @@ class Global {
     return false;
   }
 
+  static clearPersistence() {
+    FirebaseFirestore.instance.clearPersistence();
+  }
+
   static updatePrioritiesInFirebase() async {
+    clearPersistence();
     var allPriorities =
         FirebaseFirestore.instance.collection(databaseUserString);
     allPriorities.snapshots().forEach(
@@ -261,34 +268,12 @@ class Global {
           int indexOfCurrPriority = userPriorities.indexWhere((element) =>
               element.name.toString() == currPriority.name.toString());
 
-          debugPrint("\n\nStarting on new Priority: ");
-          debugPrint("Curr Priority: " + currPriority.name);
-          debugPrint((userPriorities.indexWhere((element) =>
-                      element.name.toString() == currPriority.name.toString()) +
-                  1)
-              .toString());
-          debugPrint(
-              "Name: ${userPriorities[userPriorities.indexWhere((element) => element.name.toString() == currPriority.name.toString())].name}");
-          debugPrint("\n");
-
           userPriorities[userPriorities.indexWhere((element) =>
                   element.name.toString() == currPriority.name.toString())] =
               updateGoalPrioritiesInAppData(
                   userPriorities[userPriorities.indexWhere((element) =>
                       element.name.toString() == currPriority.name.toString())],
                   indexOfCurrPriority + 1);
-
-          debugPrint("Again, name of currPri " + currPriority.name);
-          debugPrint("And name of the one we're using" +
-              userPriorities[userPriorities.indexWhere((element) =>
-                      element.name.toString() == currPriority.name.toString())]
-                  .name);
-
-          debugPrint("DUCKS");
-          debugPrint(userPriorities[userPriorities.indexWhere((element) =>
-                  element.name.toString() == currPriority.name.toString())]
-              .toString());
-          debugPrint("DUCKS");
 
           List goalsJSONs = userPriorities[userPriorities.indexWhere(
                   (element) =>
@@ -367,7 +352,7 @@ class Global {
         //This may have all docs, including docs that are in
         //process of being deleted
         Priority currPriority;
-        if (doc.exists) {
+        if (doc.exists && doc.data()['name'] != null) {
           currPriority = Priority.fromJson(doc.data());
         } else {
           return;
@@ -408,19 +393,21 @@ class Global {
       var allPrioritiesDocs = data.docs;
       int index = 0;
       for (var currPriorityDoc in allPrioritiesDocs) {
-        Priority newPriority = Priority.fromJson(currPriorityDoc.data());
-        String newPriorityName = newPriority.name;
-        bool isFound = false;
-        for (Priority element in userPriorities) {
-          if (element.name == newPriorityName) {
-            isFound = true;
+        if (currPriorityDoc.exists && currPriorityDoc.data()['name'] != null) {
+          Priority newPriority = Priority.fromJson(currPriorityDoc.data());
+          String newPriorityName = newPriority.name;
+          bool isFound = false;
+          for (Priority element in userPriorities) {
+            if (element.name == newPriorityName) {
+              isFound = true;
+            }
           }
-        }
-        if (!isFound) {
-          userPriorities.add(newPriority);
-        }
+          if (!isFound) {
+            userPriorities.add(newPriority);
+          }
 
-        index++;
+          index++;
+        }
       }
     });
     userPriorities.sort((a, b) => a.priorityIndex.compareTo(b.priorityIndex));
