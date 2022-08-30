@@ -1,4 +1,5 @@
 import 'Goal.dart';
+import 'package:collection/collection.dart';
 
 class Priority {
   String imageUrl;
@@ -18,9 +19,11 @@ class Priority {
   factory Priority.fromJson(Map<String, dynamic> json) {
     List<Goal> priorityGoals = List.empty(growable: true);
 
-    for (var goalJSON in json['goals']) {
-      Goal newGoal = Goal.fromJson(goalJSON);
-      priorityGoals.add(newGoal);
+    if (json['goals'] != null) {
+      for (var goalJSON in json['goals']) {
+        Goal newGoal = Goal.fromJson(goalJSON);
+        priorityGoals.add(newGoal);
+      }
     }
 
     return Priority(
@@ -40,10 +43,29 @@ class Priority {
         'priorityIndex': instance.priorityIndex,
       };
 
+  equals(Priority toCompareTo) {
+    Function deepEq = const DeepCollectionEquality().equals;
+    bool goalsAreEqual = deepEq(goals, toCompareTo.goals);
+    return (toCompareTo is Priority &&
+        toCompareTo.name == name &&
+        toCompareTo.imageUrl == toCompareTo.imageUrl &&
+        toCompareTo.priorityIndex == priorityIndex &&
+        goalsAreEqual);
+  }
+
+  List getGoalsAsListofJSON() {
+    List listOfJSONs = List.empty(growable: true);
+    for (Goal goal in goals) {
+      listOfJSONs.add(goal.toJson());
+    }
+    return listOfJSONs;
+  }
+
   @override
   String toString() {
     String toPrint = "";
-    toPrint += "Priority\nName: $name\n$imageUrl\n";
+    toPrint +=
+        "Priority\nName: $name\n$imageUrl\nPriority index: $priorityIndex\n";
     for (int i = 0; i < goals.length; i++) {
       toPrint += goals[i].toString();
     }

@@ -127,8 +127,8 @@ class _IndividualPriority extends State<IndividualPriority> {
               getCircleIconWidget(
                 context,
                 IconButton(
-                  onPressed: () => {
-                    Global.removePriority(
+                  onPressed: () async => {
+                    await Global.removePriority(
                         Global.userPriorities.elementAt(args.index)),
                     Navigator.pushNamed(context, PriorityHomeScreen.routeName,
                         arguments: PriorityHomeArguments(0)),

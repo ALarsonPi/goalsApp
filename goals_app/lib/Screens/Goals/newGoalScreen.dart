@@ -58,6 +58,7 @@ class _NewGoalScreen extends State<NewGoalScreen> {
       args.currentGoal.goalProgress = "0";
       newGoal.currPriorityIndex = args.priorityIndex;
       args.currentGoal.goalTarget = args.currentGoal.subGoals.length.toString();
+      Global.updatePrioritiesInFirebase();
     }
     navigateBack();
   }

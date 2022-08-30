@@ -13,7 +13,12 @@ class Goal {
   List<Goal> subGoals = List.empty(growable: true);
 
   Goal(this.name, this.currPriorityIndex, this.goalProgress, this.goalTarget,
-      this.whyToComplete, this.whenToComplete, this.isChildGoal);
+      this.whyToComplete, this.whenToComplete, this.isChildGoal,
+      {subgoals}) {
+    if (subgoals != null) {
+      subGoals = subgoals;
+    }
+  }
 
   setName(String newName) {
     name = newName;
@@ -36,6 +41,12 @@ class Goal {
   }
 
   factory Goal.fromJson(Map<String, dynamic> json) {
+    List<Goal> subGoalsList = List.empty(growable: true);
+    for (var goalJSON in json['subgoals']) {
+      Goal newGoal = Goal.fromJson(goalJSON);
+      subGoalsList.add(newGoal);
+    }
+
     return Goal(
       json['name'],
       json['currPriorityIndex'],
@@ -44,22 +55,32 @@ class Goal {
       json['whyToComplete'],
       json['whenToComplete'],
       json['isChildGoal'],
+      subgoals: subGoalsList,
     );
   }
 
-  Map<String, dynamic> toJson() => _goalToJson(this);
+  Map<String, dynamic> toJson() {
+    return _goalToJson(this);
+  }
 
-  Map<String, dynamic> _goalToJson(Goal instance) => <String, dynamic>{
-        'name': instance.name,
-        'goalProgress': instance.goalProgress,
-        'goalTarget': instance.goalTarget,
-        'currPriorityIndex': instance.currPriorityIndex,
-        'isChildGoal': instance.isChildGoal,
-        'completeByDate': instance.completeByDate,
-        'reward': instance.reward,
-        'whyToComplete': instance.whyToComplete,
-        'whenToComplete': instance.whenToComplete,
-      };
+  Map<String, dynamic> _goalToJson(Goal instance) {
+    List subGoalJSONs = List.empty(growable: true);
+    for (Goal subgoal in instance.subGoals) {
+      subGoalJSONs.add(subgoal.toJson());
+    }
+    return <String, dynamic>{
+      'name': instance.name,
+      'goalProgress': instance.goalProgress,
+      'goalTarget': instance.goalTarget,
+      'currPriorityIndex': instance.currPriorityIndex,
+      'isChildGoal': instance.isChildGoal,
+      'completeByDate': instance.completeByDate,
+      'reward': instance.reward,
+      'whyToComplete': instance.whyToComplete,
+      'whenToComplete': instance.whenToComplete,
+      'subgoals': subGoalJSONs,
+    };
+  }
 
   @override
   String toString() {

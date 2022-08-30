@@ -225,6 +225,7 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
             final temp2 = isExpanded[oldIndex];
             isExpanded[oldIndex] = isExpanded[newIndex];
             isExpanded[newIndex] = temp2;
+            Global.updatePriorityIndexes();
           }
         });
       },

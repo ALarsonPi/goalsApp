@@ -126,6 +126,7 @@ class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
       setState(() {
         Priority currPriority = Global.userPriorities.removeAt(oldIndex);
         Global.userPriorities.insert(newIndex, currPriority);
+        Global.updatePriorityIndexes();
       });
     }
 

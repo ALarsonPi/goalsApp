@@ -39,6 +39,7 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
 
   @override
   void initState() {
+    priorities.clear();
     priorities = Global.userPriorities;
     priorities.sort((a, b) => a.priorityIndex.compareTo(b.priorityIndex));
 
@@ -147,6 +148,7 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
       padding: const EdgeInsets.only(right: 8.0),
       constraints: const BoxConstraints(),
       onPressed: () => {
+        Global.updatePriorityIndexes(),
         Navigator.pushNamed(context, '/new-priority'),
       },
       icon: const Icon(

@@ -300,7 +300,9 @@ class _IndividualGoal extends State<IndividualGoal> {
               onTap: () => {
                 setState(() {
                   isInEditMode = !isInEditMode;
-                  if (!isInEditMode) {}
+                  if (!isInEditMode) {
+                    Global.updatePrioritiesInFirebase();
+                  }
                 }),
               },
               child: Icon(
@@ -314,6 +316,7 @@ class _IndividualGoal extends State<IndividualGoal> {
             child: GestureDetector(
               onTap: () => {
                 isInTopLevel = Global.removeGoalFirestore(args.currGoal),
+                Global.updatePrioritiesInFirebase(),
                 if (isInTopLevel)
                   {
                     Navigator.pushNamed(context, IndividualPriority.routeName,
