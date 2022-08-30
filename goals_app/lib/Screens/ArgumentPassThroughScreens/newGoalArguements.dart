@@ -11,5 +11,5 @@ class NewGoalArguments {
     }
   }
 
-  get currPriorityIndex => null;
+  get currPriorityIndex => priorityIndex;
 }

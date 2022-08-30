@@ -86,7 +86,7 @@ class Goal {
   String toString() {
     String toPrint = "";
     toPrint +=
-        "Goal\nName: $name\nCurrent Progress: $goalProgress out of $goalTarget\nGoal Why: $whyToComplete\nGoal When&Where: $whenToComplete\nIs Child: $isChildGoal\nTo complete by: $completeByDate\nReward: $reward\n";
+        "Goal\nName: $name\nCurrent Progress: $goalProgress out of $goalTarget\nGoal Why: $whyToComplete\nGoal When&Where: $whenToComplete\nIs Child: $isChildGoal\nTo complete by: $completeByDate\nReward: $reward\nCurrent PriorityIndex: $currPriorityIndex\n";
     for (Goal currGoal in subGoals) {
       toPrint += currGoal.toString();
     }

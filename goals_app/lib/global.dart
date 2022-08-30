@@ -116,43 +116,60 @@ class Global {
   }
 
   static bool removeGoalFirestore(Goal goalToRemove) {
-    // Priority parentPriority =
-    //     userPriorities.elementAt(goalToRemove.currPriorityIndex);
-
-    // var allPriorities =
-    //     FirebaseFirestore.instance.collection(databaseUserString);
-    // allPriorities.snapshots().forEach((element) {
-    //   for (var doc in element.docs) {
-    //     Priority currPriority = Priority.fromJson(doc.data());
-    //     if (currPriority.name == parentPriority.name) {
-    //       List goalsJSONs = doc['goals'];
-
-    //       int index = 0;
-    //       bool isFound = false;
-    // for (var goalJson in goalsJSONs) {
-    //   if (goalJson['name'] == goalToRemove.name) {
-    //     isFound = true;
-    //     break;
-    //   }
-    //   index++;
-    // }
-    // if (isFound) {
-    //   goalsJSONs.removeAt(index);
-    //   if (!goalsJSONs.contains(goalToRemove.toJson())) {
-    //     doc.reference.update({
-    //       'name': doc['name'],
-    //          'imageUrl': doc['imageUrl'],
-    //             'goals': goalsJSONs,
-    //           });
-    //         }
-    //       }
-    //     }
-    //   }
-    // });
-    bool returnValue = removeGoal(goalToRemove.currPriorityIndex, goalToRemove);
-    if (returnValue == true) {
-      updatePrioritiesInFirebase();
+    //updateGoalPrioritiesInAppData(parentPriority, correctIndex)
+    int priorityIndex = 0;
+    for (Priority priority in userPriorities) {
+      if (priority.goals.contains(goalToRemove)) {
+        priorityIndex = priority.priorityIndex - 1;
+      }
     }
+    Priority parentPriority = userPriorities.elementAt(priorityIndex);
+
+    debugPrint("Parent : " + parentPriority.name);
+
+    var allPriorities =
+        FirebaseFirestore.instance.collection(databaseUserString);
+    allPriorities.snapshots().forEach((element) async {
+      for (var doc in element.docs) {
+        Priority currPriority = Priority.fromJson(doc.data());
+        if (currPriority.name == parentPriority.name) {
+          List goalsJSONs = doc['goals'];
+
+          debugPrint("Current Priority : " + currPriority.name);
+
+          int index = 0;
+          bool isFound = false;
+          debugPrint("Looking for " + goalToRemove.name);
+          debugPrint("Goals JSONs length: " + goalsJSONs.length.toString());
+          for (var goalJson in goalsJSONs) {
+            debugPrint(goalJson['name'].toString());
+            if (goalJson['name'] == goalToRemove.name) {
+              isFound = true;
+              break;
+            }
+            index++;
+          }
+          if (isFound) {
+            goalsJSONs.removeAt(index);
+            if (!goalsJSONs.contains(goalToRemove.toJson())) {
+              if (doc.exists) {
+                doc.reference.update({'goals': goalsJSONs});
+                // await FirebaseFirestore.instance
+                //     .runTransaction((Transaction myTransaction) async {
+                //   myTransaction.delete(doc.reference);
+                // });
+              }
+            }
+          } else {
+            debugPrint("Goal not found");
+          }
+        }
+      }
+    });
+    bool returnValue = removeGoal(priorityIndex, goalToRemove);
+    //if (returnValue == true) {
+    //updatePrioritiesInFirebase();
+    //}
     return returnValue;
   }
 
@@ -187,6 +204,52 @@ class Global {
         );
   }
 
+  static updateGoalPrioritiesInAppData(
+      Priority parentPriority, int correctIndex) {
+    debugPrint("Here in update goal");
+    debugPrint("Parent Priority : " + parentPriority.name);
+    debugPrint("Correct index: " + correctIndex.toString());
+    for (Goal currGoal in parentPriority.goals) {
+      if (currGoal.currPriorityIndex != correctIndex) {
+        currGoal.currPriorityIndex = correctIndex;
+        debugPrint(
+            "Parent Priority here after change: " + parentPriority.toString());
+        debugPrint(currGoal.name);
+        debugPrint("Changed priority index?");
+        isFoundRecursively = true;
+      } else {
+        debugPrint(
+            "Subgoal is already correct with index " + correctIndex.toString());
+      }
+    }
+
+    recursiveUpdateGoalPriorityIndexHelper(parentPriority.goals, correctIndex);
+    return parentPriority;
+  }
+
+  static recursiveUpdateGoalPriorityIndexHelper(
+      List<Goal> goalsList, int correctPriorityIndex) {
+    for (Goal currGoal in goalsList) {
+      if (currGoal.subGoals.isNotEmpty) {
+        int subGoalIndex = 0;
+        for (Goal subGoal in currGoal.subGoals) {
+          if (subGoal.currPriorityIndex != correctPriorityIndex) {
+            subGoal.currPriorityIndex = correctPriorityIndex;
+            isFoundRecursively = true;
+            return true;
+          } else {
+            debugPrint("Subgoal is already correct with index " +
+                correctPriorityIndex.toString());
+          }
+          subGoalIndex++;
+        }
+        recursiveUpdateGoalPriorityIndexHelper(
+            currGoal.subGoals, correctPriorityIndex);
+      }
+    }
+    return false;
+  }
+
   static updatePrioritiesInFirebase() async {
     var allPriorities =
         FirebaseFirestore.instance.collection(databaseUserString);
@@ -195,11 +258,46 @@ class Global {
         for (var doc in element.docs) {
           Priority currPriority = Priority.fromJson(doc.data());
 
-          List goalsJSONs = userPriorities[currPriority.priorityIndex - 1]
+          int indexOfCurrPriority = userPriorities.indexWhere((element) =>
+              element.name.toString() == currPriority.name.toString());
+
+          debugPrint("\n\nStarting on new Priority: ");
+          debugPrint("Curr Priority: " + currPriority.name);
+          debugPrint((userPriorities.indexWhere((element) =>
+                      element.name.toString() == currPriority.name.toString()) +
+                  1)
+              .toString());
+          debugPrint(
+              "Name: ${userPriorities[userPriorities.indexWhere((element) => element.name.toString() == currPriority.name.toString())].name}");
+          debugPrint("\n");
+
+          userPriorities[userPriorities.indexWhere((element) =>
+                  element.name.toString() == currPriority.name.toString())] =
+              updateGoalPrioritiesInAppData(
+                  userPriorities[userPriorities.indexWhere((element) =>
+                      element.name.toString() == currPriority.name.toString())],
+                  indexOfCurrPriority + 1);
+
+          debugPrint("Again, name of currPri " + currPriority.name);
+          debugPrint("And name of the one we're using" +
+              userPriorities[userPriorities.indexWhere((element) =>
+                      element.name.toString() == currPriority.name.toString())]
+                  .name);
+
+          debugPrint("DUCKS");
+          debugPrint(userPriorities[userPriorities.indexWhere((element) =>
+                  element.name.toString() == currPriority.name.toString())]
+              .toString());
+          debugPrint("DUCKS");
+
+          List goalsJSONs = userPriorities[userPriorities.indexWhere(
+                  (element) =>
+                      element.name.toString() == currPriority.name.toString())]
               .getGoalsAsListofJSON();
 
-          if (currPriority
-              .equals(userPriorities[currPriority.priorityIndex - 1])) {
+          if (currPriority.equals(userPriorities[userPriorities.indexWhere(
+              (element) =>
+                  element.name.toString() == currPriority.name.toString())])) {
             continue;
           } else {
             doc.reference.update({
@@ -239,6 +337,7 @@ class Global {
         }
       }
     });
+    updatePrioritiesInFirebase();
   }
 
   static removePriority(Priority priorityToRemove) async {

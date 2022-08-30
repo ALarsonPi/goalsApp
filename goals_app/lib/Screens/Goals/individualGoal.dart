@@ -316,8 +316,8 @@ class _IndividualGoal extends State<IndividualGoal> {
             child: GestureDetector(
               onTap: () => {
                 isInTopLevel = Global.removeGoalFirestore(args.currGoal),
-                Global.updatePrioritiesInFirebase(),
-                if (isInTopLevel)
+                //Global.updatePrioritiesInFirebase(),
+                if (isInTopLevel || !args.currGoal.isChildGoal)
                   {
                     Navigator.pushNamed(context, IndividualPriority.routeName,
                         arguments: IndividualPriorityArgumentScreen(
