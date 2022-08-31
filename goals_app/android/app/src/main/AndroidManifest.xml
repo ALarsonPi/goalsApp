@@ -2,7 +2,7 @@
     package="com.creator.goalsApp">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="goals_app"
+        android:label="Goals App"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

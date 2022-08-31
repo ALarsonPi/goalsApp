@@ -3,22 +3,14 @@ import 'package:goals_app/Screens/ArgumentPassThroughScreens/settingsScreenArgue
 import 'package:goals_app/Screens/Priorities/reorderableGridOfCards.dart';
 import 'package:goals_app/Screens/optionsScreen.dart';
 import 'package:goals_app/Widgets/Priorities/noGoalsPrompt.dart';
-import 'package:goals_app/Widgets/Priorities/priorityCard.dart';
-import 'package:goals_app/Unused/randomMotivation.dart';
-import 'package:reorderable_carousel/reorderable_carousel.dart';
 import 'package:toast/toast.dart';
 import 'package:goals_app/Objects/IconsEnum.dart';
 import 'package:goals_app/Objects/Priority.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/priorityHomeArguments.dart';
-import 'package:goals_app/Screens/Priorities/individualPriority.dart';
-import 'package:goals_app/Unused/reorderScreen.dart';
 import 'package:goals_app/Widgets/Priorities/gridListIconRow.dart';
 import 'package:goals_app/Widgets/Priorities/priorityCarousel.dart';
 import 'package:goals_app/Widgets/Priorities/priorityExpandedList.dart';
-import '../../Unused/CardLabel.dart';
-import '../../Unused/PriorityCarouselWithReorderableCarousel.dart';
 import '../../global.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PriorityHomeScreen extends StatefulWidget {
   PriorityHomeScreen({Key? key}) : super(key: key);
@@ -143,14 +135,16 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
     );
   }
 
+  goToAddPrioritiesScreen() {
+    Global.updatePriorityIndexes();
+    Navigator.pushNamed(context, '/new-priority');
+  }
+
   getAddNewIcon() {
     return IconButton(
       padding: const EdgeInsets.only(right: 8.0),
       constraints: const BoxConstraints(),
-      onPressed: () => {
-        Global.updatePriorityIndexes(),
-        Navigator.pushNamed(context, '/new-priority'),
-      },
+      onPressed: () => {goToAddPrioritiesScreen()},
       icon: const Icon(
         Icons.add,
         color: Colors.white,
@@ -210,7 +204,9 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
     }
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            goToAddPrioritiesScreen();
+          },
           child: Icon(
             Icons.add,
           )),
@@ -224,7 +220,7 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
           Row(
             children: [
               //getInfoIcon(),
-              getAddNewIcon(),
+              //getAddNewIcon(),
               getSettingsIcon(),
             ],
           ),

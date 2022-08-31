@@ -53,9 +53,6 @@ dependencies:
   reorderable_grid_view: ^2.2.2
   auto_size_text: ^3.0.0
   rflutter_alert: ^2.0.4
-  firebase_core: ^1.6.0
-  cloud_firestore: ^2.5.1
-  firebase_auth: ^3.7.0
 
 dev_dependencies:
   flutter_test:

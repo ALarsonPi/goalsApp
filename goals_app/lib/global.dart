@@ -1,17 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:goals_app/Repositories/data_repository.dart';
 import 'package:path_provider/path_provider.dart';
 import 'Objects/Priority.dart';
 import 'Objects/Goal.dart';
 
 class Global {
-  final DataRepository dataRepo = DataRepository();
-
   static Map listOfImageLists = {
     "Nature/Animal Images": listOfNaturePictures,
     "Activities": listOfHobbyPictures,
@@ -129,51 +122,8 @@ class Global {
     }
     Priority parentPriority = userPriorities.elementAt(priorityIndex);
 
-    //debugPrint("Parent : " + parentPriority.name);
-
-    // var allPriorities =
-    //     FirebaseFirestore.instance.collection(databaseUserString);
-    // allPriorities.snapshots().forEach((element) async {
-    // for (var doc in element.docs) {
-    //   Priority currPriority = Priority.fromJson(doc.data());
-    //   if (currPriority.name == parentPriority.name) {
-    //     List goalsJSONs = doc['goals'];
-
-    //     debugPrint("Current Priority : " + currPriority.name);
-
-    //     int index = 0;
-    //     bool isFound = false;
-    //     debugPrint("Looking for " + goalToRemove.name);
-    //     debugPrint("Goals JSONs length: " + goalsJSONs.length.toString());
-    //     for (var goalJson in goalsJSONs) {
-    //       debugPrint(goalJson['name'].toString());
-    //       if (goalJson['name'] == goalToRemove.name) {
-    //     isFound = true;
-    //     break;
-    //   }
-    //   index++;
-    // }
-    // if (isFound) {
-    //   goalsJSONs.removeAt(index);
-    //   if (!goalsJSONs.contains(goalToRemove.toJson())) {
-    //     if (doc.exists) {
-    //       doc.reference.update({'goals': goalsJSONs});
-    //       // await FirebaseFirestore.instance
-    //       //     .runTransaction((Transaction myTransaction) async {
-    //       //   myTransaction.delete(doc.reference);
-    //       // });
-    //     }
-    //   }
-    // } else {
-    //         debugPrint("Goal not found");
-    //       }
-    //     }
-    //   }
-    // });
     bool returnValue = removeGoal(priorityIndex, goalToRemove);
-    //if (returnValue == true) {
-    //updatePrioritiesInFirebase();
-    //}
+
     return returnValue;
   }
 
