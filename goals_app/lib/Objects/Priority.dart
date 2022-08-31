@@ -27,10 +27,10 @@ class Priority {
     }
 
     return Priority(
-      json['name'],
-      json['imageUrl'],
+      json['name'] ?? "",
+      json['imageUrl'] ?? "",
       priorityGoals,
-      json['priorityIndex'],
+      json['priorityIndex'] ?? '0',
     );
   }
 

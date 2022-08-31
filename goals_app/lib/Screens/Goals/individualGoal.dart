@@ -301,7 +301,7 @@ class _IndividualGoal extends State<IndividualGoal> {
                 setState(() {
                   isInEditMode = !isInEditMode;
                   if (!isInEditMode) {
-                    Global.updatePrioritiesInFirebase();
+                    Global.writePrioritiesToMemory();
                   }
                 }),
               },
