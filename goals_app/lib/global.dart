@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'dart:io';
+import 'dart:io' as io;
+import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
 import 'Objects/Priority.dart';
 import 'Objects/Goal.dart';
@@ -204,31 +205,34 @@ class Global {
     return directory.path;
   }
 
-  static Future<File> get _localFile async {
+  static Future<io.File> get _localFile async {
     final path = await _localPath;
-    return File('$path/priorities.txt');
+    return io.File('$path/priorities.txt');
   }
 
-  static Future<File> get _localFileFirstTime async {
+  static Future<io.File> get _localFileFirstTime async {
     final path = await _localPath;
-    return File('$path/firstTime.txt');
+    return io.File('$path/firstTime.txt');
   }
 
-  static Future<File> writeFirstTime() async {
+  static Future<io.File> writeFirstTime() async {
     final file = await _localFileFirstTime;
     return file.writeAsString("1");
   }
 
-  static Future readFirstTime() async {
+  static readFirstTime() async {
     try {
       final file = await _localFileFirstTime;
-      return file.readAsString();
-    } catch (e) {
-      return "UNDEFINED";
-    }
+      bool fileExists = await file.exists();
+      if (fileExists) {
+        return file.readAsString();
+      } else {
+        return "notAvailable";
+      }
+    } catch (e) {}
   }
 
-  static Future<File> writePrioritiesToMemory() async {
+  static Future<io.File> writePrioritiesToMemory() async {
     final file = await _localFile;
 
     file.writeAsString(json.encode(userPriorities));

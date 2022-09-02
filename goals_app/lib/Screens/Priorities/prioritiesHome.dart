@@ -14,8 +14,12 @@ import '../../global.dart';
 
 class PriorityHomeScreen extends StatefulWidget {
   PriorityHomeScreen({Key? key}) : super(key: key);
+  PriorityHomeScreen.fromSplashScreen(bool resetArgs) {
+    shouldResetArgs = resetArgs;
+  }
 
   static const routeName = "/priorityHomeArgs";
+  bool shouldResetArgs = false;
 
   @override
   State<StatefulWidget> createState() {
@@ -28,13 +32,19 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
   List<Priority> priorities = List.empty(growable: true);
   bool isEdit = false;
   bool areSettingsOpen = false;
+  late final args;
 
   @override
   void initState() {
     priorities.clear();
     priorities = Global.userPriorities;
     priorities.sort((a, b) => a.priorityIndex.compareTo(b.priorityIndex));
-
+    if (widget.shouldResetArgs) {
+      args = PriorityHomeArguments(0);
+    } else {
+      args =
+          ModalRoute.of(context)!.settings.arguments as PriorityHomeArguments;
+    }
     super.initState();
   }
 
@@ -298,9 +308,6 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
       args.currentIndex = newSlideIndex;
     });
   }
-
-  late final args =
-      ModalRoute.of(context)!.settings.arguments as PriorityHomeArguments;
 
   @override
   Widget build(BuildContext context) {

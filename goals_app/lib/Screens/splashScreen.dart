@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/priorityHomeArguments.dart';
 import 'package:goals_app/Screens/Priorities/prioritiesHome.dart';
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 
+import 'package:page_transition/page_transition.dart';
 import '../global.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -19,17 +21,22 @@ class _SplashScreen extends State<SplashScreen> {
   }
 
   getUserPriorities() async {
-    //Eventually this will be async
-    Global.getPriorities();
+    await Global.getPriorities();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-        onPressed: () {
-          Navigator.pushNamed(context, PriorityHomeScreen.routeName,
-              arguments: PriorityHomeArguments(0));
-        },
-        child: const Text("The App just started"));
+    return MaterialApp(
+      home: Scaffold(
+        appBar: null,
+        body: AnimatedSplashScreen(
+            splash: 'assets/icon/targetIcon.png',
+            pageTransitionType: PageTransitionType.fade,
+            nextScreen: PriorityHomeScreen.fromSplashScreen(true),
+            duration: 2500,
+            splashIconSize: 200,
+            splashTransition: SplashTransition.scaleTransition),
+      ),
+    );
   }
 }

@@ -103,75 +103,78 @@ class _IndividualPriority extends State<IndividualPriority> {
   }
 
   getSettingsMenu(BuildContext context) {
-    return (areSettingsOpen)
-        ? Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              getCircleIconWidget(
-                context,
-                IconButton(
-                  onPressed: () => {
-                    setState(() {
-                      shouldEdit = !shouldEdit;
-                    }),
-                  },
-                  icon: const Icon(
-                    Icons.edit,
-                    size: 20,
-                  ),
-                  color: (shouldEdit) ? Colors.yellowAccent : Colors.white,
-                  highlightColor: Colors.grey,
-                ),
-                (shouldEdit) ? Colors.yellowAccent : Colors.white,
-              ),
-              getCircleIconWidget(
-                context,
-                IconButton(
-                  onPressed: () async => {
-                    await Global.removePriority(
-                        Global.userPriorities.elementAt(args.index)),
-                    Navigator.pushNamed(context, PriorityHomeScreen.routeName,
-                        arguments: PriorityHomeArguments(0)),
-                  },
-                  icon: const Icon(
-                    Icons.delete,
-                    size: 20.0,
-                  ),
-                  color: Colors.redAccent,
-                ),
-                Colors.white,
-              ),
-              getCircleIconWidget(
+    return Padding(
+      padding: const EdgeInsets.only(top: 20),
+      child: (areSettingsOpen)
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                getCircleIconWidget(
                   context,
                   IconButton(
-                      onPressed: () => {
-                            setState(() {
-                              areSettingsOpen = !areSettingsOpen;
-                            }),
-                          },
-                      icon: const Icon(
-                        Icons.menu_open,
-                        color: Colors.white,
-                        size: 20.0,
-                      )),
-                  Colors.white)
-            ],
-          )
-        : getCircleIconWidget(
-            context,
-            IconButton(
-              onPressed: () => {
-                setState(() {
-                  areSettingsOpen = !areSettingsOpen;
-                }),
-              },
-              icon: const Icon(
-                Icons.menu,
-                color: Colors.white,
-                size: 20.0,
+                    onPressed: () => {
+                      setState(() {
+                        shouldEdit = !shouldEdit;
+                      }),
+                    },
+                    icon: const Icon(
+                      Icons.edit,
+                      size: 20,
+                    ),
+                    color: (shouldEdit) ? Colors.yellowAccent : Colors.white,
+                    highlightColor: Colors.grey,
+                  ),
+                  (shouldEdit) ? Colors.yellowAccent : Colors.white,
+                ),
+                getCircleIconWidget(
+                  context,
+                  IconButton(
+                    onPressed: () async => {
+                      await Global.removePriority(
+                          Global.userPriorities.elementAt(args.index)),
+                      Navigator.pushNamed(context, PriorityHomeScreen.routeName,
+                          arguments: PriorityHomeArguments(0)),
+                    },
+                    icon: const Icon(
+                      Icons.delete,
+                      size: 20.0,
+                    ),
+                    color: Colors.redAccent,
+                  ),
+                  Colors.white,
+                ),
+                getCircleIconWidget(
+                    context,
+                    IconButton(
+                        onPressed: () => {
+                              setState(() {
+                                areSettingsOpen = !areSettingsOpen;
+                              }),
+                            },
+                        icon: const Icon(
+                          Icons.menu_open,
+                          color: Colors.white,
+                          size: 20.0,
+                        )),
+                    Colors.white)
+              ],
+            )
+          : getCircleIconWidget(
+              context,
+              IconButton(
+                onPressed: () => {
+                  setState(() {
+                    areSettingsOpen = !areSettingsOpen;
+                  }),
+                },
+                icon: const Icon(
+                  Icons.menu,
+                  color: Colors.white,
+                  size: 20.0,
+                ),
               ),
-            ),
-            Colors.white);
+              Colors.white),
+    );
   }
 
   changeImage(String newURL) {
