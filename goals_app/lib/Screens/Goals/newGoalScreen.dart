@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:dropdown_button2/custom_dropdown_button2.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
@@ -162,18 +163,22 @@ class _NewGoalScreen extends State<NewGoalScreen> {
                 children: [
                   //CURRENT Priority Name
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 16.0),
+                    padding: const EdgeInsets.only(
+                      bottom: 16.0,
+                      right: 32.0,
+                      left: 32.0,
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Expanded(
                           child: FittedBox(
-                            child: Text(
+                            child: AutoSizeText(
                               (args.isComingFromPriority)
                                   ? "For Priority: ${Global.userPriorities[args.priorityIndex].name}"
                                   : "Subgoal of \"${args.currentGoal.name}\" ${args.currentGoal.goalTarget}x",
                               style: const TextStyle(
-                                  fontSize: 24,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   fontStyle: FontStyle.italic),
                             ),
@@ -219,6 +224,8 @@ class _NewGoalScreen extends State<NewGoalScreen> {
                     ),
                   if (currentSlide == 1)
                     FormBuilderTextField(
+                      key: const ValueKey('goalInput'),
+                      autocorrect: false,
                       name: "goal",
                       minLines: 2,
                       maxLines: 4,
@@ -251,6 +258,8 @@ class _NewGoalScreen extends State<NewGoalScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
                       child: FormBuilderTextField(
+                        key: const ValueKey('numRepeat'),
+                        autocorrect: false,
                         maxLines: 1,
                         minLines: 1,
                         name: "numRepeat",
@@ -353,6 +362,8 @@ class _NewGoalScreen extends State<NewGoalScreen> {
                       padding: const EdgeInsets.only(
                           left: 8.0, right: 8.0, bottom: 18.0),
                       child: FormBuilderTextField(
+                        key: const ValueKey('reward'),
+                        autocorrect: false,
                         maxLines: 3,
                         minLines: 1,
                         name: "rewardPicker",
@@ -396,6 +407,8 @@ class _NewGoalScreen extends State<NewGoalScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: FormBuilderTextField(
+                        key: const ValueKey('why'),
+                        autocorrect: false,
                         minLines: 1,
                         maxLines: 3,
                         name: "why",
@@ -434,6 +447,8 @@ class _NewGoalScreen extends State<NewGoalScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: FormBuilderTextField(
+                        key: const ValueKey('whenWhere'),
+                        autocorrect: false,
                         minLines: 1,
                         maxLines: 3,
                         name: "whenWhere",

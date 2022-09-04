@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:goals_app/Screens/ArgumentPassThroughScreens/priorityHomeArguments.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../Objects/Goal.dart';
@@ -39,6 +38,9 @@ class _NewPriorityScreen extends State<NewPriorityScreen> {
   getImageWidget() {
     if (!recievedNewBrowsedImage && _selectedFile != null) {
       newPriority.imageUrl = _selectedFile!.path;
+    } else {
+      // newPriority.imageUrl =
+      //     "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60";
     }
     recievedNewBrowsedImage = false;
     if (newPriority.imageUrl.toString().contains("http")) {
@@ -85,7 +87,10 @@ class _NewPriorityScreen extends State<NewPriorityScreen> {
       );
 
       setState(() {
-        _selectedFile = XFile(cropped!.path);
+        _selectedFile = XFile(cropped?.path ?? "None");
+        if (_selectedFile?.path != "None") {
+          newPriority.imageUrl = _selectedFile?.path ?? "None";
+        }
         _inProcess = false;
       });
     } else {
@@ -187,6 +192,7 @@ class _NewPriorityScreen extends State<NewPriorityScreen> {
                       ElevatedButton(
                           onPressed: () => {
                                 getImage(ImageSource.gallery),
+                                setState(() => {}),
                               },
                           child: const Text("Upload Image")),
                     ],
@@ -213,26 +219,29 @@ class _NewPriorityScreen extends State<NewPriorityScreen> {
                       child: Column(
                         children: [
                           FormBuilderTextField(
-                              decoration: const InputDecoration(
-                                labelText: "Priority Name",
-                                labelStyle:
-                                    TextStyle(fontStyle: FontStyle.italic),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(width: 1, color: Colors.grey),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      width: 1.5, color: Colors.green),
-                                ),
+                            key: const ValueKey('nameOfPriority'),
+                            autocorrect: false,
+                            decoration: const InputDecoration(
+                              labelText: "Priority Name",
+                              labelStyle:
+                                  TextStyle(fontStyle: FontStyle.italic),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(width: 1, color: Colors.grey),
                               ),
-                              name: "priority-name",
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter a name';
-                                }
-                                return null;
-                              }),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(width: 1.5, color: Colors.green),
+                              ),
+                            ),
+                            name: "priority-name",
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter a name';
+                              }
+                              return null;
+                            },
+                          ),
                           Padding(
                             padding: const EdgeInsets.only(
                                 top: 20.0, left: 12.0, right: 12.0),
