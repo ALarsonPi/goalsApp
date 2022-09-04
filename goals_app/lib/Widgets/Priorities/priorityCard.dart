@@ -75,7 +75,7 @@ class PriorityCard extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: 0.0,
+              bottom: 5.0,
               right: 3.0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,

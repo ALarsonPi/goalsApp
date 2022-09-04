@@ -188,14 +188,9 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
 
   Widget getCurrentWidgetContent(int currentDisplayIndex) {
     double paddingMultiplier = 0.1;
-    if (MediaQuery.of(context).size.height > 1500) {
-      paddingMultiplier = 0.4;
-    } else if (MediaQuery.of(context).size.height > 1000) {
-      paddingMultiplier = 0.3;
-    } else if (MediaQuery.of(context).size.height > 750) {
-      paddingMultiplier = 0.18;
-    } else if (MediaQuery.of(context).size.height > 500) {
-      paddingMultiplier = 0.05;
+    double mediaPixelVar = MediaQuery.of(context).devicePixelRatio - 1.75;
+    if (mediaPixelVar < 1) {
+      mediaPixelVar = 1;
     }
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -226,7 +221,8 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
         Padding(
           padding: EdgeInsets.only(
               bottom: (!Global.priorityIsInListView && !isBeingLongHeld)
-                  ? MediaQuery.of(context).size.height * paddingMultiplier
+                  ? MediaQuery.of(context).size.height * 0.1 * (mediaPixelVar)
+                  //? MediaQuery.of(context).size.height * paddingMultiplier
                   : 0.0),
           child: Column(
             children: [

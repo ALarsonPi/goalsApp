@@ -26,6 +26,7 @@ class AppRouter extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
+      themeMode: ThemeMode.light,
       //darkTheme: ThemeData.dark(),
       builder: (context, widget) => Navigator(
         onGenerateRoute: (RouteSettings settings) => MaterialPageRoute(
