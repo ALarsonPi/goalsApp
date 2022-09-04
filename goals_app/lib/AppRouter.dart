@@ -3,7 +3,7 @@ import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualPriorityA
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/newGoalArguements.dart';
 import 'package:goals_app/Screens/Goals/individualGoal.dart';
 import 'package:goals_app/Screens/Goals/newGoalScreen.dart';
-import 'package:goals_app/Screens/Goals/newPriority.dart';
+import 'package:goals_app/Screens/Priorities/newPriority.dart';
 import 'package:goals_app/Screens/Priorities/individualPriority.dart';
 import 'package:goals_app/Screens/browseImages.dart';
 import 'package:goals_app/Screens/optionsScreen.dart';
@@ -21,36 +21,39 @@ class AppRouter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Goals App',
-        theme: ThemeData(
-          primarySwatch: Colors.green,
+      debugShowCheckedModeBanner: false,
+      title: 'Goals App',
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+      ),
+      //darkTheme: ThemeData.dark(),
+      builder: (context, widget) => Navigator(
+        onGenerateRoute: (RouteSettings settings) => MaterialPageRoute(
+          builder: (ctx) {
+            return Container(
+              child: widget,
+            );
+          },
         ),
-        darkTheme: ThemeData.dark(),
-        builder: (context, widget) => Navigator(
-              onGenerateRoute: (RouteSettings settings) => MaterialPageRoute(
-                builder: (ctx) {
-                  return Container(
-                    child: widget,
-                  );
-                },
-              ),
-            ),
-        initialRoute: '/',
-        routes: {
-          //Global
-          '/': (context) => SplashScreen(),
-          OptionsScreen.routeName: ((context) => OptionsScreen()),
+      ),
+      initialRoute: '/',
+      routes: {
+        //Global
+        '/': (context) => SplashScreen(),
+        '/priority-home': (context) => PriorityHomeScreen(),
 
-          //Priorities
-          '/new-priority': (context) => NewPriorityScreen(),
-          NewGoalScreen.routeName: ((context) => NewGoalScreen()),
-          PriorityHomeScreen.routeName: ((context) => PriorityHomeScreen()),
-          BrowseImagesScreen.routeName: (context) => BrowseImagesScreen(),
-          IndividualPriority.routeName: (context) => const IndividualPriority(),
+        OptionsScreen.routeName: ((context) => OptionsScreen()),
 
-          //Goals
-          IndividualGoal.routeName: ((context) => IndividualGoal()),
-        });
+        //Priorities
+        IndividualPriority.routeName: (context) => const IndividualPriority(),
+        '/new-priority': (context) => NewPriorityScreen(),
+        NewGoalScreen.routeName: ((context) => NewGoalScreen()),
+        PriorityHomeScreen.routeName: ((context) => PriorityHomeScreen()),
+        BrowseImagesScreen.routeName: (context) => BrowseImagesScreen(),
+
+        //Goals
+        IndividualGoal.routeName: ((context) => IndividualGoal()),
+      },
+    );
   }
 }

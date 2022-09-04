@@ -14,12 +14,13 @@ import '../../global.dart';
 
 class PriorityHomeScreen extends StatefulWidget {
   PriorityHomeScreen({Key? key}) : super(key: key);
-  PriorityHomeScreen.fromSplashScreen(bool resetArgs) {
-    shouldResetArgs = resetArgs;
+  PriorityHomeScreen.fromOtherRoute(int currIndex) {
+    currentStartIndex = currIndex;
   }
 
   static const routeName = "/priorityHomeArgs";
   bool shouldResetArgs = false;
+  int currentStartIndex = 0;
 
   @override
   State<StatefulWidget> createState() {
@@ -32,18 +33,16 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
   List<Priority> priorities = List.empty(growable: true);
   bool isEdit = false;
   bool areSettingsOpen = false;
-  late final args;
+  int currPriorityIndex = 0;
 
   @override
   void initState() {
     priorities.clear();
     priorities = Global.userPriorities;
     priorities.sort((a, b) => a.priorityIndex.compareTo(b.priorityIndex));
-    if (widget.shouldResetArgs) {
-      args = PriorityHomeArguments(0);
-    } else {
-      args =
-          ModalRoute.of(context)!.settings.arguments as PriorityHomeArguments;
+
+    if (widget.currentStartIndex != 0) {
+      currPriorityIndex = widget.currentStartIndex;
     }
     super.initState();
   }
@@ -170,7 +169,7 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
       constraints: const BoxConstraints(),
       onPressed: () => {
         Navigator.pushNamed(context, OptionsScreen.routeName,
-            arguments: SettingsScreenArguements(args.currentIndex)),
+            arguments: SettingsScreenArguements(widget.currentStartIndex)),
       },
       icon: const Icon(Icons.settings, size: 22.0),
     );
@@ -217,7 +216,7 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
           onPressed: () {
             goToAddPrioritiesScreen();
           },
-          child: Icon(
+          child: const Icon(
             Icons.add,
           )),
       appBar: AppBar(
@@ -305,12 +304,12 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
 
   getNotificationFromChildOfSlideChange(int newSlideIndex) {
     setState(() {
-      args.currentIndex = newSlideIndex;
+      widget.currentStartIndex = newSlideIndex;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return getCurrentWidgetContent(args.currentIndex);
+    return getCurrentWidgetContent(widget.currentStartIndex);
   }
 }

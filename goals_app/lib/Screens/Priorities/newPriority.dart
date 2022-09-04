@@ -8,7 +8,7 @@ import '../../Objects/Goal.dart';
 import '../../Objects/Priority.dart';
 import '../../global.dart';
 import '../ArgumentPassThroughScreens/browseImageArguments.dart';
-import '../Priorities/prioritiesHome.dart';
+import 'prioritiesHome.dart';
 import '../browseImages.dart';
 
 class NewPriorityScreen extends StatefulWidget {

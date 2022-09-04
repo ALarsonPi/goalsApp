@@ -2,10 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NextPreviousButtons extends StatefulWidget {
+  final int firstIndex;
+  final int lastIndex;
   Function next;
   Function previous;
   int currentSlideIndex;
-  NextPreviousButtons(this.currentSlideIndex, this.next, this.previous);
+  NextPreviousButtons(this.currentSlideIndex, this.next, this.previous,
+      this.firstIndex, this.lastIndex);
 
   @override
   State<StatefulWidget> createState() {
@@ -15,7 +18,7 @@ class NextPreviousButtons extends StatefulWidget {
 
 class _NextPreviousButtons extends State<NextPreviousButtons> {
   previous() {
-    if (widget.currentSlideIndex == 1) {
+    if (widget.currentSlideIndex == widget.firstIndex) {
       return null;
     } else {
       setState(() {
@@ -27,7 +30,7 @@ class _NextPreviousButtons extends State<NextPreviousButtons> {
   }
 
   next() {
-    if (widget.currentSlideIndex == 4) {
+    if (widget.currentSlideIndex == widget.lastIndex) {
       return null;
     } else {
       setState(() {
@@ -46,13 +49,15 @@ class _NextPreviousButtons extends State<NextPreviousButtons> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           ElevatedButton(
-            onPressed: (widget.currentSlideIndex == 1)
+            onPressed: (widget.currentSlideIndex == (widget.firstIndex + 1))
                 ? null
                 : () => widget.previous(),
             child: const Text("←  PREVIOUS"),
           ),
           ElevatedButton(
-            onPressed: (widget.currentSlideIndex == 3) ? null : () => next(),
+            onPressed: (widget.currentSlideIndex == (widget.lastIndex - 1))
+                ? null
+                : () => next(),
             child: const Text("  NEXT     →"),
           ),
         ],

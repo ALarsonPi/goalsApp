@@ -458,7 +458,7 @@ class _NewGoalScreen extends State<NewGoalScreen> {
                     ),
 
                   NextPreviousButtons(
-                      currentSlide, incrementSlide, decrementSlide),
+                      currentSlide, incrementSlide, decrementSlide, 0, 4),
 
                   //SUBMIT BUTTON
                   Padding(

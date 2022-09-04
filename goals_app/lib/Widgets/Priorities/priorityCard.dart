@@ -37,6 +37,8 @@ class PriorityCard extends StatelessWidget {
         notifyParentOfLongHold(),
       },
       onTap: () => {
+        debugPrint("Hey"),
+        debugPrint(index.toString()),
         Navigator.pushNamed(
           context,
           IndividualPriority.routeName,
