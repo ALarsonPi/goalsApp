@@ -6,7 +6,6 @@ import 'package:goals_app/Widgets/Priorities/noGoalsPrompt.dart';
 import 'package:toast/toast.dart';
 import 'package:goals_app/Objects/IconsEnum.dart';
 import 'package:goals_app/Objects/Priority.dart';
-import 'package:goals_app/Screens/ArgumentPassThroughScreens/priorityHomeArguments.dart';
 import 'package:goals_app/Widgets/Priorities/gridListIconRow.dart';
 import 'package:goals_app/Widgets/Priorities/priorityCarousel.dart';
 import 'package:goals_app/Widgets/Priorities/priorityExpandedList.dart';
@@ -14,12 +13,8 @@ import '../../global.dart';
 
 class PriorityHomeScreen extends StatefulWidget {
   PriorityHomeScreen({Key? key}) : super(key: key);
-  PriorityHomeScreen.fromOtherRoute(int currIndex) {
-    currentStartIndex = currIndex;
-  }
-
-  static const routeName = "/priorityHomeArgs";
-  bool shouldResetArgs = false;
+  PriorityHomeScreen.fromOtherRoute(this.currentStartIndex, {Key? key})
+      : super(key: key);
   int currentStartIndex = 0;
 
   @override
@@ -54,15 +49,6 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
 
     super.didChangeDependencies();
   }
-
-  // @override
-  // void setState(VoidCallback fn) {
-  //   priorities.clear();
-  //   for (Priority priority in Global.userPriorities) {
-  //     priorities.add(priority);
-  //   }
-  //   super.setState(fn);
-  // }
 
   void saveAndDelete(List<Priority> prioritiesToSave) {
     setState(() {

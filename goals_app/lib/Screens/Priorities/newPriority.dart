@@ -250,13 +250,18 @@ class _NewPriorityScreen extends State<NewPriorityScreen> {
                                                 Global.userPriorities.length +
                                                     1,
                                             Global.addPriority(newPriority),
-                                            Navigator.pushNamed(context,
-                                                PriorityHomeScreen.routeName,
-                                                arguments:
-                                                    PriorityHomeArguments(Global
-                                                            .userPriorities
-                                                            .length -
-                                                        1)),
+                                            Navigator.push<void>(
+                                              context,
+                                              MaterialPageRoute<void>(
+                                                builder: (BuildContext
+                                                        context) =>
+                                                    PriorityHomeScreen
+                                                        .fromOtherRoute(Global
+                                                                .userPriorities
+                                                                .length -
+                                                            1),
+                                              ),
+                                            ),
                                           }
                                       }
                                   : null,

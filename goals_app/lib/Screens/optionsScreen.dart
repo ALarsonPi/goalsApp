@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/priorityHomeArguments.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/settingsScreenArguements.dart';
 import 'package:goals_app/Screens/Priorities/prioritiesHome.dart';
+import 'package:goals_app/Screens/Priorities/prioritiesHome.dart';
 
 class OptionsScreen extends StatefulWidget {
   static const routeName = "/extractOptionsArguements";
@@ -26,10 +27,13 @@ class _OptionsScreen extends State<OptionsScreen> {
         ),
         leading: IconButton(
           onPressed: () => {
-            Navigator.pushNamed(
+            Navigator.push<void>(
               context,
-              PriorityHomeScreen.routeName,
-              arguments: PriorityHomeArguments(args.currentPriorityIndex),
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) =>
+                    PriorityHomeScreen.fromOtherRoute(
+                        args.currentPriorityIndex),
+              ),
             ),
           },
           icon: const Icon(Icons.arrow_back, color: Colors.white),

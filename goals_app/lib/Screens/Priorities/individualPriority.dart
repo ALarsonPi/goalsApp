@@ -132,8 +132,13 @@ class _IndividualPriority extends State<IndividualPriority> {
                     onPressed: () async => {
                       await Global.removePriority(
                           Global.userPriorities.elementAt(args.index)),
-                      Navigator.pushNamed(context, PriorityHomeScreen.routeName,
-                          arguments: PriorityHomeArguments(0)),
+                      Navigator.push<void>(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) =>
+                              PriorityHomeScreen.fromOtherRoute(0),
+                        ),
+                      ),
                     },
                     icon: const Icon(
                       Icons.delete,
@@ -272,11 +277,13 @@ class _IndividualPriority extends State<IndividualPriority> {
                               context,
                               IconButton(
                                 onPressed: () => {
-                                  Navigator.pushNamed(
+                                  Navigator.push<void>(
                                     context,
-                                    PriorityHomeScreen.routeName,
-                                    arguments:
-                                        PriorityHomeArguments(args.index),
+                                    MaterialPageRoute<void>(
+                                      builder: (BuildContext context) =>
+                                          PriorityHomeScreen.fromOtherRoute(
+                                              args.index),
+                                    ),
                                   ),
                                 },
                                 icon: const Icon(

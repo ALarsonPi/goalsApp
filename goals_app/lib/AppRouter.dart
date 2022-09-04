@@ -41,14 +41,13 @@ class AppRouter extends StatelessWidget {
         //Global
         '/': (context) => SplashScreen(),
         '/priority-home': (context) => PriorityHomeScreen(),
+        '/new-priority': (context) => NewPriorityScreen(),
 
         OptionsScreen.routeName: ((context) => OptionsScreen()),
 
         //Priorities
         IndividualPriority.routeName: (context) => const IndividualPriority(),
-        '/new-priority': (context) => NewPriorityScreen(),
         NewGoalScreen.routeName: ((context) => NewGoalScreen()),
-        PriorityHomeScreen.routeName: ((context) => PriorityHomeScreen()),
         BrowseImagesScreen.routeName: (context) => BrowseImagesScreen(),
 
         //Goals

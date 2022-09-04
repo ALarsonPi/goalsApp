@@ -185,8 +185,13 @@ class _IndividualGoal extends State<IndividualGoal> {
   }
 
   navigateHome() {
-    Navigator.pushNamed(context, PriorityHomeScreen.routeName,
-        arguments: PriorityHomeArguments(args.currPriorityIndex));
+    Navigator.push<void>(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) =>
+            PriorityHomeScreen.fromOtherRoute(args.currPriorityIndex),
+      ),
+    );
     return;
   }
 
