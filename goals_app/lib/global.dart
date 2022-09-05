@@ -157,17 +157,44 @@ class Global {
     return !isFoundRecursively;
   }
 
-  static bool removeGoalFirestore(Goal goalToRemove) {
-    //updateGoalPrioritiesInAppData(parentPriority, correctIndex)
-    int priorityIndex = 0;
-    for (Priority priority in userPriorities) {
-      if (priority.goals.contains(goalToRemove)) {
-        priorityIndex = priority.priorityIndex - 1;
+  static findIndexOfGoalRecursive(List<Goal> goalsList, Goal goalToRemove) {
+    for (var goal in goalsList) {
+      if (goal.subGoals.isNotEmpty) {
+        int subGoalIndex = 0;
+        for (Goal subGoal in goal.subGoals) {
+          if (subGoal == goalToRemove) {
+            isFoundRecursively = true;
+            return true;
+          }
+          subGoalIndex++;
+        }
+        recursiveRemoveGoalHelper(goal.subGoals, goalToRemove);
       }
     }
-    Priority parentPriority = userPriorities.elementAt(priorityIndex);
+    return false;
+  }
 
-    bool returnValue = removeGoal(priorityIndex, goalToRemove);
+  static bool removeGoalFirestore(Goal goalToRemove) {
+    debugPrint(goalToRemove.name);
+    int priorityIndex = 0;
+
+    bool isFound = false;
+    for (Priority priority in userPriorities) {
+      if (priority.goals.contains(goalToRemove)) {
+        priorityIndex = priority.priorityIndex;
+        isFound = true;
+      }
+    }
+
+    for (int i = 0; i < userPriorities.length; i++) {
+      if (findIndexOfGoalRecursive(userPriorities[i].goals, goalToRemove)) {
+        priorityIndex = i;
+      }
+    }
+    isFoundRecursively = false;
+
+    Priority parentPriority = userPriorities.elementAt(priorityIndex);
+    bool returnValue = removeGoal(parentPriority.priorityIndex, goalToRemove);
 
     return returnValue;
   }
