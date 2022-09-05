@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:goals_app/Objects/Goal.dart';
 import 'package:goals_app/Objects/IconsEnum.dart';
 import 'package:goals_app/Widgets/Priorities/noGoalsPrompt.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
 
-import '../../Screens/ArgumentPassThroughScreens/browseImageArguments.dart';
-import '../../Screens/browseImages.dart';
 import '../../global.dart';
 import '../Goals/goalButton.dart';
-import '../../Unused/goalsList.dart';
 import 'gridListIconRow.dart';
 
 class NormalPriorityWidget extends StatefulWidget {

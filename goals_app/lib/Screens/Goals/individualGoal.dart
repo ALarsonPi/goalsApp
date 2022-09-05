@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualGoalArguments.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
-import 'package:goals_app/Screens/ArgumentPassThroughScreens/priorityHomeArguments.dart';
 import 'package:goals_app/Screens/Priorities/individualPriority.dart';
 import 'package:goals_app/Screens/Priorities/prioritiesHome.dart';
 import 'package:goals_app/Widgets/Goals/goalProgressWidget.dart';

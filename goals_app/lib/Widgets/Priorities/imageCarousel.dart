@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:goals_app/Unused/CardLabel.dart';
 import 'package:goals_app/Widgets/Priorities/clickableHighlightImage.dart';
-import '../../global.dart';
 
 class ImageCarousel extends StatefulWidget {
   final List<String> urlList;

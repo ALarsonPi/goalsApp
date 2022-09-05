@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:goals_app/Unused/PriorityCardWithReorder.dart';
-import 'package:goals_app/Widgets/Priorities/priorityCard.dart';
 import 'package:page_view_indicators/circle_page_indicator.dart';
 import '../global.dart';
 

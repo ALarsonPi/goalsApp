@@ -7,17 +7,45 @@ import 'Objects/Goal.dart';
 
 class Global {
   static Map listOfImageLists = {
+    "People Pictures": listOfPeoplePictures,
     "Nature/Animal Images": listOfNaturePictures,
     "Activities": listOfHobbyPictures,
     "Study Images": listOfStudyPictures,
     "Food Images": listOfFoodPictures,
   };
 
+  static List<pictureHolder> listOfPeoplePictures = [
+    pictureHolder(
+        "https://images.unsplash.com/photo-1591035897819-f4bdf739f446?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+        "Girls laughing in sunflowers"),
+    pictureHolder(
+        "https://images.unsplash.com/photo-1466193341027-56e68017ee2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+        "Woman taking a deep breath on a beach"),
+    pictureHolder(
+        "https://images.unsplash.com/photo-1502902020937-d77a834d5e5f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+        "Falling?"),
+    pictureHolder(
+        "https://i.picsum.photos/id/1004/1200/800.jpg?hmac=XzDs6RyPJPGVeW2xChNhSRZX1uyM1LFCsY7QfF1Qo9E",
+        "Kissing in the Snow"),
+    pictureHolder(
+        "https://images.unsplash.com/photo-1619537903549-0981d6bca911?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+        "Campfire gettogether"),
+    pictureHolder(
+        "https://picsum.photos/id/1001/1200/800", "Man with son on beach"),
+    pictureHolder(
+        "https://picsum.photos/id/1066/1200/800", "Father with son in crib"),
+    pictureHolder("https://picsum.photos/id/129/1200/800",
+        "Man and woman chilling on a bench"),
+  ];
+
   static List<pictureHolder> listOfNaturePictures = [
     pictureHolder("https://placedog.net/900/1200?id=36", "Dog Image 1"),
     pictureHolder(
         "https://images.unsplash.com/photo-1657199372069-bd8cb49315c4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
         "Mountain"),
+    pictureHolder(
+        "https://images.unsplash.com/photo-1591208333284-825682219525?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1476&q=80",
+        "Dog staring down human"),
     pictureHolder("https://picsum.photos/id/237/1200/800", "Dog"),
     pictureHolder("https://picsum.photos/id/191/500/600", "Road"),
     pictureHolder("https://picsum.photos/id/1039/500/600", "Forest"),
@@ -26,6 +54,10 @@ class Global {
   ];
 
   static List<pictureHolder> listOfFoodPictures = [
+    pictureHolder(
+        "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+        "Woman enjoying pasta"),
+    pictureHolder("https://picsum.photos/id/493/1200/800", "Strawberry Cereal"),
     pictureHolder(
         "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60",
         "Stir Fry and Orange Juice"),
@@ -47,9 +79,15 @@ class Global {
 
   static List<pictureHolder> listOfStudyPictures = [
     pictureHolder(
+        "https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+        "Laughing in a library"),
+    pictureHolder(
         "https://images.unsplash.com/photo-1472745433479-4556f22e32c2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fHJlYWRpbmd8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
         "Reading on Bench"),
     pictureHolder("https://picsum.photos/id/3/800/800", "Tech"),
+    pictureHolder(
+        "https://images.unsplash.com/photo-1560439450-57df7ac6dbef?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+        "2 college girls, studying, one is doing the peace sign"),
     pictureHolder("https://picsum.photos/id/367/800/800", "Kindle"),
     pictureHolder("https://picsum.photos/id/180/500/800", "Laptop Study"),
     pictureHolder(
@@ -62,6 +100,9 @@ class Global {
 
   static List<pictureHolder> listOfHobbyPictures = [
     pictureHolder(
+        "https://images.unsplash.com/photo-1520207588543-1e545b20c19e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1471&q=80",
+        "Painting art"),
+    pictureHolder(
         "https://images.unsplash.com/photo-1502224562085-639556652f33?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cnVufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
         "Running"),
     pictureHolder(
@@ -70,6 +111,9 @@ class Global {
     pictureHolder(
         "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fHdvcmtvdXR8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
         "Lifting weights"),
+    pictureHolder(
+        "https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+        "Soccer again"),
     pictureHolder(
         "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzR8fHNwb3J0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
         "Soccer"),

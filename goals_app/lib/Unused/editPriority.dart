@@ -5,7 +5,6 @@ import 'package:goals_app/Screens/ArgumentPassThroughScreens/browseImageArgument
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/editPriotitiesArguments.dart';
 import 'package:goals_app/Screens/Priorities/individualPriority.dart';
 import 'package:goals_app/Screens/browseImages.dart';
-import 'package:goals_app/Screens/getStorageImage.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:goals_app/global.dart';
 

@@ -2,13 +2,10 @@ import 'dart:math';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:goals_app/Unused/CardLabel.dart';
 import 'package:goals_app/Objects/Priority.dart';
 import 'package:goals_app/Unused/PriorityCardWithReorder.dart';
-import 'package:goals_app/Unused/myPageView.dart';
 import 'package:goals_app/Widgets/Priorities/priorityCard.dart';
 import 'package:goals_app/global.dart';
-import 'package:carousel_indicator/carousel_indicator.dart';
 import 'package:page_view_indicators/circle_page_indicator.dart';
 import 'package:reorderable_carousel/reorderable_carousel.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';

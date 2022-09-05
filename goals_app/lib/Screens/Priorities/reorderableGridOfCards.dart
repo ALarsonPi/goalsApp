@@ -1,17 +1,14 @@
 import 'dart:io';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:goals_app/Objects/Priority.dart';
 import 'package:goals_app/Screens/Priorities/individualPriority.dart';
-import 'package:goals_app/Widgets/Priorities/priorityCard.dart';
 import 'package:goals_app/global.dart';
 import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
 import 'package:reorderables/reorderables.dart';
 
 import '../ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
-import '../../Widgets/Priorities/priorityCarousel.dart';
 
 class ReorderableGridOfCards extends StatefulWidget {
   Function notifyParentOfLongHold;

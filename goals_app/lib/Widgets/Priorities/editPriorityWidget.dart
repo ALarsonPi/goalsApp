@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:goals_app/Objects/Goal.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../Screens/ArgumentPassThroughScreens/browseImageArguments.dart';

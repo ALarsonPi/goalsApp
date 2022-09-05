@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:goals_app/Widgets/Goals/goalButton.dart';
-import 'package:goals_app/Widgets/Priorities/gridListIconRow.dart';
 import '../Objects/Goal.dart';
 
 class GoalsList extends StatefulWidget {

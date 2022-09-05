@@ -2,10 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/newGoalArguements.dart';
-import 'package:goals_app/Screens/ArgumentPassThroughScreens/priorityHomeArguments.dart';
 import 'package:goals_app/Screens/Goals/newGoalScreen.dart';
 import 'package:goals_app/Screens/Priorities/prioritiesHome.dart';
-import 'package:goals_app/Unused/editPriority.dart';
 import 'package:goals_app/Widgets/Priorities/normalPriorityWidget.dart';
 import 'package:goals_app/global.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -13,13 +11,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../Objects/Goal.dart';
 import '../../Widgets/Goals/goalButton.dart';
-import '../../Unused/goalsList.dart';
 import '../../Widgets/Priorities/editPriorityWidget.dart';
-import '../../Widgets/Priorities/gridListIconRow.dart';
-import '../ArgumentPassThroughScreens/browseImageArguments.dart';
-import '../ArgumentPassThroughScreens/editPriotitiesArguments.dart';
 import '../ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
-import '../browseImages.dart';
 
 class IndividualPriority extends StatefulWidget {
   static const routeName = "/extractPriorityIndex";

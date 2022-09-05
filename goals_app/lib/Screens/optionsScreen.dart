@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:goals_app/Screens/ArgumentPassThroughScreens/priorityHomeArguments.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/settingsScreenArguements.dart';
-import 'package:goals_app/Screens/Priorities/prioritiesHome.dart';
 import 'package:goals_app/Screens/Priorities/prioritiesHome.dart';
 
 class OptionsScreen extends StatefulWidget {

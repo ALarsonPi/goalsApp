@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
-import 'package:goals_app/global.dart';
 
 import '../../Screens/Priorities/individualPriority.dart';
 
