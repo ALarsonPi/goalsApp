@@ -327,24 +327,29 @@ class Global {
     userPriorities.add(
       Priority(
           "Social",
-          listOfStudyPictures[listOfStudyPictures.length - 1].url,
+          "https://images.unsplash.com/photo-1619537903549-0981d6bca911?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
           emptyGoalsList,
           0),
     );
     userPriorities.add(
-      Priority("Physical", listOfHobbyPictures[0].url, emptyGoalsList, 1),
-    );
-
-    userPriorities.add(
-      Priority("Intellectual", listOfStudyPictures[0].url, emptyGoalsList, 2),
+      Priority(
+          "Physical",
+          "https://images.unsplash.com/photo-1502224562085-639556652f33?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cnVufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
+          emptyGoalsList,
+          1),
     );
 
     userPriorities.add(
       Priority(
-          "Emotional",
-          listOfNaturePictures[listOfNaturePictures.length - 1].url,
+          "Intellectual",
+          "https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
           emptyGoalsList,
-          3),
+          2),
+    );
+
+    userPriorities.add(
+      Priority("Emotional", "https://placedog.net/900/1200?id=36",
+          emptyGoalsList, 3),
     );
 
     List<Goal> nonEmptyGoal = List.empty(growable: true);
@@ -352,7 +357,11 @@ class Global {
         Goal("name", 0, "1", "2", "whyToComplete", "whenToComplete", false);
     nonEmptyGoal.add(newGoal);
     userPriorities.add(
-      Priority("Spiritual", listOfNaturePictures[1].url, nonEmptyGoal, 4),
+      Priority(
+          "Spiritual",
+          "https://images.unsplash.com/photo-1657199372069-bd8cb49315c4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+          nonEmptyGoal,
+          4),
     );
     await writePrioritiesToMemory();
     userPriorities.clear();
