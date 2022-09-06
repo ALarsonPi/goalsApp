@@ -28,12 +28,12 @@ class _SplashScreen extends State<SplashScreen> {
     return Scaffold(
       appBar: null,
       body: AnimatedSplashScreen(
-          splash: 'assets/icon/targetIcon.png',
+          splash: 'assets/icon/TheAlpsCreations.png',
           pageTransitionType: PageTransitionType.fade,
           nextScreen: PriorityHomeScreen(),
           duration: 2500,
-          splashIconSize: 200,
-          splashTransition: SplashTransition.scaleTransition),
+          splashIconSize: 500,
+          splashTransition: SplashTransition.fadeTransition),
     );
   }
 }
