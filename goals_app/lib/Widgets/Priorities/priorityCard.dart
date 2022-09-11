@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
 
@@ -47,13 +48,15 @@ class PriorityCard extends StatelessWidget {
           children: [
             Padding(
               padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).size.width * 0.2),
+                  bottom: (MediaQuery.of(context).size.height > 900)
+                      ? (MediaQuery.of(context).size.height * 0.1)
+                      : (MediaQuery.of(context).size.height * 0.12)),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.7,
+                    width: MediaQuery.of(context).size.width * 0.735,
                     child: FittedBox(
                       fit: BoxFit.fill,
                       child: ClipRRect(
@@ -75,12 +78,15 @@ class PriorityCard extends StatelessWidget {
             ),
             Positioned(
               bottom: 5.0,
-              right: 3.0,
+              right: 0.0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.73,
+                    width: MediaQuery.of(context).size.width * 0.77,
+                    height: (MediaQuery.of(context).size.height > 900.0)
+                        ? MediaQuery.of(context).size.height * 0.1
+                        : MediaQuery.of(context).size.height * 0.125,
                     child: ClipRRect(
                       borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(20),
@@ -88,20 +94,38 @@ class PriorityCard extends StatelessWidget {
                       child: Card(
                         borderOnForeground: false,
                         elevation: 5,
-                        child: ListTile(
-                          title: Text(
-                            name,
-                            style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87),
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            top: (MediaQuery.of(context).size.height > 900.0)
+                                ? 12
+                                : 0,
+                            left: (MediaQuery.of(context).size.height > 900.0)
+                                ? 24
+                                : 0,
                           ),
-                          subtitle: Text(
-                            "Priority ${index + 1}",
-                            style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.black45),
+                          child: ListTile(
+                            title: AutoSizeText(
+                              name,
+                              style: TextStyle(
+                                  fontSize:
+                                      (MediaQuery.of(context).size.height >
+                                              900.0)
+                                          ? 36
+                                          : 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black87),
+                            ),
+                            subtitle: AutoSizeText(
+                              "Priority ${index + 1}",
+                              style: TextStyle(
+                                  fontSize:
+                                      (MediaQuery.of(context).size.height >
+                                              900.0)
+                                          ? 24
+                                          : 12,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.black45),
+                            ),
                           ),
                         ),
                       ),

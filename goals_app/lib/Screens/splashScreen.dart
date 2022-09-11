@@ -31,7 +31,7 @@ class _SplashScreen extends State<SplashScreen> {
           splash: 'assets/icon/TheAlpsCreations.png',
           pageTransitionType: PageTransitionType.fade,
           nextScreen: PriorityHomeScreen(),
-          duration: 2500,
+          duration: 2200,
           splashIconSize: 500,
           splashTransition: SplashTransition.fadeTransition),
     );

@@ -221,7 +221,8 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
         Padding(
           padding: EdgeInsets.only(
               bottom: (!Global.priorityIsInListView && !isBeingLongHeld)
-                  ? MediaQuery.of(context).size.height * 0.1 * (mediaPixelVar)
+                  ? 0.0
+                  //MediaQuery.of(context).size.height * 0.01 * (mediaPixelVar)
                   //? MediaQuery.of(context).size.height * paddingMultiplier
                   : 0.0),
           child: Column(

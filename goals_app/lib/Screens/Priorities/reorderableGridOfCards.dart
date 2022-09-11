@@ -90,20 +90,36 @@ class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
                         bottomLeft: Radius.circular(20),
                         bottomRight: Radius.circular(20)),
                     child: SizedBox(
-                      width: MediaQuery.of(context).size.width *
-                          0.45 *
-                          mediaPixelVar,
-                      height: 50,
+                      width: (MediaQuery.of(context).size.height > 900)
+                          ? MediaQuery.of(context).size.width *
+                              0.47 *
+                              mediaPixelVar
+                          : MediaQuery.of(context).size.width *
+                              0.45 *
+                              mediaPixelVar,
+                      height: MediaQuery.of(context).size.height * 0.075,
                       child: Card(
                         //elevation: 5,
                         child: ListTile(
                           title: Padding(
-                            padding:
-                                const EdgeInsets.only(left: 8.0, bottom: 8.0),
+                            padding: EdgeInsets.only(
+                              left: (MediaQuery.of(context).size.height > 900)
+                                  ? MediaQuery.of(context).size.width * 0.1
+                                  : 8.0,
+                              bottom: (MediaQuery.of(context).size.height > 900)
+                                  ? 8.0
+                                  : 12.0,
+                              top: (MediaQuery.of(context).size.height > 900)
+                                  ? 24.0
+                                  : 0.0,
+                            ),
                             child: Text(
                               "${priority.name} (${++index})",
-                              style: const TextStyle(
-                                  fontSize: 12,
+                              style: TextStyle(
+                                  fontSize:
+                                      (MediaQuery.of(context).size.height > 900)
+                                          ? 24
+                                          : 12,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black87),
                             ),

@@ -62,7 +62,9 @@ class _PriorityCarousel extends State<PriorityCarousel> {
             enlargeCenterPage: true,
             autoPlay: false,
             aspectRatio: 10.5 / 9,
-            //height: 275,
+            height: (MediaQuery.of(context).size.height > 900)
+                ? MediaQuery.of(context).size.height * 0.55
+                : MediaQuery.of(context).size.height * 0.5,
             enableInfiniteScroll: false,
             viewportFraction: 0.75,
             initialPage: widget.currentIndex,
