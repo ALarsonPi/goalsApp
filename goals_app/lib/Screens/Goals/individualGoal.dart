@@ -287,7 +287,6 @@ class _IndividualGoal extends State<IndividualGoal> {
 
   @override
   Widget build(BuildContext context) {
-    args.setComingFromListView(false);
     bool isInTopLevel;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -348,27 +347,31 @@ class _IndividualGoal extends State<IndividualGoal> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Visibility(
-              visible: !args.comingFromListView,
-              child: IconButton(
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
-                onPressed: () => navigateBackArrow(),
-              ),
-            ),
-            //before
             Stack(
               alignment: Alignment.center,
               children: <Widget>[
                 Padding(
                   padding: (args.comingFromListView)
-                      ? const EdgeInsets.only(left: 24.0, right: 48.0)
-                      : const EdgeInsets.only(left: 8.0, right: 24.0),
+                      ? const EdgeInsets.only(
+                          left: 24.0,
+                          right: 32.0,
+                        )
+                      : const EdgeInsets.only(left: 24.0, right: 8.0),
                   child: GestureDetector(
-                    child: const Icon(Icons.home),
-                    onTap: () => navigateHome(),
+                    child: const Icon(Icons.arrow_back),
+                    onTap: () => (args.comingFromListView)
+                        ? navigateHome()
+                        : navigateBackArrow(),
                   ),
                 ),
               ],
+            ),
+            Visibility(
+              visible: !args.comingFromListView,
+              child: IconButton(
+                icon: const Icon(Icons.home, color: Colors.white),
+                onPressed: () => navigateHome(),
+              ),
             ),
             const Expanded(
               child: Center(
@@ -378,7 +381,6 @@ class _IndividualGoal extends State<IndividualGoal> {
                 ),
               ),
             ),
-            //after
           ],
         ),
       ),
@@ -436,7 +438,7 @@ class _IndividualGoal extends State<IndividualGoal> {
                             subtitle: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  "Priority - ${Global.userPriorities[args.currPriorityIndex].name}",
+                                  "Priority - ${Global.userPriorities[args.currPriorityIndex - 1].name}",
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14,

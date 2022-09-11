@@ -63,15 +63,17 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
       } else {
         contentToReturn.add(
           ListTile(
-              onTap: () => {
-                    Global.priorityLastOpen = subGoal.currPriorityIndex,
-                    navigateToGoal(subGoal),
-                  },
-              title: Text(
-                "Goal: ${subGoal.name}",
-                textAlign: TextAlign.left,
-                style: TextStyle(color: Theme.of(context).primaryColor),
-              )),
+            leading: const Icon(Icons.emoji_events),
+            onTap: () => {
+              Global.priorityLastOpen = subGoal.currPriorityIndex,
+              navigateToGoal(subGoal),
+            },
+            title: Text(
+              "Goal: ${subGoal.name}     (${subGoal.goalProgress}/${subGoal.goalTarget})",
+              textAlign: TextAlign.left,
+              style: const TextStyle(color: Colors.black87),
+            ),
+          ),
         );
       }
     }
@@ -169,6 +171,7 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
     }
 
     return ReorderableListView.builder(
+      physics: const BouncingScrollPhysics(),
       shrinkWrap: true,
       proxyDecorator: _proxyDecorator,
       itemBuilder: (BuildContext context, int index) {
@@ -203,8 +206,10 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
                 isExpanded[index] = !isExpanded[index];
               }),
             },
-            title: Text(listToUse[index].name,
-                style: const TextStyle(color: Colors.black)),
+            title: Text(listToUse[index].name +
+                ((listToUse[index] is Goal)
+                    ? "    (${listToUse[index].goalProgress}/${listToUse[index].goalTarget})"
+                    : "")),
             children: <Widget>[
               Column(
                 children: [..._getExpandableContent(listToUse[index])],
