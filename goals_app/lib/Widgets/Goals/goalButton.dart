@@ -16,21 +16,22 @@ class GoalButton extends StatelessWidget {
       {Key? key})
       : super(key: key);
 
-  getRadialIndicator() {
+  getRadialIndicator(BuildContext context) {
     return GaugeAnnotation(
-        positionFactor: 0.1,
-        angle: 90,
-        widget: (currentGoal.goalProgress != currentGoal.goalTarget)
-            ? Text('${currentGoal.goalProgress} / ${currentGoal.goalTarget}',
-                style: const TextStyle(fontSize: 11))
-            : const Icon(
-                Icons.check,
-                color: Colors.greenAccent,
-                size: 25,
-              ));
+      positionFactor: 0.1,
+      angle: 90,
+      widget: Text(
+        '${currentGoal.goalProgress} / ${currentGoal.goalTarget}',
+        style: TextStyle(
+            fontSize: 11,
+            color: (currentGoal.goalProgress != currentGoal.goalTarget)
+                ? Colors.white
+                : Colors.greenAccent),
+      ),
+    );
   }
 
-  getEntireRadialWidget() {
+  getEntireRadialWidget(BuildContext context) {
     return SfRadialGauge(
       backgroundColor: Colors.transparent,
       axes: <RadialAxis>[
@@ -40,7 +41,7 @@ class GoalButton extends StatelessWidget {
           showLabels: false,
           showTicks: false,
           annotations: [
-            getRadialIndicator(),
+            getRadialIndicator(context),
           ],
           axisLineStyle: const AxisLineStyle(
             thickness: 0.2,
@@ -76,6 +77,17 @@ class GoalButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int sumOfChildrenProgress = 0;
+    int sumOfChildrenTargets = 0;
+    if (currentGoal.subGoals.isNotEmpty) {
+      sumOfChildrenProgress = Global.getSumOfChildrenProgress(currentGoal);
+      sumOfChildrenTargets = Global.getSumOfChildrenTarget(currentGoal);
+    }
+    if (sumOfChildrenTargets > 0) {
+      currentGoal.goalProgress = sumOfChildrenProgress.toString();
+      currentGoal.goalTarget = sumOfChildrenTargets.toString();
+    }
+
     return (!isGridMode)
         ? Padding(
             padding: const EdgeInsets.only(
@@ -117,7 +129,7 @@ class GoalButton extends StatelessWidget {
                     width: 100,
                     child: Padding(
                       padding: const EdgeInsets.only(top: 8.0),
-                      child: getEntireRadialWidget(),
+                      child: getEntireRadialWidget(context),
                     ),
                   ),
                 ],
@@ -136,7 +148,7 @@ class GoalButton extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 8.0),
                     child: SizedBox(
                       height: MediaQuery.of(context).size.height * 0.15,
-                      child: getEntireRadialWidget(),
+                      child: getEntireRadialWidget(context),
                     ),
                   ),
                   Expanded(

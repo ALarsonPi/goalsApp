@@ -56,7 +56,15 @@ class _NewGoalScreen extends State<NewGoalScreen> {
       args.currentGoal.subGoals.add(newGoal);
       args.currentGoal.goalProgress = "0";
       newGoal.currPriorityIndex = args.priorityIndex;
-      args.currentGoal.goalTarget = args.currentGoal.subGoals.length.toString();
+      args.currentGoal.goalTarget = "1";
+
+      if (args.currentGoal.subGoals.isNotEmpty) {
+        int sumProgress = Global.getSumOfChildrenProgress(args.currentGoal);
+        int sumTargets = Global.getSumOfChildrenTarget(args.currentGoal);
+        args.currentGoal.goalTarget =
+            (sumTargets > 0) ? sumTargets.toString() : "1";
+        args.currentGoal.goalProgress = sumProgress.toString();
+      }
     }
     Global.writePrioritiesToMemory();
     navigateBack();

@@ -138,6 +138,31 @@ class Global {
   static bool goalButtonsInGridView = false;
   static bool priorityIsInListView = false;
 
+  static int getSumOfChildrenProgress(Goal goal) {
+    return getSumOfChildrenRecursiveHelper(goal.subGoals, 0, true);
+  }
+
+  static int getSumOfChildrenTarget(Goal goal) {
+    return getSumOfChildrenRecursiveHelper(goal.subGoals, 0, false);
+  }
+
+  static int getSumOfChildrenRecursiveHelper(
+      List<Goal> subGoals, int currTotal, bool forProgress) {
+    for (Goal currGoal in subGoals) {
+      if (currGoal.subGoals.isEmpty) {
+        if (forProgress) {
+          currTotal += int.parse(currGoal.goalProgress);
+        } else {
+          currTotal += int.parse(currGoal.goalTarget);
+        }
+      } else {
+        currTotal += getSumOfChildrenRecursiveHelper(
+            currGoal.subGoals, currTotal, forProgress);
+      }
+    }
+    return currTotal;
+  }
+
   static bool removeGoal(int currPriorityIndex, Goal goalToRemove) {
     List<Goal> priorityGoals =
         userPriorities.elementAt(currPriorityIndex).goals;

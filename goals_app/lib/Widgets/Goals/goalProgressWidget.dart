@@ -44,7 +44,7 @@ class _GoalProgressWidget extends State<GoalProgressWidget> {
   @override
   void initState() {
     currentProgressString = widget.currentAmount;
-    currentTargetString = widget.goalAmount;
+    currentTargetString = widget.currGoal.goalTarget;
     hasSubGoals = widget.currGoal.subGoals.isNotEmpty;
 
     //if we have subgoals, check them and count how many completed
@@ -80,16 +80,16 @@ class _GoalProgressWidget extends State<GoalProgressWidget> {
   Widget build(BuildContext context) {
     currentProgress = int.parse(currentProgressString);
 
-    String currentNumToDisplay = (hasSubGoals)
-        ? numSubGoalsComplete.toString()
-        : currentProgress.toString();
-    String goalNumToDisplay = (hasSubGoals)
-        ? widget.currGoal.subGoals.length.toString()
-        : currentTargetString.toString();
+    String currentNumToDisplay = currentProgress.toString();
+    String goalNumToDisplay = currentTargetString.toString();
 
     if (hasSubGoals) {
-      widget.currGoal.goalProgress = currentNumToDisplay;
-      widget.currGoal.goalTarget = goalNumToDisplay;
+      widget.currGoal.goalProgress =
+          Global.getSumOfChildrenProgress(widget.currGoal).toString();
+      widget.currGoal.goalTarget =
+          Global.getSumOfChildrenTarget(widget.currGoal).toString();
+      currentNumToDisplay = widget.currGoal.goalProgress;
+      goalNumToDisplay = widget.currGoal.goalTarget;
     }
 
     return Padding(
@@ -100,12 +100,12 @@ class _GoalProgressWidget extends State<GoalProgressWidget> {
           Expanded(
             child: ListTile(
               leading: const Icon(Icons.flag),
-              title: Text(
-                (!hasSubGoals) ? "Progress:" : "Subgoals",
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              title: const Text(
+                "Progress:",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
-              subtitle: (!widget.isInEditMode)
+              subtitle: (!widget.isInEditMode ||
+                      widget.currGoal.subGoals.isNotEmpty)
                   ? Text(
                       "Current: $currentNumToDisplay\nGoal: $goalNumToDisplay",
                     )
@@ -144,8 +144,10 @@ class _GoalProgressWidget extends State<GoalProgressWidget> {
                           onChanged: (currValue) => {
                             if (currValue == "")
                               {
-                                widget.updateGoalTarget(widget.goalAmount),
-                                currentTargetString = widget.goalAmount,
+                                widget.updateGoalTarget(
+                                    widget.currGoal.goalTarget),
+                                currentTargetString =
+                                    widget.currGoal.goalTarget,
                               }
                             else
                               {
@@ -155,7 +157,7 @@ class _GoalProgressWidget extends State<GoalProgressWidget> {
                           },
                           controller: _controllerGoal,
                           decoration: InputDecoration(
-                            hintText: "Goal: ${widget.goalAmount}",
+                            hintText: "Goal: ${widget.currGoal.goalTarget}",
                             hintStyle:
                                 const TextStyle(fontStyle: FontStyle.italic),
                           ),
@@ -171,9 +173,10 @@ class _GoalProgressWidget extends State<GoalProgressWidget> {
             ),
           ),
           Visibility(
-            visible: !widget.isInEditMode &&
-                hasSubGoals &&
-                numSubGoalsComplete != widget.currGoal.subGoals.length,
+            visible: (!widget.isInEditMode &&
+                    hasSubGoals &&
+                    numSubGoalsComplete != widget.currGoal.subGoals.length) ||
+                widget.currGoal.subGoals.isNotEmpty,
             child: SizedBox(
               height: 30,
               width: 100,
@@ -187,7 +190,7 @@ class _GoalProgressWidget extends State<GoalProgressWidget> {
                   top: 8.0, left: 12.0, right: 12.0, bottom: 8.0),
               child: Stack(
                 children: [
-                  (currentProgress < int.parse(widget.goalAmount))
+                  (currentProgress < int.parse(widget.currGoal.goalTarget))
                       ? ButtonTheme(
                           height: 1,
                           materialTapTargetSize:
