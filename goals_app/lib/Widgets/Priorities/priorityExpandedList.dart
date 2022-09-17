@@ -2,9 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualGoalArguments.dart';
+import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
 import 'package:goals_app/Screens/Goals/individualGoal.dart';
+import 'package:goals_app/Screens/Priorities/individualPriority.dart';
 import 'package:goals_app/global.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '../../Objects/Goal.dart';
 import '../../Objects/Priority.dart';
@@ -33,11 +34,7 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
   @override
   void initState() {
     for (int i = 0; i < Global.userPriorities.length; i++) {
-      if (i == Global.priorityLastOpen) {
-        isExpanded.add(true);
-      } else {
-        isExpanded.add(false);
-      }
+      isExpanded.add(false);
     }
     super.initState();
   }
@@ -63,9 +60,15 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
       } else {
         contentToReturn.add(
           ListTile(
-            leading: const Icon(Icons.emoji_events),
+            key: PageStorageKey<String>(
+                "Goal: ${subGoal.name}     (${subGoal.goalProgress}/${subGoal.goalTarget})"),
+            leading: Icon(
+              Icons.emoji_events,
+              color: (subGoal.goalProgress == subGoal.goalTarget)
+                  ? Theme.of(context).primaryColor
+                  : Colors.grey,
+            ),
             onTap: () => {
-              Global.priorityLastOpen = subGoal.currPriorityIndex,
               navigateToGoal(subGoal),
             },
             title: Text(
@@ -88,6 +91,16 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
         goalToNavTo,
         goalToNavTo.currPriorityIndex,
         true,
+      ),
+    );
+  }
+
+  navigateToPriority(Priority priorityToNavTo) {
+    Navigator.pushNamed(
+      context,
+      IndividualPriority.routeName,
+      arguments: IndividualPriorityArgumentScreen(
+        priorityToNavTo.priorityIndex,
       ),
     );
   }
@@ -170,70 +183,85 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
       listToUse = Global.userPriorities;
     }
 
-    return ReorderableListView.builder(
-      physics: const BouncingScrollPhysics(),
-      shrinkWrap: true,
-      proxyDecorator: _proxyDecorator,
-      itemBuilder: (BuildContext context, int index) {
-        return Card(
-          elevation: (!widget.isPriority) ? 0 : 2,
-          key: ValueKey(listToUse![index]),
-          child: ExpansionTile(
-            initiallyExpanded: (mounted && isExpanded[index]),
-            trailing: getTrailingArrow(index, listToUse[index]),
-            leading: getCircleIconWidget(
-              context,
-              Padding(
-                padding: const EdgeInsets.only(right: 0.0),
-                child: Center(
-                  child: Text(
-                    (index + 1).toString(),
-                    style: TextStyle(
-                      //backgroundColor: Colors.white,
-                      color: getCurrentColorText(index),
-                      fontWeight: FontWeight.bold,
+    return PageStorage(
+      bucket: Global.expandedPrioritiesBucketGlobal,
+      child: ReorderableListView.builder(
+        key: const PageStorageKey<String>('priorityExpandedPage'),
+        physics: (widget.isPriority)
+            ? const BouncingScrollPhysics()
+            : const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        proxyDecorator: _proxyDecorator,
+        itemBuilder: (BuildContext context, int index) {
+          return Card(
+            elevation: (!widget.isPriority) ? 0 : 2,
+            key: ValueKey(listToUse![index]),
+            child: ExpansionTile(
+              key: PageStorageKey<String>(listToUse[index].name),
+              initiallyExpanded: (mounted && isExpanded[index]),
+              trailing: getTrailingArrow(index, listToUse[index]),
+              leading: GestureDetector(
+                onTap: () => {
+                  if (widget.isPriority && listToUse![index] is Priority)
+                    {
+                      navigateToPriority(listToUse[index]),
+                    }
+                },
+                child: getCircleIconWidget(
+                  context,
+                  Padding(
+                    padding: const EdgeInsets.only(right: 0.0),
+                    child: Center(
+                      child: Text(
+                        (index + 1).toString(),
+                        style: TextStyle(
+                          //backgroundColor: Colors.white,
+                          color: getCurrentColorText(index),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
+                  Colors.white,
+                  //getCurrentColorText(index),
+                  //Theme.of(context).colorScheme.primary,
+                  listToUse[index],
                 ),
               ),
-              Colors.white,
-              //getCurrentColorText(index),
-              //Theme.of(context).colorScheme.primary,
-              listToUse[index],
+              onExpansionChanged: (bool expanding) => {
+                setState(() {
+                  isExpanded[index] = !isExpanded[index];
+                }),
+              },
+              title: Text(listToUse[index].name +
+                  ((listToUse[index] is Goal)
+                      ? "    (${listToUse[index].goalProgress}/${listToUse[index].goalTarget})"
+                      : "")),
+              children: <Widget>[
+                Column(
+                  children: [..._getExpandableContent(listToUse[index])],
+                )
+              ],
             ),
-            onExpansionChanged: (bool expanding) => {
-              setState(() {
-                isExpanded[index] = !isExpanded[index];
-              }),
-            },
-            title: Text(listToUse[index].name +
-                ((listToUse[index] is Goal)
-                    ? "    (${listToUse[index].goalProgress}/${listToUse[index].goalTarget})"
-                    : "")),
-            children: <Widget>[
-              Column(
-                children: [..._getExpandableContent(listToUse[index])],
-              )
-            ],
-          ),
-        );
-      },
-      itemCount: listToUse!.length,
-      onReorder: (int oldIndex, int newIndex) {
-        setState(() {
-          if (widget.isPriority) {
-            if (newIndex > oldIndex) newIndex--;
-            final temp = Global.userPriorities[oldIndex];
-            Global.userPriorities[oldIndex] = Global.userPriorities[newIndex];
-            Global.userPriorities[newIndex] = temp;
+          );
+        },
+        itemCount: listToUse!.length,
+        onReorder: (int oldIndex, int newIndex) {
+          setState(() {
+            if (widget.isPriority) {
+              if (newIndex > oldIndex) newIndex--;
+              final temp = Global.userPriorities[oldIndex];
+              Global.userPriorities[oldIndex] = Global.userPriorities[newIndex];
+              Global.userPriorities[newIndex] = temp;
 
-            final temp2 = isExpanded[oldIndex];
-            isExpanded[oldIndex] = isExpanded[newIndex];
-            isExpanded[newIndex] = temp2;
-            Global.updatePriorityIndexes();
-          }
-        });
-      },
+              final temp2 = isExpanded[oldIndex];
+              isExpanded[oldIndex] = isExpanded[newIndex];
+              isExpanded[newIndex] = temp2;
+              Global.updatePriorityIndexes();
+            }
+          });
+        },
+      ),
     );
   }
 }

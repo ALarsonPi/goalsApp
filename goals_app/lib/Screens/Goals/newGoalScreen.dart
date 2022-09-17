@@ -506,7 +506,7 @@ class _NewGoalScreen extends State<NewGoalScreen> {
                                     _formKey.currentState?.value['whenWhere'] ??
                                         'null',
                                 newGoal.currPriorityIndex =
-                                    args.currPriorityIndex + 1,
+                                    args.currPriorityIndex,
                                 addGoalGloballyAndNavigateBack(),
                               },
                           },

@@ -6,8 +6,6 @@ import 'package:goals_app/Screens/Priorities/individualPriority.dart';
 import 'package:goals_app/global.dart';
 import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
-import 'package:reorderables/reorderables.dart';
-
 import '../ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
 
 class ReorderableGridOfCards extends StatefulWidget {
@@ -136,11 +134,13 @@ class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
     ];
 
     void _onReorder(int oldIndex, int newIndex) {
-      setState(() {
-        Priority currPriority = Global.userPriorities.removeAt(oldIndex);
-        Global.userPriorities.insert(newIndex, currPriority);
-        Global.updatePriorityIndexes();
-      });
+      if (oldIndex != newIndex) {
+        setState(() {
+          Priority currPriority = Global.userPriorities.removeAt(oldIndex);
+          Global.userPriorities.insert(newIndex, currPriority);
+          Global.updatePriorityIndexes();
+        });
+      }
     }
 
     return Theme(

@@ -6,6 +6,8 @@ import 'Objects/Priority.dart';
 import 'Objects/Goal.dart';
 
 class Global {
+  static final expandedPrioritiesBucketGlobal = PageStorageBucket();
+
   static Map listOfImageLists = {
     "People Pictures": listOfPeoplePictures,
     "Nature/Animal Images": listOfNaturePictures,
@@ -135,7 +137,6 @@ class Global {
   static CustomStack<Goal> depthStack = CustomStack();
   static bool goalButtonsInGridView = false;
   static bool priorityIsInListView = false;
-  static int priorityLastOpen = -1;
 
   static bool removeGoal(int currPriorityIndex, Goal goalToRemove) {
     List<Goal> priorityGoals =
@@ -175,7 +176,6 @@ class Global {
   }
 
   static bool removeGoalFirestore(Goal goalToRemove) {
-    debugPrint(goalToRemove.name);
     int priorityIndex = 0;
 
     bool isFound = false;
@@ -242,22 +242,15 @@ class Global {
 
   static recursiveUpdateGoalPriorityIndexHelper(
       List<Goal> goalsList, int correctPriorityIndex) {
+    //for every goal, if it's priorityIndex is wrong, fix it
+    //if a goal has a subgoal, do the same for it's subgoals
     for (Goal currGoal in goalsList) {
+      currGoal.currPriorityIndex = correctPriorityIndex;
       if (currGoal.subGoals.isNotEmpty) {
-        int subGoalIndex = 0;
-        for (Goal subGoal in currGoal.subGoals) {
-          if (subGoal.currPriorityIndex != correctPriorityIndex) {
-            subGoal.currPriorityIndex = correctPriorityIndex;
-            isFoundRecursively = true;
-            return true;
-          } else {}
-          subGoalIndex++;
-        }
         recursiveUpdateGoalPriorityIndexHelper(
             currGoal.subGoals, correctPriorityIndex);
       }
     }
-    return false;
   }
 
   static addGoalToPriority(Priority priorityOfInterest, Goal newGoal) {

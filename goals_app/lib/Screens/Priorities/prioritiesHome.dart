@@ -3,7 +3,6 @@ import 'package:goals_app/Screens/ArgumentPassThroughScreens/settingsScreenArgue
 import 'package:goals_app/Screens/Priorities/reorderableGridOfCards.dart';
 import 'package:goals_app/Screens/optionsScreen.dart';
 import 'package:goals_app/Widgets/Priorities/noGoalsPrompt.dart';
-import 'package:toast/toast.dart';
 import 'package:goals_app/Objects/IconsEnum.dart';
 import 'package:goals_app/Objects/Priority.dart';
 import 'package:goals_app/Widgets/Priorities/gridListIconRow.dart';
@@ -104,12 +103,12 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
         ));
   }
 
-  showInfoToast(BuildContext context) async {
-    var myToastContext = ToastContext();
-    myToastContext.init(context);
-    return Toast.show("HOLD and DRAG to reorder",
-        duration: Toast.lengthLong, gravity: Toast.bottom);
-  }
+  // showInfoToast(BuildContext context) async {
+  //   var myToastContext = ToastContext();
+  //   myToastContext.init(context);
+  //   return Toast.show("HOLD and DRAG to reorder",
+  //       duration: Toast.lengthLong, gravity: Toast.bottom);
+  // }
 
   getInfoIcon() {
     return IconButton(
@@ -119,7 +118,7 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
         setState(() {
           isEdit = !isEdit;
         }),
-        showInfoToast(context),
+        //showInfoToast(context),
       },
       icon: const Icon(
         Icons.info,

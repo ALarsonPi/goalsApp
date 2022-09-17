@@ -438,7 +438,7 @@ class _IndividualGoal extends State<IndividualGoal> {
                             subtitle: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
-                                  "Priority - ${Global.userPriorities[args.currPriorityIndex - 1].name}",
+                                  "Priority - ${Global.userPriorities[args.currPriorityIndex].name}",
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14,

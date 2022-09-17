@@ -256,8 +256,7 @@ class _NewPriorityScreen extends State<NewPriorityScreen> {
                                         if (_formKey.currentState!.validate())
                                           {
                                             newPriority.priorityIndex =
-                                                Global.userPriorities.length +
-                                                    1,
+                                                Global.userPriorities.length,
                                             Global.addPriority(newPriority),
                                             Navigator.push<void>(
                                               context,
