@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/settingsScreenArguements.dart';
 import 'package:goals_app/Screens/Priorities/reorderableGridOfCards.dart';
 import 'package:goals_app/Screens/optionsScreen.dart';
@@ -217,19 +218,17 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
         automaticallyImplyLeading: false,
       ),
       body: Column(children: [
-        Padding(
-          padding: EdgeInsets.only(
-              bottom: (!Global.priorityIsInListView && !isBeingLongHeld)
-                  ? 0.0
-                  //MediaQuery.of(context).size.height * 0.01 * (mediaPixelVar)
-                  //? MediaQuery.of(context).size.height * paddingMultiplier
-                  : 0.0),
-          child: Column(
-            children: [
-              getSettingsMenu(context),
-            ],
-          ),
+        Column(
+          children: [
+            getSettingsMenu(context),
+          ],
         ),
+        if (Global.isPhone && !Global.priorityIsInListView && !isBeingLongHeld)
+          SizedBox(
+            height: Device.screenHeight < 900 && Device.devicePixelRatio < 2.75
+                ? MediaQuery.of(context).size.height * 0.1
+                : MediaQuery.of(context).size.height * 0.05,
+          ),
         Expanded(
           child: (Global.userPriorities.isNotEmpty)
               ? Column(

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io' as io;
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:path_provider/path_provider.dart';
 import 'Objects/Priority.dart';
 import 'Objects/Goal.dart';
@@ -133,6 +134,7 @@ class Global {
         "Swimming"),
   ];
 
+  static bool isPhone = Device.get().isPhone;
   static List<Priority> userPriorities = List.empty(growable: true);
   static CustomStack<Goal> depthStack = CustomStack();
   static bool goalButtonsInGridView = false;

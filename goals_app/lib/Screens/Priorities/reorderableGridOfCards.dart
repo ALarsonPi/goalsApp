@@ -88,7 +88,7 @@ class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
                         bottomLeft: Radius.circular(20),
                         bottomRight: Radius.circular(20)),
                     child: SizedBox(
-                      width: (MediaQuery.of(context).size.height > 900)
+                      width: !Global.isPhone
                           ? MediaQuery.of(context).size.width *
                               0.47 *
                               mediaPixelVar
@@ -101,23 +101,16 @@ class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
                         child: ListTile(
                           title: Padding(
                             padding: EdgeInsets.only(
-                              left: (MediaQuery.of(context).size.height > 900)
+                              left: !Global.isPhone
                                   ? MediaQuery.of(context).size.width * 0.1
                                   : 8.0,
-                              bottom: (MediaQuery.of(context).size.height > 900)
-                                  ? 8.0
-                                  : 12.0,
-                              top: (MediaQuery.of(context).size.height > 900)
-                                  ? 24.0
-                                  : 0.0,
+                              bottom: !Global.isPhone ? 8.0 : 12.0,
+                              top: !Global.isPhone ? 24.0 : 0.0,
                             ),
                             child: Text(
                               "${priority.name} (${++index})",
                               style: TextStyle(
-                                  fontSize:
-                                      (MediaQuery.of(context).size.height > 900)
-                                          ? 24
-                                          : 12,
+                                  fontSize: !Global.isPhone ? 24 : 12,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black87),
                             ),

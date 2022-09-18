@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:goals_app/Objects/Priority.dart';
 import 'package:goals_app/Widgets/Priorities/priorityCard.dart';
 import 'package:goals_app/global.dart';
@@ -35,6 +36,11 @@ class _PriorityCarousel extends State<PriorityCarousel> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("Device screen height");
+    debugPrint(Device.screenHeight.toString());
+    debugPrint("Device Pixel ratio");
+    debugPrint(Device.devicePixelRatio.toString());
+
     Set items = {};
     int index = 0;
     for (Priority priority in Global.userPriorities) {
@@ -62,9 +68,13 @@ class _PriorityCarousel extends State<PriorityCarousel> {
             enlargeCenterPage: true,
             autoPlay: false,
             aspectRatio: 10.5 / 9,
-            height: (MediaQuery.of(context).size.height > 900)
+            height: !Global.isPhone
                 ? MediaQuery.of(context).size.height * 0.55
-                : MediaQuery.of(context).size.height * 0.5,
+                : Device.devicePixelRatio > 2.75
+                    ? MediaQuery.of(context).size.height * 0.45
+                    : Device.screenHeight > 900
+                        ? MediaQuery.of(context).size.height * 0.40
+                        : MediaQuery.of(context).size.height * 0.45,
             enableInfiniteScroll: false,
             viewportFraction: 0.75,
             initialPage: widget.currentIndex,

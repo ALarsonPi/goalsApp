@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
 
 import '../../Screens/Priorities/individualPriority.dart';
+import '../../global.dart';
 
 class PriorityCard extends StatelessWidget {
   final String imageURL;
@@ -48,9 +49,9 @@ class PriorityCard extends StatelessWidget {
           children: [
             Padding(
               padding: EdgeInsets.only(
-                  bottom: (MediaQuery.of(context).size.height > 900)
+                  bottom: !Global.isPhone
                       ? (MediaQuery.of(context).size.height * 0.1)
-                      : (MediaQuery.of(context).size.height * 0.12)),
+                      : (MediaQuery.of(context).size.height * 0.1)),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -77,16 +78,16 @@ class PriorityCard extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: 5.0,
+              bottom: 6.0,
               right: 0.0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.77,
-                    height: (MediaQuery.of(context).size.height > 900.0)
-                        ? MediaQuery.of(context).size.height * 0.1
-                        : MediaQuery.of(context).size.height * 0.125,
+                    height: !Global.isPhone
+                        ? MediaQuery.of(context).size.height * 0.12
+                        : MediaQuery.of(context).size.height * 0.10,
                     child: ClipRRect(
                       borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(20),
@@ -96,33 +97,21 @@ class PriorityCard extends StatelessWidget {
                         elevation: 5,
                         child: Padding(
                           padding: EdgeInsets.only(
-                            top: (MediaQuery.of(context).size.height > 900.0)
-                                ? 12
-                                : 0,
-                            left: (MediaQuery.of(context).size.height > 900.0)
-                                ? 24
-                                : 0,
+                            top: !Global.isPhone ? 12 : 0,
+                            left: !Global.isPhone ? 24 : 0,
                           ),
                           child: ListTile(
                             title: AutoSizeText(
                               name,
                               style: TextStyle(
-                                  fontSize:
-                                      (MediaQuery.of(context).size.height >
-                                              900.0)
-                                          ? 36
-                                          : 18,
+                                  fontSize: !Global.isPhone ? 36 : 18,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black87),
                             ),
                             subtitle: AutoSizeText(
                               "Priority ${index + 1}",
                               style: TextStyle(
-                                  fontSize:
-                                      (MediaQuery.of(context).size.height >
-                                              900.0)
-                                          ? 24
-                                          : 12,
+                                  fontSize: !Global.isPhone ? 24 : 12,
                                   fontWeight: FontWeight.normal,
                                   color: Colors.black45),
                             ),
