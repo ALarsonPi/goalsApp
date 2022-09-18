@@ -23,10 +23,11 @@ class GoalButton extends StatelessWidget {
       widget: Text(
         '${currentGoal.goalProgress} / ${currentGoal.goalTarget}',
         style: TextStyle(
-            fontSize: 11,
-            color: (currentGoal.goalProgress != currentGoal.goalTarget)
-                ? Colors.white
-                : Colors.greenAccent),
+          fontSize: 11,
+          color: (currentGoal.goalProgress != currentGoal.goalTarget)
+              ? Colors.white
+              : Colors.greenAccent,
+        ),
       ),
     );
   }

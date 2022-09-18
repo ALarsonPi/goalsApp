@@ -49,6 +49,12 @@ class _IndividualGoal extends State<IndividualGoal> {
     super.initState();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    originalName = args.currGoal.name;
+  }
+
   DateTime? currentDate =
       DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   DateTime todaysDate =
@@ -203,6 +209,10 @@ class _IndividualGoal extends State<IndividualGoal> {
     } else {
       Global.depthStack.pop();
       Goal currParentGoal = Global.depthStack.top;
+      currParentGoal.goalProgress =
+          Global.getSumOfChildrenProgress(currParentGoal).toString();
+      currParentGoal.goalTarget =
+          Global.getSumOfChildrenTarget(currParentGoal).toString();
       Navigator.pushNamed(context, IndividualGoal.routeName,
           arguments: IndividualGoalArguments(
               currParentGoal, args.currPriorityIndex, args.comingFromListView));
@@ -277,12 +287,6 @@ class _IndividualGoal extends State<IndividualGoal> {
       arguments: NewGoalArguments(args.currPriorityIndex, false,
           currentGoal: args.currGoal),
     );
-  }
-
-  @override
-  void didChangeDependencies() {
-    originalName = args.currGoal.name;
-    super.didChangeDependencies();
   }
 
   @override
