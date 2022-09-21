@@ -192,94 +192,109 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
     if (mediaPixelVar < 1) {
       mediaPixelVar = 1;
     }
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            goToAddPrioritiesScreen();
-          },
-          child: const Icon(
-            Icons.add,
-          )),
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          "Priorities",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+    return Container(
+      constraints: const BoxConstraints.expand(),
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: NetworkImage(
+                Global.currentBackgroundImage,
+              ),
+              fit: BoxFit.cover)),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              goToAddPrioritiesScreen();
+            },
+            child: const Icon(
+              Icons.add,
+            )),
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text(
+            "Priorities",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+          ),
+          actions: [
+            Row(
+              children: [
+                //getInfoIcon(),
+                //getAddNewIcon(),
+                getSettingsIcon(),
+              ],
+            ),
+          ],
+          automaticallyImplyLeading: false,
         ),
-        actions: [
-          Row(
+        body: Column(children: [
+          Column(
             children: [
-              //getInfoIcon(),
-              //getAddNewIcon(),
-              getSettingsIcon(),
+              getSettingsMenu(context),
             ],
           ),
-        ],
-        automaticallyImplyLeading: false,
-      ),
-      body: Column(children: [
-        Column(
-          children: [
-            getSettingsMenu(context),
-          ],
-        ),
-        if (Global.isPhone && !Global.priorityIsInListView && !isBeingLongHeld)
-          SizedBox(
-            height: Device.screenHeight < 900 && Device.devicePixelRatio < 2.75
-                ? MediaQuery.of(context).size.height * 0.1
-                : MediaQuery.of(context).size.height * 0.05,
-          ),
-        Expanded(
-          child: (Global.userPriorities.isNotEmpty)
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    (!Global.priorityIsInListView)
-                        ? Column(
-                            children: [
-                              Container(
-                                color: Colors.transparent,
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 0.0),
-                                      child: SizedBox(
-                                        height: (!isBeingLongHeld)
-                                            ? MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.6
-                                            : MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.7,
-                                        child: (!isBeingLongHeld)
-                                            ? PriorityCarousel(
-                                                currentDisplayIndex,
-                                                getNotificationFromChildOfSlideChange,
-                                                changeLongHoldStatus)
-                                            : ReorderableGridOfCards(
-                                                changeLongHoldStatusAndGoToSlideAt),
+          if (Global.isPhone &&
+              !Global.priorityIsInListView &&
+              !isBeingLongHeld)
+            SizedBox(
+              height:
+                  Device.screenHeight < 900 && Device.devicePixelRatio < 2.75
+                      ? MediaQuery.of(context).size.height * 0.1
+                      : MediaQuery.of(context).size.height * 0.05,
+            ),
+          Expanded(
+            child: (Global.userPriorities.isNotEmpty)
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      (!Global.priorityIsInListView)
+                          ? Column(
+                              children: [
+                                Container(
+                                  color: Colors.transparent,
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 0.0),
+                                        child: SizedBox(
+                                          height: (!isBeingLongHeld)
+                                              ? MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.6
+                                              : MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.7,
+                                          child: (!isBeingLongHeld)
+                                              ? PriorityCarousel(
+                                                  currentDisplayIndex,
+                                                  getNotificationFromChildOfSlideChange,
+                                                  changeLongHoldStatus)
+                                              : ReorderableGridOfCards(
+                                                  changeLongHoldStatusAndGoToSlideAt),
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
+                              ],
+                            )
+                          : Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: PriorityExpandedList(isEdit, true),
                               ),
-                            ],
-                          )
-                        : Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: PriorityExpandedList(isEdit, true),
                             ),
-                          ),
-                  ],
-                )
-              : Center(
-                  child: NoGoalsPrompt(1),
-                ),
-        ),
-      ]),
+                    ],
+                  )
+                : Center(
+                    child: NoGoalsPrompt(1),
+                  ),
+          ),
+        ]),
+      ),
+      //),
     );
   }
 

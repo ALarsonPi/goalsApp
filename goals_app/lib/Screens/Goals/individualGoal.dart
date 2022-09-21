@@ -292,224 +292,238 @@ class _IndividualGoal extends State<IndividualGoal> {
   @override
   Widget build(BuildContext context) {
     bool isInTopLevel;
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
-          onPressed: () => {
-                checkIfAlertIsNeeded(),
-              }),
-      appBar: AppBar(
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-            child: GestureDetector(
-              onTap: () => {
-                setState(() {
-                  isInEditMode = !isInEditMode;
-                  if (!isInEditMode) {
-                    Global.writePrioritiesToMemory();
-                  }
+    return Container(
+      constraints: const BoxConstraints.expand(),
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: NetworkImage(
+                Global.currentBackgroundImage,
+              ),
+              fit: BoxFit.cover)),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        floatingActionButton: FloatingActionButton(
+            child: const Icon(Icons.add),
+            onPressed: () => {
+                  checkIfAlertIsNeeded(),
                 }),
-              },
-              child: Icon(
-                (!isInEditMode) ? Icons.edit : Icons.save,
-                color: (!isInEditMode) ? Colors.white : Colors.yellowAccent,
+        appBar: AppBar(
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+              child: GestureDetector(
+                onTap: () => {
+                  setState(() {
+                    isInEditMode = !isInEditMode;
+                    if (!isInEditMode) {
+                      Global.writePrioritiesToMemory();
+                    }
+                  }),
+                },
+                child: Icon(
+                  (!isInEditMode) ? Icons.edit : Icons.save,
+                  color: (!isInEditMode) ? Colors.white : Colors.yellowAccent,
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 24.0),
-            child: GestureDetector(
-              onTap: () => {
-                Global.updatePriorityIndexes(),
-                isInTopLevel = Global.removeGoalFirestore(args.currGoal),
-                if (isInTopLevel || !args.currGoal.isChildGoal)
-                  {
-                    Navigator.pushNamed(context, IndividualPriority.routeName,
-                        arguments: IndividualPriorityArgumentScreen(
-                            args.currPriorityIndex)),
-                  }
-                else
-                  {
-                    Global.depthStack.pop(),
-                    Navigator.pushNamed(
-                      context,
-                      IndividualGoal.routeName,
-                      arguments: IndividualGoalArguments(Global.depthStack.top,
-                          args.currPriorityIndex, args.comingFromListView),
-                    ),
-                  }
-              },
-              child: const Icon(Icons.delete, size: 22.0, color: Colors.white),
-            ),
-          ),
-        ],
-        titleSpacing: 0.0,
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: (args.comingFromListView)
-                      ? const EdgeInsets.only(
-                          left: 24.0,
-                          right: 32.0,
-                        )
-                      : const EdgeInsets.only(left: 24.0, right: 8.0),
-                  child: GestureDetector(
-                    child: const Icon(Icons.arrow_back),
-                    onTap: () => (args.comingFromListView)
-                        ? navigateHome()
-                        : navigateBackArrow(),
-                  ),
-                ),
-              ],
-            ),
-            Visibility(
-              visible: !args.comingFromListView,
-              child: IconButton(
-                icon: const Icon(Icons.home, color: Colors.white),
-                onPressed: () => navigateHome(),
-              ),
-            ),
-            const Expanded(
-              child: Center(
-                child: Text(
-                  "Goal",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-                ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, right: 24.0),
+              child: GestureDetector(
+                onTap: () => {
+                  Global.updatePriorityIndexes(),
+                  isInTopLevel = Global.removeGoalFirestore(args.currGoal),
+                  if (isInTopLevel || !args.currGoal.isChildGoal)
+                    {
+                      Navigator.pushNamed(context, IndividualPriority.routeName,
+                          arguments: IndividualPriorityArgumentScreen(
+                              args.currPriorityIndex)),
+                    }
+                  else
+                    {
+                      Global.depthStack.pop(),
+                      Navigator.pushNamed(
+                        context,
+                        IndividualGoal.routeName,
+                        arguments: IndividualGoalArguments(
+                            Global.depthStack.top,
+                            args.currPriorityIndex,
+                            args.comingFromListView),
+                      ),
+                    }
+                },
+                child:
+                    const Icon(Icons.delete, size: 22.0, color: Colors.white),
               ),
             ),
           ],
-        ),
-      ),
-      body: CustomScrollView(
-        shrinkWrap: false,
-        slivers: [
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return Column(
-                  children: [
-                    //Container with Priority name and Goal name
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 15.0, left: 15.0, right: 15.0, bottom: 4.0),
-                      child: Card(
-                        elevation: 3,
-                        borderOnForeground: true,
-                        color: (args.currGoal.goalProgress !=
-                                args.currGoal.goalTarget)
-                            ? const Color.fromARGB(184, 242, 242, 242)
-                            : Theme.of(context).secondaryHeaderColor,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ListTile(
-                            title: Align(
-                              alignment: Alignment.centerLeft,
-                              child: (!isInEditMode)
-                                  ? Text(
-                                      "Goal - ${args.currGoal.name}",
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20),
-                                    )
-                                  : TextField(
-                                      onChanged: (currValue) => {
-                                        setState(() {
-                                          if (currValue != "") {
-                                            args.currGoal.name = currValue;
-                                          } else {
-                                            args.currGoal.name = originalName;
-                                          }
-                                        }),
-                                      },
-                                      decoration: InputDecoration(
-                                        hintText: "Goal: ${args.currGoal.name}",
-                                        hintStyle: const TextStyle(
-                                            fontStyle: FontStyle.italic),
-                                      ),
-                                      minLines: 1,
-                                      maxLines: 3,
-                                      keyboardType: TextInputType.number,
-                                    ),
-                            ),
-                            subtitle: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  "Priority - ${Global.userPriorities[args.currPriorityIndex].name}",
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                      fontStyle: FontStyle.italic),
-                                )),
-                          ),
-                        ),
-                      ),
-                    ),
-                    //Container with Progress / completion
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: (args.currGoal.subGoals.isEmpty) ? 0.0 : 16.0,
-                          right: 8.0),
-                      child: GoalProgressWidget(
-                          args.currGoal.goalProgress,
-                          args.currGoal.goalTarget,
-                          updateGoalGlobally,
-                          setGoalButtonSize,
-                          args.currGoal,
-                          isInEditMode,
-                          updateGoalTargetGlobally),
-                    ),
-                    //Additional optional fields
-                    if (args.currGoal.subGoals.isEmpty)
-                      ...fillListViewWithOptionalFields(),
-                  ],
-                );
-              },
-              childCount: 1,
-            ),
-          ),
-          if (args.currGoal.subGoals.isNotEmpty)
-            SliverFillRemaining(
-              hasScrollBody: true,
-              child: Column(
+          titleSpacing: 0.0,
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Stack(
+                alignment: Alignment.center,
                 children: <Widget>[
-                  Expanded(
-                    child: NormalPriorityWidget(
-                      args.currPriorityIndex,
-                      false,
-                      args.currGoal.subGoals,
-                      currentGoal: args.currGoal,
-                      args.comingFromListView,
+                  Padding(
+                    padding: (args.comingFromListView)
+                        ? const EdgeInsets.only(
+                            left: 24.0,
+                            right: 32.0,
+                          )
+                        : const EdgeInsets.only(left: 24.0, right: 8.0),
+                    child: GestureDetector(
+                      child: const Icon(Icons.arrow_back),
+                      onTap: () => (args.comingFromListView)
+                          ? navigateHome()
+                          : navigateBackArrow(),
                     ),
                   ),
                 ],
               ),
-            ),
-          if (args.currGoal.goalProgress == '0' &&
-              args.currGoal.subGoals.isEmpty)
+              Visibility(
+                visible: !args.comingFromListView,
+                child: IconButton(
+                  icon: const Icon(Icons.home, color: Colors.white),
+                  onPressed: () => navigateHome(),
+                ),
+              ),
+              const Expanded(
+                child: Center(
+                  child: Text(
+                    "Goal",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        body: CustomScrollView(
+          shrinkWrap: false,
+          slivers: [
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-                  return const Text(
-                    "Press the '+' at the bottom \nto add a subgoal!",
-                    style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                    ),
-                    textAlign: TextAlign.center,
+                  return Column(
+                    children: [
+                      //Container with Priority name and Goal name
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 15.0, left: 15.0, right: 15.0, bottom: 4.0),
+                        child: Card(
+                          elevation: 3,
+                          borderOnForeground: true,
+                          color: (args.currGoal.goalProgress !=
+                                  args.currGoal.goalTarget)
+                              ? const Color.fromARGB(184, 242, 242, 242)
+                              : Theme.of(context).secondaryHeaderColor,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ListTile(
+                              title: Align(
+                                alignment: Alignment.centerLeft,
+                                child: (!isInEditMode)
+                                    ? Text(
+                                        "Goal - ${args.currGoal.name}",
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      )
+                                    : TextField(
+                                        onChanged: (currValue) => {
+                                          setState(() {
+                                            if (currValue != "") {
+                                              args.currGoal.name = currValue;
+                                            } else {
+                                              args.currGoal.name = originalName;
+                                            }
+                                          }),
+                                        },
+                                        decoration: InputDecoration(
+                                          hintText:
+                                              "Goal: ${args.currGoal.name}",
+                                          hintStyle: const TextStyle(
+                                              fontStyle: FontStyle.italic),
+                                        ),
+                                        minLines: 1,
+                                        maxLines: 3,
+                                        keyboardType: TextInputType.number,
+                                      ),
+                              ),
+                              subtitle: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "Priority - ${Global.userPriorities[args.currPriorityIndex].name}",
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                        fontStyle: FontStyle.italic),
+                                  )),
+                            ),
+                          ),
+                        ),
+                      ),
+                      //Container with Progress / completion
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: (args.currGoal.subGoals.isEmpty) ? 0.0 : 16.0,
+                            right: 8.0),
+                        child: GoalProgressWidget(
+                            args.currGoal.goalProgress,
+                            args.currGoal.goalTarget,
+                            updateGoalGlobally,
+                            setGoalButtonSize,
+                            args.currGoal,
+                            isInEditMode,
+                            updateGoalTargetGlobally),
+                      ),
+                      //Additional optional fields
+                      if (args.currGoal.subGoals.isEmpty)
+                        ...fillListViewWithOptionalFields(),
+                    ],
                   );
                 },
                 childCount: 1,
-                semanticIndexOffset: 1,
               ),
             ),
-        ],
+            if (args.currGoal.subGoals.isNotEmpty)
+              SliverFillRemaining(
+                hasScrollBody: true,
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: NormalPriorityWidget(
+                        args.currPriorityIndex,
+                        false,
+                        args.currGoal.subGoals,
+                        currentGoal: args.currGoal,
+                        args.comingFromListView,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            if (args.currGoal.goalProgress == '0' &&
+                args.currGoal.subGoals.isEmpty)
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                    return const Text(
+                      "Press the '+' at the bottom \nto add a subgoal!",
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                      ),
+                      textAlign: TextAlign.center,
+                    );
+                  },
+                  childCount: 1,
+                  semanticIndexOffset: 1,
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }

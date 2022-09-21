@@ -17,6 +17,49 @@ class Global {
     "Food Images": listOfFoodPictures,
   };
 
+  static List<pictureHolder> listOfDarkmodeBackgroundImages = [
+    pictureHolder(
+      "https://images.unsplash.com/photo-1531306728370-e2ebd9d7bb99?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YW5pbWF0ZWQlMjBiYWNrZ3JvdW5kfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=700&q=60",
+      "Space",
+    ),
+  ];
+
+  static String currentBackgroundImage = listOfBackgroundImages[4].url;
+  static List<pictureHolder> listOfBackgroundImages = [
+    pictureHolder(
+      "https://images.unsplash.com/photo-1518627675569-e9d4fb90cdb5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHBhc3RlbHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=700&q=60",
+      "Snowy Sunset Forest",
+    ),
+    pictureHolder(
+      "https://images.unsplash.com/photo-1497384401032-2182d2687715?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTN8fGFuaW1hdGVkJTIwYmFja2dyb3VuZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=700&q=60",
+      "Foggy Red Mountain",
+    ),
+    pictureHolder(
+      "https://images.unsplash.com/photo-1507608158173-1dcec673a2e5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGFuaW1hdGVkJTIwYmFja2dyb3VuZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=700&q=60",
+      "Dark Blue Rain",
+    ),
+    pictureHolder(
+      "https://images.unsplash.com/photo-1528460033278-a6ba57020470?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8YW5pbWF0ZWQlMjBiYWNrZ3JvdW5kfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=700&q=60",
+      "Sky Blue",
+    ),
+    pictureHolder(
+      "https://images.unsplash.com/photo-1517639493569-5666a7b2f494?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGFzdGVsfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=700&q=60",
+      "Bright Clouds",
+    ),
+    pictureHolder(
+      "https://images.unsplash.com/photo-1546514355-7fdc90ccbd03?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTl8fHBhc3RlbHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=700&q=60",
+      "Snowy Mountain Red",
+    ),
+    pictureHolder(
+      "https://images.unsplash.com/photo-1614481327033-68e5df399653?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGFzdGVsfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=700&q=60",
+      "Rainbow Leaves",
+    ),
+    pictureHolder(
+      "https://images.unsplash.com/photo-1554147090-e1221a04a025?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fHBhc3RlbHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=700&q=60",
+      "Snow Sand",
+    ),
+  ];
+
   static List<pictureHolder> listOfPeoplePictures = [
     pictureHolder(
         "https://images.unsplash.com/photo-1591035897819-f4bdf739f446?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",

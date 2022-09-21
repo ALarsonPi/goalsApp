@@ -126,164 +126,174 @@ class _NewPriorityScreen extends State<NewPriorityScreen> {
   @override
   Widget build(BuildContext context) {
     String textInTextField = "";
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text(
-          "Create Priority",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-        ),
-        leading: IconButton(
-          onPressed: () => {
-            Navigator.pop(context, true),
-          },
-          icon: const Icon(
-            Icons.arrow_back,
+    return Container(
+      constraints: BoxConstraints.tight(Size(1400, 1400)),
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: NetworkImage(
+                Global.currentBackgroundImage,
+              ),
+              fit: BoxFit.cover)),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: const Text(
+            "Create Priority",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
           ),
-          color: Colors.white,
+          leading: IconButton(
+            onPressed: () => {
+              Navigator.pop(context, true),
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+            ),
+            color: Colors.white,
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            ListView(
-              shrinkWrap: true,
-              primary: false,
-              padding: const EdgeInsets.all(0.0),
-              children: [
-                (_inProcess)
-                    ? Container(
-                        color: Colors.white,
-                        height: MediaQuery.of(context).size.height * 0.95,
-                        child: const Center(
-                          child: CircularProgressIndicator(),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              ListView(
+                shrinkWrap: true,
+                primary: false,
+                padding: const EdgeInsets.all(0.0),
+                children: [
+                  (_inProcess)
+                      ? Container(
+                          color: Colors.white,
+                          height: MediaQuery.of(context).size.height * 0.95,
+                          child: const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
+                      : const Center(),
+                  (newPriority.imageUrl == "None")
+                      ? Placeholder(
+                          fallbackHeight:
+                              MediaQuery.of(context).size.height * 0.35,
+                        )
+                      : Container(
+                          padding: const EdgeInsets.all(0.0),
+                          height: MediaQuery.of(context).size.height * 0.35,
+                          decoration: BoxDecoration(
+                            image: getDecorationImageWidget(),
+                          ),
                         ),
-                      )
-                    : const Center(),
-                (newPriority.imageUrl == "None")
-                    ? Placeholder(
-                        fallbackHeight:
-                            MediaQuery.of(context).size.height * 0.35,
-                      )
-                    : Container(
-                        padding: const EdgeInsets.all(0.0),
-                        height: MediaQuery.of(context).size.height * 0.35,
-                        decoration: BoxDecoration(
-                          image: getDecorationImageWidget(),
-                        ),
-                      ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 8.0, right: 8.0, top: 8.0, bottom: 0.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton(
-                          onPressed: () => {
-                                Navigator.pushNamed(
-                                  context,
-                                  BrowseImagesScreen.routeName,
-                                  arguments: BrowseImageArguments(
-                                    changeImageHelper,
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 8.0, right: 8.0, top: 8.0, bottom: 0.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                            onPressed: () => {
+                                  Navigator.pushNamed(
+                                    context,
+                                    BrowseImagesScreen.routeName,
+                                    arguments: BrowseImageArguments(
+                                      changeImageHelper,
+                                    ),
                                   ),
-                                ),
-                              },
-                          child: const Text("Browse Images")),
-                      ElevatedButton(
-                          onPressed: () => {
-                                getImage(ImageSource.gallery),
-                                setState(() => {}),
-                              },
-                          child: const Text("Upload Image")),
-                    ],
+                                },
+                            child: const Text("Browse Images")),
+                        ElevatedButton(
+                            onPressed: () => {
+                                  getImage(ImageSource.gallery),
+                                  setState(() => {}),
+                                },
+                            child: const Text("Upload Image")),
+                      ],
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 8.0, right: 8.0, top: 8.0, bottom: 0.0),
-                  child: FormBuilder(
-                    key: _formKey,
-                    onChanged: () => {
-                      setState(() {
-                        newPriority.name = _formKey
-                            .currentState?.fields["priority-name"]?.value;
-                      }),
-                    },
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    initialValue: const {
-                      'priority-name': '',
-                    },
-                    skipDisabled: true,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          FormBuilderTextField(
-                            key: const ValueKey('nameOfPriority'),
-                            autocorrect: false,
-                            decoration: const InputDecoration(
-                              labelText: "Priority Name",
-                              labelStyle:
-                                  TextStyle(fontStyle: FontStyle.italic),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(width: 1, color: Colors.grey),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 8.0, right: 8.0, top: 8.0, bottom: 0.0),
+                    child: FormBuilder(
+                      key: _formKey,
+                      onChanged: () => {
+                        setState(() {
+                          newPriority.name = _formKey
+                              .currentState?.fields["priority-name"]?.value;
+                        }),
+                      },
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      initialValue: const {
+                        'priority-name': '',
+                      },
+                      skipDisabled: true,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            FormBuilderTextField(
+                              key: const ValueKey('nameOfPriority'),
+                              autocorrect: false,
+                              decoration: const InputDecoration(
+                                labelText: "Priority Name",
+                                labelStyle:
+                                    TextStyle(fontStyle: FontStyle.italic),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(width: 1, color: Colors.grey),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      width: 1.5, color: Colors.green),
+                                ),
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(width: 1.5, color: Colors.green),
-                              ),
+                              name: "priority-name",
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter a name';
+                                }
+                                return null;
+                              },
                             ),
-                            name: "priority-name",
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter a name';
-                              }
-                              return null;
-                            },
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 20.0, left: 12.0, right: 12.0),
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                minimumSize: const Size.fromHeight(36),
-                              ),
-                              onPressed: (_formKey.currentContext != null &&
-                                      checkIfValidate() &&
-                                      newPriority.imageUrl != "None")
-                                  ? () => {
-                                        if (_formKey.currentState!.validate())
-                                          {
-                                            newPriority.priorityIndex =
-                                                Global.userPriorities.length,
-                                            Global.addPriority(newPriority),
-                                            Navigator.push<void>(
-                                              context,
-                                              MaterialPageRoute<void>(
-                                                builder: (BuildContext
-                                                        context) =>
-                                                    PriorityHomeScreen
-                                                        .fromOtherRoute(Global
-                                                                .userPriorities
-                                                                .length -
-                                                            1),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 20.0, left: 12.0, right: 12.0),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: const Size.fromHeight(36),
+                                ),
+                                onPressed: (_formKey.currentContext != null &&
+                                        checkIfValidate() &&
+                                        newPriority.imageUrl != "None")
+                                    ? () => {
+                                          if (_formKey.currentState!.validate())
+                                            {
+                                              newPriority.priorityIndex =
+                                                  Global.userPriorities.length,
+                                              Global.addPriority(newPriority),
+                                              Navigator.push<void>(
+                                                context,
+                                                MaterialPageRoute<void>(
+                                                  builder: (BuildContext
+                                                          context) =>
+                                                      PriorityHomeScreen
+                                                          .fromOtherRoute(Global
+                                                                  .userPriorities
+                                                                  .length -
+                                                              1),
+                                                ),
                                               ),
-                                            ),
-                                          }
-                                      }
-                                  : null,
-                              child: const Text("CREATE"),
+                                            }
+                                        }
+                                    : null,
+                                child: const Text("CREATE"),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

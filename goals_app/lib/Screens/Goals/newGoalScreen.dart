@@ -125,409 +125,425 @@ class _NewGoalScreen extends State<NewGoalScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text(
-          "Create Goal",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-        ),
-        leading: IconButton(
-          onPressed: () => {
-            Navigator.pop(context, true),
-          },
-          icon: const Icon(
-            Icons.arrow_back,
+    return Container(
+      constraints: const BoxConstraints.expand(),
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: NetworkImage(
+                Global.currentBackgroundImage,
+              ),
+              fit: BoxFit.cover)),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: const Text(
+            "Create Goal",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
           ),
-          color: Colors.white,
+          leading: IconButton(
+            onPressed: () => {
+              Navigator.pop(context, true),
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+            ),
+            color: Colors.white,
+          ),
         ),
-      ),
-      body: ListView(
-        shrinkWrap: true,
-        children: [
-          FormBuilder(
-            key: _formKey,
-            onChanged: () => {
-              // Something happens here
-              // whenever any change happens in
-              // the form
-            },
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            initialValue: const {
-              // 'goal': '',
-              // 'why': '',
-              // 'when': '',
-              // 'where': '',
-            },
+        body: ListView(
+          shrinkWrap: true,
+          children: [
+            FormBuilder(
+              key: _formKey,
+              onChanged: () => {
+                // Something happens here
+                // whenever any change happens in
+                // the form
+              },
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              initialValue: const {
+                // 'goal': '',
+                // 'why': '',
+                // 'when': '',
+                // 'where': '',
+              },
 
-            //USE ONLY IF NEEDED
-            skipDisabled: true,
+              //USE ONLY IF NEEDED
+              skipDisabled: true,
 
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Column(
-                children: [
-                  //CURRENT Priority Name
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: 16.0,
-                      right: 32.0,
-                      left: 32.0,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  children: [
+                    //CURRENT Priority Name
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: 16.0,
+                        right: 32.0,
+                        left: 32.0,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: FittedBox(
+                              child: AutoSizeText(
+                                (args.isComingFromPriority)
+                                    ? "For Priority: ${Global.userPriorities[args.priorityIndex].name}"
+                                    : "Subgoal of \"${args.currentGoal.name}\" ${args.currentGoal.goalTarget}x",
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FontStyle.italic),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: FittedBox(
-                            child: AutoSizeText(
-                              (args.isComingFromPriority)
-                                  ? "For Priority: ${Global.userPriorities[args.priorityIndex].name}"
-                                  : "Subgoal of \"${args.currentGoal.name}\" ${args.currentGoal.goalTarget}x",
-                              style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FontStyle.italic),
+
+                    if (currentSlide != 1)
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 8.0, bottom: 8.0, left: 16.0),
+                        child: Row(
+                          children: const [
+                            Text(
+                              "Optional",
+                              style: TextStyle(fontStyle: FontStyle.italic),
+                              textAlign: TextAlign.left,
+                            ),
+                          ],
+                        ),
+                      ),
+
+                    //Main Goal Entry
+                    if (currentSlide == 1)
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 12.0, top: 8.0, bottom: 12.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Row(children: const [
+                            Text("*",
+                                style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.redAccent)),
+                            Text("I want to...",
+                                style: TextStyle(
+                                    fontSize: 24, fontWeight: FontWeight.bold)),
+                          ]),
+                        ),
+                      ),
+                    if (currentSlide == 1)
+                      FormBuilderTextField(
+                        key: const ValueKey('goalInput'),
+                        autocorrect: false,
+                        name: "goal",
+                        minLines: 2,
+                        maxLines: 4,
+                        validator: (value) {
+                          if (value == null || value == '') {
+                            return 'Please enter a goal';
+                          }
+                        },
+                        decoration: const InputDecoration(
+                          labelText: "What are you going to do?",
+                          floatingLabelAlignment: FloatingLabelAlignment.start,
+                          hintStyle: TextStyle(fontStyle: FontStyle.italic),
+                          hintText: 'Goal',
+                          enabledBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(width: 1, color: Colors.grey),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(width: 1, color: Colors.redAccent),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(width: 1.5, color: Colors.green),
+                          ),
+                        ),
+                      ),
+
+                    //Repeat
+                    if (currentSlide == 1)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+                        child: FormBuilderTextField(
+                          key: const ValueKey('numRepeat'),
+                          autocorrect: false,
+                          maxLines: 1,
+                          minLines: 1,
+                          name: "numRepeat",
+                          validator: (value) {
+                            if ((value == null || value == '')) {
+                              return 'Please select a number';
+                            } else if (int.parse(value) > 1000) {
+                              return 'Please select a realistic number';
+                            }
+                            return null;
+                          },
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ], // Only numbers can be entered
+
+                          decoration: const InputDecoration(
+                            labelText: "How many times?",
+                            hintText: 'How many reps/days/etc?',
+                            floatingLabelAlignment:
+                                FloatingLabelAlignment.start,
+                            hintStyle: TextStyle(fontStyle: FontStyle.italic),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.grey),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.redAccent),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1.5, color: Colors.green),
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-
-                  if (currentSlide != 1)
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 8.0, bottom: 8.0, left: 16.0),
-                      child: Row(
-                        children: const [
-                          Text(
-                            "Optional",
-                            style: TextStyle(fontStyle: FontStyle.italic),
-                            textAlign: TextAlign.left,
-                          ),
-                        ],
                       ),
-                    ),
 
-                  //Main Goal Entry
-                  if (currentSlide == 1)
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 12.0, top: 8.0, bottom: 12.0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Row(children: const [
-                          Text("*",
-                              style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.redAccent)),
-                          Text("I want to...",
+                    //End Date
+                    if (currentSlide == 2)
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width * 0.05,
+                            right: MediaQuery.of(context).size.width * 0.3),
+                        child: FormBuilderCheckbox(
+                          contentPadding: EdgeInsets.zero,
+                          controlAffinity: ListTileControlAffinity.trailing,
+                          name: "Date",
+                          title: const Text("End Date?",
                               style: TextStyle(
                                   fontSize: 24, fontWeight: FontWeight.bold)),
-                        ]),
-                      ),
-                    ),
-                  if (currentSlide == 1)
-                    FormBuilderTextField(
-                      key: const ValueKey('goalInput'),
-                      autocorrect: false,
-                      name: "goal",
-                      minLines: 2,
-                      maxLines: 4,
-                      validator: (value) {
-                        if (value == null || value == '') {
-                          return 'Please enter a goal';
-                        }
-                      },
-                      decoration: const InputDecoration(
-                        labelText: "What are you going to do?",
-                        floatingLabelAlignment: FloatingLabelAlignment.start,
-                        hintStyle: TextStyle(fontStyle: FontStyle.italic),
-                        hintText: 'Goal',
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(width: 1, color: Colors.grey),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(width: 1, color: Colors.redAccent),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(width: 1.5, color: Colors.green),
-                        ),
-                      ),
-                    ),
-
-                  //Repeat
-                  if (currentSlide == 1)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
-                      child: FormBuilderTextField(
-                        key: const ValueKey('numRepeat'),
-                        autocorrect: false,
-                        maxLines: 1,
-                        minLines: 1,
-                        name: "numRepeat",
-                        validator: (value) {
-                          if ((value == null || value == '')) {
-                            return 'Please select a number';
-                          } else if (int.parse(value) > 1000) {
-                            return 'Please select a realistic number';
-                          }
-                          return null;
-                        },
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                        ], // Only numbers can be entered
-
-                        decoration: const InputDecoration(
-                          labelText: "How many times?",
-                          hintText: 'How many reps/days/etc?',
-                          floatingLabelAlignment: FloatingLabelAlignment.start,
-                          hintStyle: TextStyle(fontStyle: FontStyle.italic),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 1, color: Colors.grey),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 1, color: Colors.redAccent),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 1.5, color: Colors.green),
-                          ),
-                        ),
-                      ),
-                    ),
-
-                  //End Date
-                  if (currentSlide == 2)
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width * 0.05,
-                          right: MediaQuery.of(context).size.width * 0.3),
-                      child: FormBuilderCheckbox(
-                        contentPadding: EdgeInsets.zero,
-                        controlAffinity: ListTileControlAffinity.trailing,
-                        name: "Date",
-                        title: const Text("End Date?",
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold)),
-                        onChanged: ((value) => {
-                              setState(() {
-                                shouldShowDateContent = value!;
+                          onChanged: ((value) => {
+                                setState(() {
+                                  shouldShowDateContent = value!;
+                                }),
                               }),
-                            }),
+                        ),
                       ),
-                    ),
-                  if (shouldShowDateContent && currentSlide == 2)
+                    if (shouldShowDateContent && currentSlide == 2)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: Row(
+                          children: [
+                            ElevatedButton(
+                                onPressed: () => {
+                                      showFlutterDatePicker(),
+                                    },
+                                child: const Text("Select Date")),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 12.0),
+                              child: Text(
+                                  DateFormat.yMMMEd().format(currentDate!),
+                                  style: const TextStyle(
+                                      fontStyle: FontStyle.italic)),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                    //Reward
+                    if (currentSlide == 2)
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width * 0.05,
+                            right: MediaQuery.of(context).size.width * 0.35),
+                        child: FormBuilderCheckbox(
+                          controlAffinity: ListTileControlAffinity.trailing,
+                          name: "reward",
+                          title: const Text("Reward?",
+                              style: TextStyle(
+                                  fontSize: 24, fontWeight: FontWeight.bold)),
+                          onChanged: ((value) => {
+                                setState(() {
+                                  shouldShowRewardContent = value!;
+                                }),
+                              }),
+                        ),
+                      ),
+                    if (shouldShowRewardContent && currentSlide == 2)
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 8.0, right: 8.0, bottom: 18.0),
+                        child: FormBuilderTextField(
+                          key: const ValueKey('reward'),
+                          autocorrect: false,
+                          maxLines: 3,
+                          minLines: 1,
+                          name: "rewardPicker",
+                          validator: ((value) => validateText(value,
+                              'Please enter a reward (if you want one!)')),
+                          decoration: const InputDecoration(
+                            labelText: "How'll you reward yourself?",
+                            hintText: '',
+                            floatingLabelAlignment:
+                                FloatingLabelAlignment.start,
+                            hintStyle: TextStyle(fontStyle: FontStyle.italic),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.grey),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.redAccent),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1.5, color: Colors.green),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                    //Optional Fields
+
+                    //WHY?
+                    if (currentSlide == 3)
+                      const Padding(
+                        padding:
+                            EdgeInsets.only(left: 12.0, top: 8.0, bottom: 4.0),
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text("I'll do this because...",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold))),
+                      ),
+                    if (currentSlide == 3)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: FormBuilderTextField(
+                          key: const ValueKey('why'),
+                          autocorrect: false,
+                          minLines: 1,
+                          maxLines: 3,
+                          name: "why",
+                          decoration: const InputDecoration(
+                            labelText: "What's your why?",
+                            labelStyle: TextStyle(fontStyle: FontStyle.italic),
+                            hintText: 'Why',
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.grey),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.redAccent),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1.5, color: Colors.green),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                    //WHEN
+                    if (currentSlide == 3)
+                      const Padding(
+                        padding:
+                            EdgeInsets.only(left: 12.0, top: 8.0, bottom: 4.0),
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text("I'll do this at...",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold))),
+                      ),
+                    if (currentSlide == 3)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: FormBuilderTextField(
+                          key: const ValueKey('whenWhere'),
+                          autocorrect: false,
+                          minLines: 1,
+                          maxLines: 3,
+                          name: "whenWhere",
+                          decoration: const InputDecoration(
+                            labelText: "Certain time? Certain place?",
+                            labelStyle: TextStyle(fontStyle: FontStyle.italic),
+                            hintText: 'When',
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.grey),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.redAccent),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1.5, color: Colors.green),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                    NextPreviousButtons(
+                        currentSlide, incrementSlide, decrementSlide, 0, 4),
+
+                    //SUBMIT BUTTON
                     Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: Row(
+                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           ElevatedButton(
-                              onPressed: () => {
-                                    showFlutterDatePicker(),
-                                  },
-                              child: const Text("Select Date")),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
-                            child: Text(
-                                DateFormat.yMMMEd().format(currentDate!),
-                                style: const TextStyle(
-                                    fontStyle: FontStyle.italic)),
+                            onPressed: () => {
+                              isValidForm = _formKey.currentState!.validate(),
+                              if (isValidForm)
+                                {
+                                  _formKey.currentState?.save(),
+                                  newGoal.name =
+                                      _formKey.currentState?.value['goal'],
+                                  newGoal.goalTarget = _formKey
+                                          .currentState?.value['numRepeat'] ??
+                                      '1',
+                                  newGoal.goalProgress = '0',
+                                  if (shouldShowDateContent)
+                                    {
+                                      newGoal.completeByDate =
+                                          DateFormat.yMMMEd()
+                                              .format(currentDate!),
+                                    },
+                                  newGoal.reward = _formKey.currentState
+                                          ?.value['rewardPicker'] ??
+                                      'null',
+                                  newGoal.whyToComplete =
+                                      _formKey.currentState?.value['why'] ??
+                                          'null',
+                                  newGoal.whenToComplete = _formKey
+                                          .currentState?.value['whenWhere'] ??
+                                      'null',
+                                  newGoal.currPriorityIndex =
+                                      args.currPriorityIndex,
+                                  addGoalGloballyAndNavigateBack(),
+                                },
+                            },
+                            child: const Text("SUBMIT"),
                           ),
                         ],
                       ),
                     ),
-
-                  //Reward
-                  if (currentSlide == 2)
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width * 0.05,
-                          right: MediaQuery.of(context).size.width * 0.35),
-                      child: FormBuilderCheckbox(
-                        controlAffinity: ListTileControlAffinity.trailing,
-                        name: "reward",
-                        title: const Text("Reward?",
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold)),
-                        onChanged: ((value) => {
-                              setState(() {
-                                shouldShowRewardContent = value!;
-                              }),
-                            }),
-                      ),
-                    ),
-                  if (shouldShowRewardContent && currentSlide == 2)
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 8.0, right: 8.0, bottom: 18.0),
-                      child: FormBuilderTextField(
-                        key: const ValueKey('reward'),
-                        autocorrect: false,
-                        maxLines: 3,
-                        minLines: 1,
-                        name: "rewardPicker",
-                        validator: ((value) => validateText(
-                            value, 'Please enter a reward (if you want one!)')),
-                        decoration: const InputDecoration(
-                          labelText: "How'll you reward yourself?",
-                          hintText: '',
-                          floatingLabelAlignment: FloatingLabelAlignment.start,
-                          hintStyle: TextStyle(fontStyle: FontStyle.italic),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 1, color: Colors.grey),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 1, color: Colors.redAccent),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 1.5, color: Colors.green),
-                          ),
-                        ),
-                      ),
-                    ),
-
-                  //Optional Fields
-
-                  //WHY?
-                  if (currentSlide == 3)
-                    const Padding(
-                      padding:
-                          EdgeInsets.only(left: 12.0, top: 8.0, bottom: 4.0),
-                      child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text("I'll do this because...",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold))),
-                    ),
-                  if (currentSlide == 3)
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: FormBuilderTextField(
-                        key: const ValueKey('why'),
-                        autocorrect: false,
-                        minLines: 1,
-                        maxLines: 3,
-                        name: "why",
-                        decoration: const InputDecoration(
-                          labelText: "What's your why?",
-                          labelStyle: TextStyle(fontStyle: FontStyle.italic),
-                          hintText: 'Why',
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 1, color: Colors.grey),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 1, color: Colors.redAccent),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 1.5, color: Colors.green),
-                          ),
-                        ),
-                      ),
-                    ),
-
-                  //WHEN
-                  if (currentSlide == 3)
-                    const Padding(
-                      padding:
-                          EdgeInsets.only(left: 12.0, top: 8.0, bottom: 4.0),
-                      child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text("I'll do this at...",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold))),
-                    ),
-                  if (currentSlide == 3)
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: FormBuilderTextField(
-                        key: const ValueKey('whenWhere'),
-                        autocorrect: false,
-                        minLines: 1,
-                        maxLines: 3,
-                        name: "whenWhere",
-                        decoration: const InputDecoration(
-                          labelText: "Certain time? Certain place?",
-                          labelStyle: TextStyle(fontStyle: FontStyle.italic),
-                          hintText: 'When',
-                          enabledBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 1, color: Colors.grey),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 1, color: Colors.redAccent),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 1.5, color: Colors.green),
-                          ),
-                        ),
-                      ),
-                    ),
-
-                  NextPreviousButtons(
-                      currentSlide, incrementSlide, decrementSlide, 0, 4),
-
-                  //SUBMIT BUTTON
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () => {
-                            isValidForm = _formKey.currentState!.validate(),
-                            if (isValidForm)
-                              {
-                                _formKey.currentState?.save(),
-                                newGoal.name =
-                                    _formKey.currentState?.value['goal'],
-                                newGoal.goalTarget =
-                                    _formKey.currentState?.value['numRepeat'] ??
-                                        '1',
-                                newGoal.goalProgress = '0',
-                                if (shouldShowDateContent)
-                                  {
-                                    newGoal.completeByDate = DateFormat.yMMMEd()
-                                        .format(currentDate!),
-                                  },
-                                newGoal.reward = _formKey
-                                        .currentState?.value['rewardPicker'] ??
-                                    'null',
-                                newGoal.whyToComplete =
-                                    _formKey.currentState?.value['why'] ??
-                                        'null',
-                                newGoal.whenToComplete =
-                                    _formKey.currentState?.value['whenWhere'] ??
-                                        'null',
-                                newGoal.currPriorityIndex =
-                                    args.currPriorityIndex,
-                                addGoalGloballyAndNavigateBack(),
-                              },
-                          },
-                          child: const Text("SUBMIT"),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

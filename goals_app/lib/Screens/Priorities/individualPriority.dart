@@ -240,71 +240,81 @@ class _IndividualPriority extends State<IndividualPriority> {
     for (Goal goal in currentPriorityGoals) {
       currGoalsButtons.add(GoalButton(goal, true, args.index, false));
     }
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
-          onPressed: () => {
-                goToNewGoalScreen(),
-              }),
-      body: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(0.0),
-            decoration: BoxDecoration(
-              image: getDecorationImageWidget(args.index, context),
-            ),
-            height: MediaQuery.of(context).size.height * 0.4,
-            width: double.infinity,
-            child: Stack(
-              children: [
-                //Icons
-                Padding(
-                  padding:
-                      const EdgeInsets.only(top: 16.0, left: 12.0, right: 0.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          getCircleIconWidget(
-                              context,
-                              IconButton(
-                                onPressed: () => {
-                                  Navigator.push<void>(
-                                    context,
-                                    MaterialPageRoute<void>(
-                                      builder: (BuildContext context) =>
-                                          PriorityHomeScreen.fromOtherRoute(
-                                              args.index),
+    return Container(
+      constraints: const BoxConstraints.expand(),
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: NetworkImage(
+                Global.currentBackgroundImage,
+              ),
+              fit: BoxFit.cover)),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        floatingActionButton: FloatingActionButton(
+            child: const Icon(Icons.add),
+            onPressed: () => {
+                  goToNewGoalScreen(),
+                }),
+        body: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(0.0),
+              decoration: BoxDecoration(
+                image: getDecorationImageWidget(args.index, context),
+              ),
+              height: MediaQuery.of(context).size.height * 0.4,
+              width: double.infinity,
+              child: Stack(
+                children: [
+                  //Icons
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 16.0, left: 12.0, right: 0.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            getCircleIconWidget(
+                                context,
+                                IconButton(
+                                  onPressed: () => {
+                                    Navigator.push<void>(
+                                      context,
+                                      MaterialPageRoute<void>(
+                                        builder: (BuildContext context) =>
+                                            PriorityHomeScreen.fromOtherRoute(
+                                                args.index),
+                                      ),
                                     ),
+                                  },
+                                  icon: const Icon(
+                                    Icons.arrow_back,
+                                    size: 20.0,
                                   ),
-                                },
-                                icon: const Icon(
-                                  Icons.arrow_back,
-                                  size: 20.0,
+                                  color: Colors.white,
                                 ),
-                                color: Colors.white,
-                              ),
-                              Colors.white),
-                        ],
-                      ),
-                      getSettingsMenu(context),
-                    ],
+                                Colors.white),
+                          ],
+                        ),
+                        getSettingsMenu(context),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            child: Column(
-              children: [
-                Expanded(
-                  child: getMainWidget(currentPriorityGoals),
-                ),
-              ],
+            Expanded(
+              child: Column(
+                children: [
+                  Expanded(
+                    child: getMainWidget(currentPriorityGoals),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
