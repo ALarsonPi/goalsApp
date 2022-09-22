@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
 import 'package:goals_app/Screens/Goals/individualGoal.dart';
 import 'package:goals_app/Screens/Goals/newGoalScreen.dart';
 import 'package:goals_app/Screens/Priorities/newPriority.dart';
@@ -7,9 +6,7 @@ import 'package:goals_app/Screens/Priorities/individualPriority.dart';
 import 'package:goals_app/Screens/browseImages.dart';
 import 'package:goals_app/Settings/settingsScreen.dart';
 import 'package:goals_app/Screens/splashScreen.dart';
-import 'package:goals_app/Screens/ArgumentPassThroughScreens/editPriotitiesArguments.dart';
 import 'package:goals_app/Settings/ThemeProvider.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 import 'Screens/Priorities/prioritiesHome.dart';

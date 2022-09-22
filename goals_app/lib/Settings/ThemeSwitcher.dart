@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import '../global.dart';
 import 'ThemeProvider.dart';
-import 'AppColors.dart';
 import 'AppTheme.dart';
 
 class ThemeSwitcher extends StatelessWidget {
