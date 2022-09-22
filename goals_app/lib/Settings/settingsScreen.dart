@@ -33,6 +33,7 @@ class _SettingsScreen extends State<SettingsScreen> {
 
   void changeBackground() {
     setState(() {});
+    Global.writeBackgroundImage();
   }
 
   @override
@@ -76,7 +77,6 @@ class _SettingsScreen extends State<SettingsScreen> {
               Container(
                 padding: const EdgeInsets.only(
                   left: 15,
-                  right: 15,
                 ),
                 color: Colors.grey.withOpacity(0.4),
                 child: ExpansionTile(
@@ -84,8 +84,18 @@ class _SettingsScreen extends State<SettingsScreen> {
                   title: const Text("Change Theme Color",
                       style: TextStyle(color: Colors.black)),
                   children: [
-                    ThemeSwitcher(150),
-                    PrimaryColorSwitcher(75),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 8.0,
+                        bottom: 8.0,
+                        right: 15,
+                      ),
+                      child: ThemeSwitcher(75),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 15.0),
+                      child: PrimaryColorSwitcher(75),
+                    ),
                   ],
                 ),
               ),

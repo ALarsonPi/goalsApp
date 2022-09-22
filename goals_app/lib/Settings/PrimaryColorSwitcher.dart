@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:goals_app/Settings/ThemeProvider.dart';
 import 'package:provider/provider.dart';
 
+import '../global.dart';
 import 'AppColors.dart';
 
 class PrimaryColorSwitcher extends StatelessWidget {
@@ -21,12 +22,18 @@ class PrimaryColorSwitcher extends StatelessWidget {
             AppColors.primaryColors.length,
             (i) {
               bool _isSelectedColor = AppColors.primaryColors[i] ==
-                  themeProvider.selectedPrimaryColor;
+                  Global.globalThemeProvider.selectedPrimaryColor;
               return GestureDetector(
                 onTap: _isSelectedColor
                     ? null
-                    : () => themeProvider
-                        .setSelectedPrimaryColor(AppColors.primaryColors[i]),
+                    : () => {
+                          themeProvider.setSelectedPrimaryColor(
+                              AppColors.primaryColors[i]),
+                          Global.globalThemeProvider.setSelectedPrimaryColor(
+                              AppColors.primaryColors[i]),
+                          Global.currentPrimaryColor = i,
+                          Global.writePrimaryColor(),
+                        },
                 child: Container(
                   height: desiredHeight / 3,
                   decoration: BoxDecoration(

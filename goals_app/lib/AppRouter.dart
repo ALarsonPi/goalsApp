@@ -31,18 +31,18 @@ class AppRouter extends StatelessWidget {
         child: const IndividualPriority(),
         builder: (c, themeProvider, child) {
           return MaterialApp(
-            themeMode: themeProvider.selectedThemeMode,
+            themeMode: Global.globalThemeProvider.selectedThemeMode,
             theme: ThemeData(
               brightness: Brightness.light,
               primarySwatch: AppColors.getMaterialColorFromColor(
-                  themeProvider.selectedPrimaryColor),
-              primaryColor: themeProvider.selectedPrimaryColor,
+                  Global.globalThemeProvider.selectedPrimaryColor),
+              primaryColor: Global.globalThemeProvider.selectedPrimaryColor,
             ),
             darkTheme: ThemeData(
               brightness: Brightness.dark,
               primarySwatch: AppColors.getMaterialColorFromColor(
-                  themeProvider.selectedPrimaryColor),
-              primaryColor: themeProvider.selectedPrimaryColor,
+                  Global.globalThemeProvider.selectedPrimaryColor),
+              primaryColor: Global.globalThemeProvider.selectedPrimaryColor,
             ),
             onGenerateRoute: (settings) {
               if (settings.name == IndividualPriority.routeName) {

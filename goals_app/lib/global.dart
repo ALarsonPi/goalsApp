@@ -2,13 +2,15 @@ import 'dart:convert';
 import 'dart:io' as io;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
+import 'package:goals_app/Settings/ThemeSwitcher.dart';
 import 'package:path_provider/path_provider.dart';
 import 'Objects/Priority.dart';
 import 'Objects/Goal.dart';
+import 'Settings/AppColors.dart';
+import 'Settings/ThemeProvider.dart';
 
 class Global {
   static final expandedPrioritiesBucketGlobal = PageStorageBucket();
-
   static Map listOfImageLists = {
     "People Pictures": listOfPeoplePictures,
     "Nature/Animal Images": listOfNaturePictures,
@@ -26,6 +28,9 @@ class Global {
 
   static String currentBackgroundImage = listOfBackgroundImages[4].url;
   static List<pictureHolder> listOfBackgroundImages = [
+    pictureHolder(
+        "https://images.unsplash.com/photo-1538947151057-dfe933d688d1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fGJsdWV8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
+        "Chill Blue Morning"),
     pictureHolder(
       "https://images.unsplash.com/photo-1518627675569-e9d4fb90cdb5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHBhc3RlbHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=700&q=60",
       "Snowy Sunset Forest",
@@ -53,10 +58,6 @@ class Global {
     pictureHolder(
       "https://images.unsplash.com/photo-1614481327033-68e5df399653?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGFzdGVsfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=700&q=60",
       "Rainbow Leaves",
-    ),
-    pictureHolder(
-      "https://images.unsplash.com/photo-1554147090-e1221a04a025?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fHBhc3RlbHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=700&q=60",
-      "Snow Sand",
     ),
   ];
 
@@ -177,11 +178,20 @@ class Global {
         "Swimming"),
   ];
 
+  static ThemeProvider globalThemeProvider = ThemeProvider();
+  static int isDarkMode = 0;
+  static int currentPrimaryColor = 0;
   static bool isPhone = Device.get().isPhone;
   static List<Priority> userPriorities = List.empty(growable: true);
   static CustomStack<Goal> depthStack = CustomStack();
   static bool goalButtonsInGridView = false;
   static bool priorityIsInListView = false;
+
+  static const String prioritiesFile = "priorities.txt";
+  static const String firstTimeFile = "firstTime.txt";
+  static const String backgroundImageFile = "backgroundImage.txt";
+  static const String lightDarkFile = "lightDark.txt";
+  static const String primaryColorFile = "primaryColor.txt";
 
   static int getSumOfChildrenProgress(Goal goal) {
     return getSumOfChildrenRecursiveHelper(goal.subGoals, 0, true);
@@ -339,43 +349,57 @@ class Global {
     return directory.path;
   }
 
-  static Future<io.File> get _localFile async {
+  static Future<io.File> _localFile(String filePath) async {
     final path = await _localPath;
-    return io.File('$path/priorities.txt');
+    return io.File('$path/$filePath');
   }
 
-  static Future<io.File> get _localFileFirstTime async {
-    final path = await _localPath;
-    return io.File('$path/firstTime.txt');
-  }
-
-  static Future<io.File> writeFirstTime() async {
-    final file = await _localFileFirstTime;
-    return file.writeAsString("1");
-  }
-
-  static readFirstTime() async {
+  static readFile(String filePath) async {
     try {
-      final file = await _localFileFirstTime;
+      final file = await _localFile(filePath);
       bool fileExists = await file.exists();
       if (fileExists) {
         return file.readAsString();
       } else {
         return "notAvailable";
       }
-    } catch (e) {}
+    } catch (e) {
+      debugPrint("IO ERROR");
+    }
+  }
+
+  static Future<io.File> writeFirstTime() async {
+    final file = await _localFile(firstTimeFile);
+    await writeBackgroundImage();
+    await writeDarkMode();
+    await writePrimaryColor();
+    return file.writeAsString("1");
+  }
+
+  static Future<io.File> writeDarkMode() async {
+    final file = await _localFile(lightDarkFile);
+    return file.writeAsString(isDarkMode.toString());
+  }
+
+  static Future<io.File> writePrimaryColor() async {
+    final file = await _localFile(primaryColorFile);
+    return file.writeAsString(currentPrimaryColor.toString());
+  }
+
+  static Future<io.File> writeBackgroundImage() async {
+    final file = await _localFile(backgroundImageFile);
+    return file.writeAsString(currentBackgroundImage);
   }
 
   static Future<io.File> writePrioritiesToMemory() async {
-    final file = await _localFile;
-
+    final file = await _localFile(prioritiesFile);
     file.writeAsString(json.encode(userPriorities));
     return file;
   }
 
   static Future readPriorities() async {
     try {
-      final file = await _localFile;
+      final file = await _localFile(prioritiesFile);
       String contents = await file.readAsString();
       var jsonResponse = jsonDecode(contents);
       return jsonResponse;
@@ -434,7 +458,9 @@ class Global {
     userPriorities.clear();
     bool isFirstTime = true;
     String isFirstTimeFromFile = "";
-    await readFirstTime().then((value) {
+
+    //First time is either null or '1'
+    await readFile(firstTimeFile).then((value) {
       isFirstTimeFromFile = value;
     });
     if (isFirstTimeFromFile == "1") {
@@ -447,6 +473,23 @@ class Global {
       await populatePrioritiesForFirstTimeUser();
     }
 
+    await readFile(backgroundImageFile).then((value) {
+      if (value is String) {
+        currentBackgroundImage = value;
+      }
+    });
+    await readFile(lightDarkFile).then((value) {
+      int valueAsInt = int.parse(value);
+      isDarkMode = valueAsInt;
+      globalThemeProvider
+          .setSelectedThemeMode(ThemeSwitcher.appThemes[isDarkMode].mode);
+    });
+    await readFile(primaryColorFile).then((value) {
+      int valueAsInt = int.parse(value);
+      currentPrimaryColor = valueAsInt;
+      globalThemeProvider.setSelectedPrimaryColor(
+          AppColors.primaryColors[currentPrimaryColor]);
+    });
     await readPriorities().then(
       (value) {
         if (value is! String) {
