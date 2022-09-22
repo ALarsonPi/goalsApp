@@ -5,12 +5,15 @@ import 'package:goals_app/Screens/Goals/newGoalScreen.dart';
 import 'package:goals_app/Screens/Priorities/newPriority.dart';
 import 'package:goals_app/Screens/Priorities/individualPriority.dart';
 import 'package:goals_app/Screens/browseImages.dart';
-import 'package:goals_app/Screens/optionsScreen.dart';
+import 'package:goals_app/Settings/settingsScreen.dart';
 import 'package:goals_app/Screens/splashScreen.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/editPriotitiesArguments.dart';
+import 'package:goals_app/Settings/ThemeProvider.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 
 import 'Screens/Priorities/prioritiesHome.dart';
+import 'Settings/AppColors.dart';
 import 'global.dart';
 
 class AppRouter extends StatelessWidget {
@@ -18,77 +21,73 @@ class AppRouter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      onGenerateRoute: (settings) {
-        if (settings.name == IndividualPriority.routeName) {
-          return PageRouteBuilder(
-            settings: settings,
-            transitionDuration: const Duration(milliseconds: 250),
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                const IndividualPriority(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) =>
-                    FadeTransition(opacity: animation, child: child),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => ThemeProvider(),
+        )
+      ],
+      child: Consumer<ThemeProvider>(
+        child: const IndividualPriority(),
+        builder: (c, themeProvider, child) {
+          return MaterialApp(
+            themeMode: themeProvider.selectedThemeMode,
+            theme: ThemeData(
+              brightness: Brightness.light,
+              primarySwatch: AppColors.getMaterialColorFromColor(
+                  themeProvider.selectedPrimaryColor),
+              primaryColor: themeProvider.selectedPrimaryColor,
+            ),
+            darkTheme: ThemeData(
+              brightness: Brightness.dark,
+              primarySwatch: AppColors.getMaterialColorFromColor(
+                  themeProvider.selectedPrimaryColor),
+              primaryColor: themeProvider.selectedPrimaryColor,
+            ),
+            onGenerateRoute: (settings) {
+              if (settings.name == IndividualPriority.routeName) {
+                return PageRouteBuilder(
+                  settings: settings,
+                  transitionDuration: const Duration(milliseconds: 250),
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      const IndividualPriority(),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) =>
+                          FadeTransition(opacity: animation, child: child),
+                );
+              }
+            },
+            debugShowCheckedModeBanner: false,
+            title: 'Goals App',
+            builder: (context, widget) => Navigator(
+              onGenerateRoute: (RouteSettings settings) => MaterialPageRoute(
+                builder: (ctx) {
+                  return Container(
+                    child: widget,
+                  );
+                },
+              ),
+            ),
+            initialRoute: '/',
+            routes: {
+              //Global
+              '/': (context) => SplashScreen(),
+              '/priority-home': (context) => PriorityHomeScreen(),
+              '/new-priority': (context) => NewPriorityScreen(),
+
+              SettingsScreen.routeName: ((context) => SettingsScreen()),
+
+              //Priorities
+              // Individual Priority is Faded onGenerateRoute above
+              NewGoalScreen.routeName: ((context) => NewGoalScreen()),
+              BrowseImagesScreen.routeName: (context) => BrowseImagesScreen(),
+
+              //Goals
+              IndividualGoal.routeName: ((context) => IndividualGoal()),
+            },
           );
-        }
-      },
-
-      //(settings) => PageRouteBuilder(pageBuilder: (context) => routes[settings.name](context), settings: settings, transitionsBuilder: (context, animation, secondaryAnimation, child) => FadeTransition(opacity: animation1, child: child),),
-      // onGenerateRoute: ((settings) {
-      //   switch (settings.name) {
-      //     case IndividualPriority.routeName:
-      //       final args = settings.arguments as IndividualPriorityArgumentScreen;
-      //       return MaterialPageRoute(
-      //         builder: (context) {
-      //           return IndividualPriorityArgumentScreen(args.index);
-      //         },
-      //       );
-      //     // PageTransition(
-      //     //     child: const IndividualPriority(),
-      //     //     type: PageTransitionType.bottomToTop,
-      //     //     settings: settings);
-      //     case IndividualGoal.routeName:
-      //       return PageTransition(
-      //           child: const IndividualGoal(),
-      //           type: PageTransitionType.bottomToTop,
-      //           settings: settings);
-      //     default:
-      //       return null;
-      //   }
-      // }),
-      debugShowCheckedModeBanner: false,
-      title: 'Goals App',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
+        },
       ),
-      themeMode: ThemeMode.light,
-      //darkTheme: ThemeData.dark(),
-      builder: (context, widget) => Navigator(
-        onGenerateRoute: (RouteSettings settings) => MaterialPageRoute(
-          builder: (ctx) {
-            return Container(
-              child: widget,
-            );
-          },
-        ),
-      ),
-      initialRoute: '/',
-      routes: {
-        //Global
-        '/': (context) => SplashScreen(),
-        '/priority-home': (context) => PriorityHomeScreen(),
-        '/new-priority': (context) => NewPriorityScreen(),
-
-        OptionsScreen.routeName: ((context) => OptionsScreen()),
-
-        //Priorities
-        // IndividualPriority.routeName: (context) => const IndividualPriority(),
-        NewGoalScreen.routeName: ((context) => NewGoalScreen()),
-        BrowseImagesScreen.routeName: (context) => BrowseImagesScreen(),
-
-        //Goals
-        IndividualGoal.routeName: ((context) => IndividualGoal()),
-      },
     );
   }
 }

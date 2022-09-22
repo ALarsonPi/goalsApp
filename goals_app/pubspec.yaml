@@ -52,6 +52,8 @@ dependencies:
   shared_preferences: ^2.0.15
   flutter_device_type: ^0.4.0
   page_transition: ^2.0.9
+  flutter_colorpicker: ^1.0.3
+  provider: ^6.0.3
 
 dev_dependencies:
   flutter_test:

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/settingsScreenArguements.dart';
 import 'package:goals_app/Screens/Priorities/reorderableGridOfCards.dart';
-import 'package:goals_app/Screens/optionsScreen.dart';
+import 'package:goals_app/Settings/settingsScreen.dart';
 import 'package:goals_app/Widgets/Priorities/noGoalsPrompt.dart';
 import 'package:goals_app/Objects/IconsEnum.dart';
 import 'package:goals_app/Objects/Priority.dart';
@@ -154,7 +154,7 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
       padding: const EdgeInsets.only(right: 12.0),
       constraints: const BoxConstraints(),
       onPressed: () => {
-        Navigator.pushNamed(context, OptionsScreen.routeName,
+        Navigator.pushNamed(context, SettingsScreen.routeName,
             arguments: SettingsScreenArguements(widget.currentStartIndex)),
       },
       icon: const Icon(Icons.settings, size: 22.0),

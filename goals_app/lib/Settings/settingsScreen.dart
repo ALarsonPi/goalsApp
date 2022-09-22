@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/settingsScreenArguements.dart';
 import 'package:goals_app/Screens/Priorities/prioritiesHome.dart';
-import 'package:goals_app/Widgets/Priorities/imageCarousel.dart';
-import 'package:goals_app/Widgets/backgroundCarousel.dart';
+import 'package:goals_app/Settings/PrimaryColorSwitcher.dart';
+import 'package:goals_app/Settings/ThemeSwitcher.dart';
+import 'package:goals_app/Settings/backgroundCarousel.dart';
 
 import '../global.dart';
 
-class OptionsScreen extends StatefulWidget {
+class SettingsScreen extends StatefulWidget {
   static const routeName = "/extractOptionsArguements";
+
+  const SettingsScreen({Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() {
-    return _OptionsScreen();
+    return _SettingsScreen();
   }
 }
 
-class _OptionsScreen extends State<OptionsScreen> {
+class _SettingsScreen extends State<SettingsScreen> {
   late final args =
       ModalRoute.of(context)!.settings.arguments as SettingsScreenArguements;
 
@@ -70,20 +73,32 @@ class _OptionsScreen extends State<OptionsScreen> {
           child: ListView(
             shrinkWrap: true,
             children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(40),
+              Container(
+                padding: const EdgeInsets.only(
+                  left: 15,
+                  right: 15,
                 ),
-                onPressed: null,
-                child: const Text("Change Theme Color (Coming Soon)"),
+                color: Colors.grey.withOpacity(0.4),
+                child: ExpansionTile(
+                  initiallyExpanded: false,
+                  title: const Text("Change Theme Color",
+                      style: TextStyle(color: Colors.black)),
+                  children: [
+                    ThemeSwitcher(150),
+                    PrimaryColorSwitcher(75),
+                  ],
+                ),
               ),
               const Divider(thickness: 1, color: Colors.grey),
               Container(
                 color: Colors.grey.withOpacity(0.4),
                 child: ExpansionTile(
                   initiallyExpanded: false,
-                  title: const Text("Change Background image",
-                      style: TextStyle(color: Colors.black)),
+                  title: const Padding(
+                    padding: EdgeInsets.only(left: 15),
+                    child: Text("Change Background Image",
+                        style: TextStyle(color: Colors.black)),
+                  ),
                   children: [
                     BackgroundCarousel(
                       backgroundImageUrls,

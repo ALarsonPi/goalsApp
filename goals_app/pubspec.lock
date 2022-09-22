@@ -146,6 +146,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_colorpicker:
+    dependency: "direct main"
+    description:
+      name: flutter_colorpicker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.3"
   flutter_device_type:
     dependency: "direct main"
     description:
@@ -317,6 +324,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
+  nested:
+    dependency: transitive
+    description:
+      name: nested
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   network_to_file_image:
     dependency: "direct main"
     description:
@@ -457,6 +471,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.4"
+  provider:
+    dependency: "direct main"
+    description:
+      name: provider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.0.3"
   reorderable_grid_view:
     dependency: "direct main"
     description:
