@@ -373,6 +373,7 @@ class Global {
     await writeBackgroundImage();
     await writeDarkMode();
     await writePrimaryColor();
+    debugPrint("Here in write first time");
     return file.writeAsString("1");
   }
 
@@ -466,7 +467,7 @@ class Global {
     if (isFirstTimeFromFile == "1") {
       isFirstTime = false;
     } else {
-      writeFirstTime();
+      await writeFirstTime();
     }
 
     if (isFirstTime) {
@@ -479,14 +480,18 @@ class Global {
       }
     });
     await readFile(lightDarkFile).then((value) {
-      int valueAsInt = int.parse(value);
-      isDarkMode = valueAsInt;
+      if (value != null) {
+        int valueAsInt = int.parse(value);
+        isDarkMode = valueAsInt;
+      }
       globalThemeProvider
           .setSelectedThemeMode(ThemeSwitcher.appThemes[isDarkMode].mode);
     });
     await readFile(primaryColorFile).then((value) {
-      int valueAsInt = int.parse(value);
-      currentPrimaryColor = valueAsInt;
+      if (value != null) {
+        int valueAsInt = int.parse(value);
+        currentPrimaryColor = valueAsInt;
+      }
       globalThemeProvider.setSelectedPrimaryColor(
           AppColors.primaryColors[currentPrimaryColor]);
     });

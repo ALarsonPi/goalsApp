@@ -50,9 +50,12 @@ class _SettingsScreen extends State<SettingsScreen> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           centerTitle: true,
-          title: const Text(
+          title: Text(
             "Settings",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: (Global.isPhone) ? 22 : 36,
+            ),
           ),
           leading: IconButton(
             onPressed: () => {
@@ -81,8 +84,13 @@ class _SettingsScreen extends State<SettingsScreen> {
                 color: Colors.grey.withOpacity(0.4),
                 child: ExpansionTile(
                   initiallyExpanded: false,
-                  title: const Text("Change Theme Color",
-                      style: TextStyle(color: Colors.black)),
+                  title: Text(
+                    "Change Theme Color",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: (Global.isPhone) ? 14 : 24,
+                    ),
+                  ),
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(
@@ -104,15 +112,17 @@ class _SettingsScreen extends State<SettingsScreen> {
                 color: Colors.grey.withOpacity(0.4),
                 child: ExpansionTile(
                   initiallyExpanded: false,
-                  title: const Padding(
-                    padding: EdgeInsets.only(left: 15),
+                  title: Padding(
+                    padding: const EdgeInsets.only(left: 15),
                     child: Text("Change Background Image",
-                        style: TextStyle(color: Colors.black)),
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: (Global.isPhone) ? 14 : 24)),
                   ),
                   children: [
                     BackgroundCarousel(
                       backgroundImageUrls,
-                      200,
+                      (Global.isPhone) ? 200 : 350,
                       true,
                       changeBackground,
                     ),

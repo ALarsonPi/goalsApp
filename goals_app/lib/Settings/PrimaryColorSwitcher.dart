@@ -13,7 +13,7 @@ class PrimaryColorSwitcher extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ThemeProvider>(
       builder: (c, themeProvider, _) => SizedBox(
-        height: desiredHeight,
+        height: (Global.isPhone) ? desiredHeight : desiredHeight + 100,
         child: GridView.count(
           crossAxisCount: AppColors.primaryColors.length,
           physics: const NeverScrollableScrollPhysics(),
@@ -52,7 +52,8 @@ class PrimaryColorSwitcher extends StatelessWidget {
                             borderRadius: BorderRadius.circular(3),
                             color: Theme.of(context).cardColor.withOpacity(0.5),
                           ),
-                          child: const Icon(Icons.check, size: 20),
+                          child: Icon(Icons.check,
+                              size: (Global.isPhone) ? 20 : 36),
                         ),
                       ),
                     ),

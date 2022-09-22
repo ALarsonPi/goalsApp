@@ -27,7 +27,7 @@ class ThemeSwitcher extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ThemeProvider>(
       builder: (c, themeProvider, _) => SizedBox(
-        height: containerHeight,
+        height: (Global.isPhone) ? containerHeight : containerHeight + 100,
         child: GridView.count(
           physics: const NeverScrollableScrollPhysics(),
           crossAxisSpacing: 10,
@@ -50,7 +50,9 @@ class ThemeSwitcher extends StatelessWidget {
                               .setSelectedThemeMode(appThemes[i].mode),
                         },
                 child: AnimatedContainer(
-                  height: 100,
+                  height: (Global.isPhone)
+                      ? containerHeight + 25
+                      : containerHeight + 50,
                   duration: const Duration(milliseconds: 200),
                   decoration: BoxDecoration(
                     color: _isSelectedTheme
@@ -70,12 +72,17 @@ class ThemeSwitcher extends StatelessWidget {
                         color: Theme.of(context).cardColor.withOpacity(0.5),
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: (Global.isPhone)
+                            ? MainAxisAlignment.spaceAround
+                            : MainAxisAlignment.spaceEvenly,
                         children: [
-                          Icon(appThemes[i].icon),
+                          Icon(appThemes[i].icon,
+                              size: (Global.isPhone) ? 24 : 36),
                           Text(
                             appThemes[i].title,
-                            style: Theme.of(context).textTheme.subtitle2,
+                            style: (Global.isPhone)
+                                ? Theme.of(context).textTheme.subtitle2
+                                : Theme.of(context).textTheme.headlineMedium,
                           ),
                         ],
                       ),
