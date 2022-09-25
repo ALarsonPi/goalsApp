@@ -41,9 +41,6 @@ class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Pixel Ratio, width");
-    debugPrint(MediaQuery.of(context).devicePixelRatio.toString());
-    debugPrint(MediaQuery.of(context).size.width.toString());
     double mediaPixelVar = MediaQuery.of(context).devicePixelRatio - 1.75;
     if (mediaPixelVar < 1) mediaPixelVar = 1;
     int index = 0;
@@ -97,7 +94,6 @@ class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
                               mediaPixelVar,
                       height: MediaQuery.of(context).size.height * 0.075,
                       child: Card(
-                        //elevation: 5,
                         child: ListTile(
                           title: Padding(
                             padding: EdgeInsets.only(
@@ -110,9 +106,9 @@ class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
                             child: Text(
                               "${priority.name} (${++index})",
                               style: TextStyle(
-                                  fontSize: !Global.isPhone ? 24 : 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black87),
+                                fontSize: !Global.isPhone ? 24 : 12,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
@@ -136,18 +132,15 @@ class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
       }
     }
 
-    return Theme(
-      data: ThemeData(canvasColor: Colors.black),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-        child: ReorderableGridView.count(
-          crossAxisSpacing: 1,
-          mainAxisSpacing: 6,
-          crossAxisCount: 2,
-          padding: EdgeInsets.zero,
-          onReorder: _onReorder,
-          children: _columns,
-        ),
+    return Padding(
+      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+      child: ReorderableGridView.count(
+        crossAxisSpacing: 1,
+        mainAxisSpacing: 6,
+        crossAxisCount: 2,
+        padding: EdgeInsets.zero,
+        onReorder: _onReorder,
+        children: _columns,
       ),
     );
   }

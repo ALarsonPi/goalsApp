@@ -62,6 +62,7 @@ class EditPriorityWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
+                        style: Theme.of(context).elevatedButtonTheme.style,
                         onPressed: () => {
                               Navigator.pushNamed(
                                 context,

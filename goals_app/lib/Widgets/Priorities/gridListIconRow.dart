@@ -23,7 +23,11 @@ class _GridListIconRow extends State<GridListIconRow> {
   void initState() {
     if (widget.iconSet == IconsEnum.priorityHome) {
       isGridMode = Global.priorityIsInListView;
-      iconsToShow.add(const Icon(Icons.account_balance_wallet));
+      iconsToShow.add(
+        const Icon(
+          Icons.account_balance_wallet,
+        ),
+      );
       iconsToShow.add(const Icon(Icons.list));
     } else if (widget.iconSet == IconsEnum.priorityButtons) {
       isGridMode = Global.goalButtonsInGridView;
@@ -47,8 +51,9 @@ class _GridListIconRow extends State<GridListIconRow> {
 
   @override
   Widget build(BuildContext context) {
-    Color color1 = Colors.grey;
-    Color color2 = Colors.black;
+    Color? color1 = Theme.of(context).iconTheme.color?.withOpacity(0.3);
+    Color color2 = Theme.of(context).textTheme.displaySmall?.color as Color;
+
     return Padding(
       padding: EdgeInsets.only(
           right: (widget.iconSet == IconsEnum.priorityButtons) ? 20.0 : 5.0),

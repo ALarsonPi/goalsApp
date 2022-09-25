@@ -68,7 +68,10 @@ class _SettingsScreen extends State<SettingsScreen> {
                 ),
               ),
             },
-            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            icon: Icon(
+              Icons.arrow_back,
+              color: Theme.of(context).textTheme.displaySmall?.color,
+            ),
           ),
           automaticallyImplyLeading: false,
         ),
@@ -87,8 +90,7 @@ class _SettingsScreen extends State<SettingsScreen> {
                   title: Text(
                     "Change Theme Color",
                     style: TextStyle(
-                      color: Colors.black,
-                      fontSize: (Global.isPhone) ? 14 : 24,
+                      color: Theme.of(context).textTheme.displaySmall?.color,
                     ),
                   ),
                   children: [
@@ -114,10 +116,12 @@ class _SettingsScreen extends State<SettingsScreen> {
                   initiallyExpanded: false,
                   title: Padding(
                     padding: const EdgeInsets.only(left: 15),
-                    child: Text("Change Background Image",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: (Global.isPhone) ? 14 : 24)),
+                    child: Text(
+                      "Change Background Image",
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.displaySmall?.color,
+                      ),
+                    ),
                   ),
                   children: [
                     BackgroundCarousel(

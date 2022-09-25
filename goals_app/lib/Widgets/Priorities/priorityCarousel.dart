@@ -36,11 +36,6 @@ class _PriorityCarousel extends State<PriorityCarousel> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Device screen height");
-    debugPrint(Device.screenHeight.toString());
-    debugPrint("Device Pixel ratio");
-    debugPrint(Device.devicePixelRatio.toString());
-
     Set items = {};
     int index = 0;
     for (Priority priority in Global.userPriorities) {

@@ -74,7 +74,6 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
             title: Text(
               "Goal: ${subGoal.name}     (${subGoal.goalProgress}/${subGoal.goalTarget})",
               textAlign: TextAlign.left,
-              style: const TextStyle(color: Colors.black87),
             ),
           ),
         );

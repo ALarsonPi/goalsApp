@@ -73,22 +73,24 @@ class _IndividualPriority extends State<IndividualPriority> {
     return DecorationImage(image: getImageWidget(), fit: BoxFit.cover);
   }
 
-  getCircleIconWidget(
-      BuildContext context, IconButton iconButton, Color borderColor) {
+  getCircleIconWidget(BuildContext context, IconButton iconButton) {
     return Padding(
       padding: const EdgeInsets.only(right: 8.0),
       child: Container(
-        width: 40,
-        height: 40,
+        width: (Global.isPhone) ? 50 : 75,
+        height: (Global.isPhone) ? 50 : 75,
         decoration: BoxDecoration(
           // Circle shape
           shape: BoxShape.circle,
-          color: Colors.black,
+          color: Theme.of(context).secondaryHeaderColor,
           // The border you want
-          border: Border.all(
-            width: 2.0,
-            color: borderColor,
-          ),
+          border: (Global.isDarkMode == 0)
+              ? Border.all(color: Colors.transparent)
+              : Border.all(
+                  width: 2.0,
+                  color:
+                      Theme.of(context).textTheme.displaySmall?.color as Color,
+                ),
         ),
         child: iconButton,
       ),
@@ -97,7 +99,7 @@ class _IndividualPriority extends State<IndividualPriority> {
 
   getSettingsMenu(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 20),
+      padding: const EdgeInsets.only(top: 0.0),
       child: (areSettingsOpen)
           ? Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -112,12 +114,13 @@ class _IndividualPriority extends State<IndividualPriority> {
                     },
                     icon: const Icon(
                       Icons.edit,
-                      size: 20,
                     ),
-                    color: (shouldEdit) ? Colors.yellowAccent : Colors.white,
+                    color: (shouldEdit)
+                        ? Theme.of(context).primaryColor
+                        : Theme.of(context).textTheme.displaySmall?.color,
                     highlightColor: Colors.grey,
                   ),
-                  (shouldEdit) ? Colors.yellowAccent : Colors.white,
+                  //(shouldEdit) ? Colors.yellowAccent : Colors.white,
                 ),
                 getCircleIconWidget(
                   context,
@@ -135,26 +138,24 @@ class _IndividualPriority extends State<IndividualPriority> {
                     },
                     icon: const Icon(
                       Icons.delete,
-                      size: 20.0,
                     ),
                     color: Colors.redAccent,
                   ),
-                  Colors.white,
                 ),
                 getCircleIconWidget(
-                    context,
-                    IconButton(
-                        onPressed: () => {
-                              setState(() {
-                                areSettingsOpen = !areSettingsOpen;
-                              }),
-                            },
-                        icon: const Icon(
-                          Icons.menu_open,
-                          color: Colors.white,
-                          size: 20.0,
-                        )),
-                    Colors.white)
+                  context,
+                  IconButton(
+                    onPressed: () => {
+                      setState(() {
+                        areSettingsOpen = !areSettingsOpen;
+                      }),
+                    },
+                    icon: Icon(
+                      Icons.menu_open,
+                      color: Theme.of(context).textTheme.displaySmall?.color,
+                    ),
+                  ),
+                )
               ],
             )
           : getCircleIconWidget(
@@ -165,13 +166,12 @@ class _IndividualPriority extends State<IndividualPriority> {
                     areSettingsOpen = !areSettingsOpen;
                   }),
                 },
-                icon: const Icon(
+                icon: Icon(
                   Icons.menu,
-                  color: Colors.white,
-                  size: 20.0,
+                  color: Theme.of(context).textTheme.displaySmall?.color,
                 ),
               ),
-              Colors.white),
+            ),
     );
   }
 
@@ -269,32 +269,34 @@ class _IndividualPriority extends State<IndividualPriority> {
                   //Icons
                   Padding(
                     padding: const EdgeInsets.only(
-                        top: 16.0, left: 12.0, right: 0.0),
+                        top: 36.0, left: 12.0, right: 0.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
                           children: [
                             getCircleIconWidget(
-                                context,
-                                IconButton(
-                                  onPressed: () => {
-                                    Navigator.push<void>(
-                                      context,
-                                      MaterialPageRoute<void>(
-                                        builder: (BuildContext context) =>
-                                            PriorityHomeScreen.fromOtherRoute(
-                                                args.index),
-                                      ),
+                              context,
+                              IconButton(
+                                onPressed: () => {
+                                  Navigator.push<void>(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (BuildContext context) =>
+                                          PriorityHomeScreen.fromOtherRoute(
+                                              args.index),
                                     ),
-                                  },
-                                  icon: const Icon(
-                                    Icons.arrow_back,
-                                    size: 20.0,
                                   ),
-                                  color: Colors.white,
+                                },
+                                icon: Icon(
+                                  Icons.arrow_back,
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .displaySmall
+                                      ?.color as Color,
                                 ),
-                                Colors.white),
+                              ),
+                            ),
                           ],
                         ),
                         getSettingsMenu(context),

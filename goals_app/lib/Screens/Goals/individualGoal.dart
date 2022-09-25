@@ -322,7 +322,9 @@ class _IndividualGoal extends State<IndividualGoal> {
                 },
                 child: Icon(
                   (!isInEditMode) ? Icons.edit : Icons.save,
-                  color: (!isInEditMode) ? Colors.white : Colors.yellowAccent,
+                  color: (!isInEditMode)
+                      ? Theme.of(context).textTheme.displaySmall?.color
+                      : Colors.yellowAccent,
                 ),
               ),
             ),
@@ -351,8 +353,9 @@ class _IndividualGoal extends State<IndividualGoal> {
                       ),
                     }
                 },
-                child:
-                    const Icon(Icons.delete, size: 22.0, color: Colors.white),
+                child: Icon(Icons.delete,
+                    size: 22.0,
+                    color: Theme.of(context).textTheme.displaySmall?.color),
               ),
             ),
           ],
@@ -385,7 +388,8 @@ class _IndividualGoal extends State<IndividualGoal> {
               Visibility(
                 visible: !args.comingFromListView,
                 child: IconButton(
-                  icon: const Icon(Icons.home, color: Colors.white),
+                  icon: Icon(Icons.home,
+                      color: Theme.of(context).textTheme.displaySmall?.color),
                   onPressed: () => navigateHome(),
                 ),
               ),

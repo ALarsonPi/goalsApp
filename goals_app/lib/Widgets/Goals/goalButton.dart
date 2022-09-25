@@ -22,12 +22,7 @@ class GoalButton extends StatelessWidget {
       angle: 90,
       widget: Text(
         '${currentGoal.goalProgress} / ${currentGoal.goalTarget}',
-        style: TextStyle(
-          fontSize: 11,
-          color: (currentGoal.goalProgress != currentGoal.goalTarget)
-              ? Colors.white
-              : Colors.greenAccent,
-        ),
+        style: Theme.of(context).textTheme.displaySmall,
       ),
     );
   }
@@ -44,15 +39,15 @@ class GoalButton extends StatelessWidget {
           annotations: [
             getRadialIndicator(context),
           ],
-          axisLineStyle: const AxisLineStyle(
+          axisLineStyle: AxisLineStyle(
             thickness: 0.2,
             cornerStyle: CornerStyle.bothCurve,
-            color: Colors.white,
+            color: Theme.of(context).progressIndicatorTheme.circularTrackColor,
             thicknessUnit: GaugeSizeUnit.factor,
           ),
           pointers: <GaugePointer>[
             RangePointer(
-              color: Colors.greenAccent,
+              color: Theme.of(context).progressIndicatorTheme.color,
               value: (double.parse(currentGoal.goalProgress) != 0.0)
                   ? double.parse(currentGoal.goalProgress)
                   : 0.0,
@@ -107,7 +102,10 @@ class GoalButton extends StatelessWidget {
                         height: (currentGoal.completeByDate == null) ? 125 : 55,
                         width: 125,
                         child: Center(
-                          child: Text("Goal: ${currentGoal.name}"),
+                          child: Text(
+                            "Goal: ${currentGoal.name}",
+                            style: Theme.of(context).textTheme.displaySmall,
+                          ),
                         ),
                       ),
                       if (currentGoal.completeByDate != null)
@@ -118,8 +116,9 @@ class GoalButton extends StatelessWidget {
                             alignment: Alignment.centerLeft,
                             child: Text(
                               "Finish by:\n ${currentGoal.completeByDate}",
-                              style: const TextStyle(
-                                  fontSize: 12, fontStyle: FontStyle.italic),
+                              style: TextStyle(
+                                  fontSize: (Global.isPhone) ? 14 : 24,
+                                  fontStyle: FontStyle.italic),
                             ),
                           ),
                         ),

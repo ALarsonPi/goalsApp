@@ -104,16 +104,20 @@ class PriorityCard extends StatelessWidget {
                             title: AutoSizeText(
                               name,
                               style: TextStyle(
-                                  fontSize: !Global.isPhone ? 36 : 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black87),
+                                fontSize: !Global.isPhone ? 36 : 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             subtitle: AutoSizeText(
                               "Priority ${index + 1}",
                               style: TextStyle(
-                                  fontSize: !Global.isPhone ? 24 : 12,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.black45),
+                                fontSize: !Global.isPhone ? 24 : 12,
+                                fontWeight: FontWeight.normal,
+                                color: Theme.of(context)
+                                    .listTileTheme
+                                    .textColor
+                                    ?.withOpacity(0.5),
+                              ),
                             ),
                           ),
                         ),

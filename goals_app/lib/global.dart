@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io' as io;
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:goals_app/Settings/ThemeSwitcher.dart';
 import 'package:path_provider/path_provider.dart';
@@ -199,6 +200,11 @@ class Global {
 
   static int getSumOfChildrenTarget(Goal goal) {
     return getSumOfChildrenRecursiveHelper(goal.subGoals, 0, false);
+  }
+
+  static MaterialColor getPrimaryColorSwatch() {
+    return AppColors.getMaterialColorFromColor(
+        globalThemeProvider.selectedPrimaryColor);
   }
 
   static int getSumOfChildrenRecursiveHelper(

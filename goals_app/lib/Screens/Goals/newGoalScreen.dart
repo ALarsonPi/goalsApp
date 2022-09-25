@@ -148,7 +148,6 @@ class _NewGoalScreen extends State<NewGoalScreen> {
             icon: const Icon(
               Icons.arrow_back,
             ),
-            color: Colors.white,
           ),
         ),
         body: ListView(

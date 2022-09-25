@@ -7,6 +7,7 @@ import 'package:goals_app/Screens/browseImages.dart';
 import 'package:goals_app/Settings/settingsScreen.dart';
 import 'package:goals_app/Screens/splashScreen.dart';
 import 'package:goals_app/Settings/ThemeProvider.dart';
+import 'package:goals_app/globalThemes.dart';
 import 'package:provider/provider.dart';
 
 import 'Screens/Priorities/prioritiesHome.dart';
@@ -29,18 +30,8 @@ class AppRouter extends StatelessWidget {
         builder: (c, themeProvider, child) {
           return MaterialApp(
             themeMode: Global.globalThemeProvider.selectedThemeMode,
-            theme: ThemeData(
-              brightness: Brightness.light,
-              primarySwatch: AppColors.getMaterialColorFromColor(
-                  Global.globalThemeProvider.selectedPrimaryColor),
-              primaryColor: Global.globalThemeProvider.selectedPrimaryColor,
-            ),
-            darkTheme: ThemeData(
-              brightness: Brightness.dark,
-              primarySwatch: AppColors.getMaterialColorFromColor(
-                  Global.globalThemeProvider.selectedPrimaryColor),
-              primaryColor: Global.globalThemeProvider.selectedPrimaryColor,
-            ),
+            theme: GlobalThemes.getThemeData(Global.isDarkMode),
+            darkTheme: GlobalThemes.getThemeData(Global.isDarkMode),
             onGenerateRoute: (settings) {
               if (settings.name == IndividualPriority.routeName) {
                 return PageRouteBuilder(
