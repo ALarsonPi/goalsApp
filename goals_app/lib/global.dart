@@ -199,6 +199,7 @@ class Global {
   static int currentPrimaryColor = 0;
   static bool isPhone = Device.get().isPhone;
   static double toolbarHeight = (isPhone) ? 65.0 : 85.0;
+  static double buttonHeight = (isPhone) ? 40.0 : 60.0;
   static List<Priority> userPriorities = List.empty(growable: true);
   static CustomStack<Goal> depthStack = CustomStack();
   static bool goalButtonsInGridView = false;
@@ -415,8 +416,6 @@ class Global {
 
   static Future<io.File> writeBackgroundImage() async {
     final file = await _localFile(backgroundImageFile);
-    debugPrint(
-        "About to write " + json.encode(backgroundImageIndexes).toString());
     return file.writeAsString(json.encode(backgroundImageIndexes));
   }
 
@@ -524,11 +523,7 @@ class Global {
     await readBackgroundIndexes().then((value) {
       if (value != null) {
         BackgroundImageHolder newHolder = BackgroundImageHolder.fromJson(value);
-        debugPrint("Value is :" + value.toString());
         backgroundImageIndexes = newHolder;
-        debugPrint("Got back");
-        debugPrint("Light: " + newHolder.lightModeIndex.toString());
-        debugPrint("Dark: " + newHolder.darkModeIndex.toString());
 
         if (isDarkMode == 0) {
           currentBackgroundImage =
@@ -592,8 +587,6 @@ class BackgroundImageHolder {
       };
 
   factory BackgroundImageHolder.fromJson(Map<String, dynamic> json) {
-    debugPrint("here in imageHolder constructor");
-    debugPrint(json.toString());
     return BackgroundImageHolder(
       lightIndex: json['lightIndex'],
       darkIndex: json['darkIndex'],

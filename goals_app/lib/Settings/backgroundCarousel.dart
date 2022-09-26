@@ -38,12 +38,10 @@ class _BackgroundCarousel extends State<BackgroundCarousel> {
                 if (Global.isDarkMode == 0)
                   {
                     Global.backgroundImageIndexes.lightModeIndex = i,
-                    debugPrint("light " + i.toString()),
                   }
                 else
                   {
                     Global.backgroundImageIndexes.darkModeIndex = i,
-                    debugPrint("dark " + i.toString()),
                   },
                 Global.currentBackgroundImage = widget.urls[i],
                 widget.updateParentImage(),

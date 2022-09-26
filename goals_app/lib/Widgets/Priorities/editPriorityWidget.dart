@@ -62,7 +62,7 @@ class EditPriorityWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     SizedBox(
-                      height: (Global.isPhone) ? 40 : 60,
+                      height: Global.buttonHeight,
                       child: ElevatedButton(
                           onPressed: () => {
                                 Navigator.pushNamed(
@@ -76,7 +76,7 @@ class EditPriorityWidget extends StatelessWidget {
                           child: const Text("Browse Images")),
                     ),
                     SizedBox(
-                      height: (Global.isPhone) ? 40 : 60,
+                      height: Global.buttonHeight,
                       child: ElevatedButton(
                           onPressed: () => {
                                 getImage(ImageSource.gallery),
@@ -131,7 +131,7 @@ class EditPriorityWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(
                     left: 24.0, right: 24.0, top: 12.0, bottom: 12.0),
                 child: SizedBox(
-                  height: (Global.isPhone) ? 40 : 60,
+                  height: Global.buttonHeight,
                   child: ElevatedButton(
                       onPressed: () => {saveTitleTextChanges()},
                       child: const Text("Save New Priority Name")),

@@ -181,7 +181,7 @@ class _BrowseImagesScreen extends State<BrowseImagesScreen> {
             ),
           ),
           SizedBox(
-            height: (Global.isPhone) ? 40 : 60,
+            height: Global.buttonHeight,
             child: ElevatedButton(
                 onPressed: (selectedImage != "None")
                     ? () => {

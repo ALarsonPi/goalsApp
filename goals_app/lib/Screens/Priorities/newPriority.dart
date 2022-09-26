@@ -195,7 +195,7 @@ class _NewPriorityScreen extends State<NewPriorityScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         SizedBox(
-                          height: (Global.isPhone) ? 40 : 60,
+                          height: Global.buttonHeight,
                           child: ElevatedButton(
                               onPressed: () => {
                                     Navigator.pushNamed(
@@ -209,7 +209,7 @@ class _NewPriorityScreen extends State<NewPriorityScreen> {
                               child: const Text("Browse Images")),
                         ),
                         SizedBox(
-                          height: (Global.isPhone) ? 40 : 60,
+                          height: Global.buttonHeight,
                           child: ElevatedButton(
                               onPressed: () => {
                                     getImage(ImageSource.gallery),
@@ -274,7 +274,7 @@ class _NewPriorityScreen extends State<NewPriorityScreen> {
                               padding: const EdgeInsets.only(
                                   top: 20.0, left: 12.0, right: 12.0),
                               child: SizedBox(
-                                height: (Global.isPhone) ? 40 : 60,
+                                height: Global.buttonHeight,
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     minimumSize: const Size.fromHeight(36),

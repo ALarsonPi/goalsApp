@@ -135,18 +135,22 @@ class _NewGoalScreen extends State<NewGoalScreen> {
               fit: BoxFit.cover)),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: const Text(
-            "Create Goal",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-          ),
-          leading: IconButton(
-            onPressed: () => {
-              Navigator.pop(context, true),
-            },
-            icon: const Icon(
-              Icons.arrow_back,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(Global.toolbarHeight),
+          child: AppBar(
+            toolbarHeight: Global.toolbarHeight,
+            automaticallyImplyLeading: false,
+            title: Text(
+              "Create Goal",
+              style: Theme.of(context).textTheme.headlineLarge,
+            ),
+            leading: IconButton(
+              onPressed: () => {
+                Navigator.pop(context, true),
+              },
+              icon: const Icon(
+                Icons.arrow_back,
+              ),
             ),
           ),
         ),
@@ -186,16 +190,11 @@ class _NewGoalScreen extends State<NewGoalScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Expanded(
-                            child: FittedBox(
-                              child: AutoSizeText(
-                                (args.isComingFromPriority)
-                                    ? "For Priority: ${Global.userPriorities[args.priorityIndex].name}"
-                                    : "Subgoal of \"${args.currentGoal.name}\" ${args.currentGoal.goalTarget}x",
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    fontStyle: FontStyle.italic),
-                              ),
+                            child: Text(
+                              (args.isComingFromPriority)
+                                  ? "For Priority: ${Global.userPriorities[args.priorityIndex].name}"
+                                  : "Subgoal of \"${args.currentGoal.name}\" ${args.currentGoal.goalTarget}x",
+                              style: Theme.of(context).textTheme.headlineLarge,
                             ),
                           ),
                         ],
@@ -338,11 +337,14 @@ class _NewGoalScreen extends State<NewGoalScreen> {
                         padding: const EdgeInsets.only(left: 16.0),
                         child: Row(
                           children: [
-                            ElevatedButton(
-                                onPressed: () => {
-                                      showFlutterDatePicker(),
-                                    },
-                                child: const Text("Select Date")),
+                            SizedBox(
+                              height: Global.buttonHeight,
+                              child: ElevatedButton(
+                                  onPressed: () => {
+                                        showFlutterDatePicker(),
+                                      },
+                                  child: const Text("Select Date")),
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(left: 12.0),
                               child: Text(
@@ -496,43 +498,50 @@ class _NewGoalScreen extends State<NewGoalScreen> {
 
                     //SUBMIT BUTTON
                     Padding(
-                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                      padding: const EdgeInsets.only(
+                        left: 8.0,
+                        right: 8.0,
+                        top: 12.0,
+                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          ElevatedButton(
-                            onPressed: () => {
-                              isValidForm = _formKey.currentState!.validate(),
-                              if (isValidForm)
-                                {
-                                  _formKey.currentState?.save(),
-                                  newGoal.name =
-                                      _formKey.currentState?.value['goal'],
-                                  newGoal.goalTarget = _formKey
-                                          .currentState?.value['numRepeat'] ??
-                                      '1',
-                                  newGoal.goalProgress = '0',
-                                  if (shouldShowDateContent)
-                                    {
-                                      newGoal.completeByDate =
-                                          DateFormat.yMMMEd()
-                                              .format(currentDate!),
-                                    },
-                                  newGoal.reward = _formKey.currentState
-                                          ?.value['rewardPicker'] ??
-                                      'null',
-                                  newGoal.whyToComplete =
-                                      _formKey.currentState?.value['why'] ??
-                                          'null',
-                                  newGoal.whenToComplete = _formKey
-                                          .currentState?.value['whenWhere'] ??
-                                      'null',
-                                  newGoal.currPriorityIndex =
-                                      args.currPriorityIndex,
-                                  addGoalGloballyAndNavigateBack(),
-                                },
-                            },
-                            child: const Text("SUBMIT"),
+                          SizedBox(
+                            height: Global.buttonHeight,
+                            child: ElevatedButton(
+                              onPressed: () => {
+                                isValidForm = _formKey.currentState!.validate(),
+                                if (isValidForm)
+                                  {
+                                    _formKey.currentState?.save(),
+                                    newGoal.name =
+                                        _formKey.currentState?.value['goal'],
+                                    newGoal.goalTarget = _formKey
+                                            .currentState?.value['numRepeat'] ??
+                                        '1',
+                                    newGoal.goalProgress = '0',
+                                    if (shouldShowDateContent)
+                                      {
+                                        newGoal.completeByDate =
+                                            DateFormat.yMMMEd()
+                                                .format(currentDate!),
+                                      },
+                                    newGoal.reward = _formKey.currentState
+                                            ?.value['rewardPicker'] ??
+                                        'null',
+                                    newGoal.whyToComplete =
+                                        _formKey.currentState?.value['why'] ??
+                                            'null',
+                                    newGoal.whenToComplete = _formKey
+                                            .currentState?.value['whenWhere'] ??
+                                        'null',
+                                    newGoal.currPriorityIndex =
+                                        args.currPriorityIndex,
+                                    addGoalGloballyAndNavigateBack(),
+                                  },
+                              },
+                              child: const Text("SUBMIT"),
+                            ),
                           ),
                         ],
                       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:goals_app/global.dart';
 
 class NextPreviousButtons extends StatefulWidget {
   final int firstIndex;
@@ -44,21 +45,28 @@ class _NextPreviousButtons extends State<NextPreviousButtons> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+      padding:
+          const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0, bottom: 8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          ElevatedButton(
-            onPressed: (widget.currentSlideIndex == (widget.firstIndex + 1))
-                ? null
-                : () => widget.previous(),
-            child: const Text("←  PREVIOUS"),
+          SizedBox(
+            height: Global.buttonHeight,
+            child: ElevatedButton(
+              onPressed: (widget.currentSlideIndex == (widget.firstIndex + 1))
+                  ? null
+                  : () => widget.previous(),
+              child: const Text("←  PREVIOUS"),
+            ),
           ),
-          ElevatedButton(
-            onPressed: (widget.currentSlideIndex == (widget.lastIndex - 1))
-                ? null
-                : () => next(),
-            child: const Text("  NEXT     →"),
+          SizedBox(
+            height: Global.buttonHeight,
+            child: ElevatedButton(
+              onPressed: (widget.currentSlideIndex == (widget.lastIndex - 1))
+                  ? null
+                  : () => next(),
+              child: const Text("  NEXT     →"),
+            ),
           ),
         ],
       ),

@@ -36,7 +36,9 @@ class GlobalThemes {
   //Text Theme has all the smaller text styles inside it
   static TextTheme getTextTheme(int isDarkMode) {
     return TextTheme(
-      displaySmall: getTextStyleSmall(isDarkMode),
+      displaySmall: getDisplaySmall(isDarkMode),
+      displayMedium: getDisplayMedium(isDarkMode),
+      displayLarge: getDisplayLarge(isDarkMode),
       headlineLarge: getTextStyleHeaderLarge(isDarkMode),
       headlineMedium: getTextStyleHeaderMedium(isDarkMode),
       headlineSmall: getTextStyleHeaderSmall(isDarkMode),
@@ -73,7 +75,7 @@ class GlobalThemes {
     }
   }
 
-  static TextStyle getTextStyleSmall(int isDarkMode) {
+  static TextStyle getDisplaySmall(int isDarkMode) {
     if (isDarkMode == 0) {
       return TextStyle(
         fontSize: (Global.isPhone) ? 14 : 24,
@@ -82,6 +84,34 @@ class GlobalThemes {
     } else {
       return TextStyle(
         fontSize: (Global.isPhone) ? 14 : 24,
+        color: Colors.white,
+      );
+    }
+  }
+
+  static TextStyle getDisplayMedium(int isDarkMode) {
+    if (isDarkMode == 0) {
+      return TextStyle(
+        fontSize: (Global.isPhone) ? 18 : 32,
+        color: Colors.black,
+      );
+    } else {
+      return TextStyle(
+        fontSize: (Global.isPhone) ? 18 : 32,
+        color: Colors.white,
+      );
+    }
+  }
+
+  static TextStyle getDisplayLarge(int isDarkMode) {
+    if (isDarkMode == 0) {
+      return TextStyle(
+        fontSize: (Global.isPhone) ? 18 : 32,
+        color: Colors.black,
+      );
+    } else {
+      return TextStyle(
+        fontSize: (Global.isPhone) ? 18 : 32,
         color: Colors.white,
       );
     }

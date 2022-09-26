@@ -59,21 +59,30 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
         contentToReturn.add(getNewExpandedList);
       } else {
         contentToReturn.add(
-          ListTile(
+          Padding(
             key: PageStorageKey<String>(
                 "Goal: ${subGoal.name}     (${subGoal.goalProgress}/${subGoal.goalTarget})"),
-            leading: Icon(
-              Icons.emoji_events,
-              color: (subGoal.goalProgress == subGoal.goalTarget)
-                  ? Theme.of(context).primaryColor
-                  : Colors.grey,
+            padding: EdgeInsets.only(
+              top: (Global.isPhone) ? 0.0 : 8.0,
+              bottom: (Global.isPhone) ? 0.0 : 8.0,
             ),
-            onTap: () => {
-              navigateToGoal(subGoal),
-            },
-            title: Text(
-              "Goal: ${subGoal.name}     (${subGoal.goalProgress}/${subGoal.goalTarget})",
-              textAlign: TextAlign.left,
+            child: ListTile(
+              leading: Icon(
+                Icons.emoji_events,
+                color: (subGoal.goalProgress == subGoal.goalTarget)
+                    ? Theme.of(context).primaryColor
+                    : Colors.grey,
+              ),
+              onTap: () => {
+                navigateToGoal(subGoal),
+              },
+              title: Text(
+                "Goal: ${subGoal.name}     (${subGoal.goalProgress}/${subGoal.goalTarget})",
+                textAlign: TextAlign.left,
+                style: (Global.isPhone)
+                    ? Theme.of(context).textTheme.displaySmall
+                    : Theme.of(context).textTheme.displayMedium,
+              ),
             ),
           ),
         );
@@ -110,8 +119,8 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
         ? Padding(
             padding: const EdgeInsets.only(right: 6.0),
             child: Container(
-              width: 30,
-              height: 30,
+              width: (Global.isPhone) ? 30 : 35,
+              height: (Global.isPhone) ? 30 : 35,
               decoration: BoxDecoration(
                 // Circle shape
                 shape: BoxShape.circle,
@@ -192,55 +201,70 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
         shrinkWrap: true,
         proxyDecorator: _proxyDecorator,
         itemBuilder: (BuildContext context, int index) {
-          return Card(
-            elevation: (!widget.isPriority) ? 0 : 2,
+          return Padding(
             key: ValueKey(listToUse![index]),
-            child: ExpansionTile(
-              key: PageStorageKey<String>(listToUse[index].name),
-              initiallyExpanded: (mounted && isExpanded[index]),
-              trailing: getTrailingArrow(index, listToUse[index]),
-              leading: GestureDetector(
-                onTap: () => {
-                  if (widget.isPriority && listToUse![index] is Priority)
-                    {
-                      navigateToPriority(listToUse[index]),
-                    }
-                },
-                child: getCircleIconWidget(
-                  context,
-                  Padding(
-                    padding: const EdgeInsets.only(right: 0.0),
-                    child: Center(
-                      child: Text(
-                        (index + 1).toString(),
-                        style: TextStyle(
-                          //backgroundColor: Colors.white,
-                          color: getCurrentColorText(index),
-                          fontWeight: FontWeight.bold,
+            padding: EdgeInsets.only(
+              top: (Global.isPhone) ? 0.0 : 2.0,
+              bottom: (Global.isPhone) ? 0.0 : 2.0,
+            ),
+            child: Card(
+              elevation: (!widget.isPriority) ? 0 : 2,
+              child: ExpansionTile(
+                key: PageStorageKey<String>(listToUse[index].name),
+                initiallyExpanded: (mounted && isExpanded[index]),
+                trailing: getTrailingArrow(index, listToUse[index]),
+                leading: GestureDetector(
+                  onTap: () => {
+                    if (widget.isPriority && listToUse![index] is Priority)
+                      {
+                        navigateToPriority(listToUse[index]),
+                      }
+                  },
+                  child: getCircleIconWidget(
+                    context,
+                    Padding(
+                      padding: const EdgeInsets.only(right: 0.0),
+                      child: Center(
+                        child: Text(
+                          (index + 1).toString(),
+                          style: TextStyle(
+                            //backgroundColor: Colors.white,
+                            fontSize: Theme.of(context)
+                                .textTheme
+                                .displaySmall
+                                ?.fontSize,
+                            color: getCurrentColorText(index),
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
+                    Colors.white,
+                    //getCurrentColorText(index),
+                    //Theme.of(context).colorScheme.primary,
+                    listToUse[index],
                   ),
-                  Colors.white,
-                  //getCurrentColorText(index),
-                  //Theme.of(context).colorScheme.primary,
-                  listToUse[index],
                 ),
+                onExpansionChanged: (bool expanding) => {
+                  setState(() {
+                    isExpanded[index] = !isExpanded[index];
+                  }),
+                },
+                title: Text(
+                  listToUse[index].name +
+                      ((listToUse[index] is Goal)
+                          ? "    (${listToUse[index].goalProgress}/${listToUse[index].goalTarget})"
+                          : ""),
+                  style: (Global.isPhone)
+                      ? Theme.of(context).textTheme.displaySmall
+                      : Theme.of(context).textTheme.displayMedium,
+                ),
+                children: <Widget>[
+                  Column(
+                    children: [..._getExpandableContent(listToUse[index])],
+                  )
+                ],
               ),
-              onExpansionChanged: (bool expanding) => {
-                setState(() {
-                  isExpanded[index] = !isExpanded[index];
-                }),
-              },
-              title: Text(listToUse[index].name +
-                  ((listToUse[index] is Goal)
-                      ? "    (${listToUse[index].goalProgress}/${listToUse[index].goalTarget})"
-                      : "")),
-              children: <Widget>[
-                Column(
-                  children: [..._getExpandableContent(listToUse[index])],
-                )
-              ],
             ),
           );
         },
