@@ -26,14 +26,39 @@ class _SettingsScreen extends State<SettingsScreen> {
   @override
   void initState() {
     super.initState();
-    for (int i = 0; i < Global.listOfBackgroundImages.length; i++) {
-      backgroundImageUrls.add(Global.listOfBackgroundImages[i].url);
-    }
+    refreshBackgroundImages();
   }
 
   void changeBackground() {
     setState(() {});
     Global.writeBackgroundImage();
+  }
+
+  void changeColorMode() {
+    refreshBackgroundImages();
+
+    if (Global.isDarkMode == 0) {
+      Global.currentBackgroundImage = Global
+          .listOfBackgroundImages[Global.backgroundImageIndexes.lightModeIndex]
+          .url;
+    } else if (Global.isDarkMode == 1) {
+      Global.currentBackgroundImage = Global
+          .listOfDarkmodeBackgroundImages[
+              Global.backgroundImageIndexes.darkModeIndex]
+          .url;
+    }
+    changeBackground();
+    setState(() {});
+  }
+
+  void refreshBackgroundImages() {
+    List<pictureHolder> backgroundImages = (Global.isDarkMode == 0)
+        ? Global.listOfBackgroundImages
+        : Global.listOfDarkmodeBackgroundImages;
+    backgroundImageUrls.clear();
+    for (pictureHolder holder in backgroundImages) {
+      backgroundImageUrls.add(holder.url);
+    }
   }
 
   @override
@@ -103,7 +128,7 @@ class _SettingsScreen extends State<SettingsScreen> {
                         bottom: 8.0,
                         right: 15,
                       ),
-                      child: ThemeSwitcher(75),
+                      child: ThemeSwitcher(75, changeColorMode),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(right: 15.0),
@@ -131,7 +156,7 @@ class _SettingsScreen extends State<SettingsScreen> {
                   children: [
                     BackgroundCarousel(
                       backgroundImageUrls,
-                      (Global.isPhone) ? 200 : 350,
+                      (Global.isPhone) ? 200 : 250,
                       true,
                       changeBackground,
                     ),

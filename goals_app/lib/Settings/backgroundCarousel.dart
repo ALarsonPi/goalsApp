@@ -25,15 +25,28 @@ class _BackgroundCarousel extends State<BackgroundCarousel> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    refreshImageList();
+  }
 
-    for (String url in widget.urls) {
+  void refreshImageList() {
+    for (int i = 0; i < widget.urls.length; i++) {
       imagePages.add(
         GestureDetector(
           onTap: () => {
             setState(
               () => {
+                if (Global.isDarkMode == 0)
+                  {
+                    Global.backgroundImageIndexes.lightModeIndex = i,
+                    debugPrint("light " + i.toString()),
+                  }
+                else
+                  {
+                    Global.backgroundImageIndexes.darkModeIndex = i,
+                    debugPrint("dark " + i.toString()),
+                  },
+                Global.currentBackgroundImage = widget.urls[i],
                 widget.updateParentImage(),
-                Global.currentBackgroundImage = url,
               },
             ),
           },
@@ -45,7 +58,7 @@ class _BackgroundCarousel extends State<BackgroundCarousel> {
                 width: 0.0,
               ),
               image: DecorationImage(
-                image: NetworkImage(url),
+                image: NetworkImage(widget.urls[i]),
                 fit: BoxFit.cover,
               ),
             ),
@@ -56,9 +69,19 @@ class _BackgroundCarousel extends State<BackgroundCarousel> {
   }
 
   @override
+  void didUpdateWidget(covariant BackgroundCarousel oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    imagePages.clear();
+    refreshImageList();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: widget.desiredHeight + MediaQuery.of(context).size.height * 0.05,
+      height: (Global.isPhone)
+          ? widget.desiredHeight + MediaQuery.of(context).size.height * 0.05
+          : widget.desiredHeight + MediaQuery.of(context).size.height * 0.15,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -74,7 +97,11 @@ class _BackgroundCarousel extends State<BackgroundCarousel> {
               enlargeCenterPage: true,
               autoPlay: false,
               aspectRatio: 12 / 9,
-              height: widget.desiredHeight,
+              height: (Global.isPhone)
+                  ? widget.desiredHeight +
+                      MediaQuery.of(context).size.height * 0.03
+                  : widget.desiredHeight +
+                      MediaQuery.of(context).size.height * 0.12,
               enableInfiniteScroll: widget.shouldBeEndless,
               viewportFraction: 0.8,
             ),

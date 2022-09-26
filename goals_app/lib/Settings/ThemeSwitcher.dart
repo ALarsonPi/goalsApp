@@ -6,8 +6,10 @@ import 'ThemeProvider.dart';
 import 'AppTheme.dart';
 
 class ThemeSwitcher extends StatelessWidget {
-  ThemeSwitcher(this.containerHeight, {Key? key}) : super(key: key);
+  ThemeSwitcher(this.containerHeight, this.parentSetStateFunction, {Key? key})
+      : super(key: key);
   double containerHeight;
+  Function parentSetStateFunction;
 
   static List<AppTheme> appThemes = [
     AppTheme(
@@ -47,6 +49,7 @@ class ThemeSwitcher extends StatelessWidget {
                           Global.writeDarkMode(),
                           Global.globalThemeProvider
                               .setSelectedThemeMode(appThemes[i].mode),
+                          parentSetStateFunction(),
                         },
                 child: AnimatedContainer(
                   height: (Global.isPhone)

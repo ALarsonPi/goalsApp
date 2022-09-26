@@ -85,12 +85,14 @@ class _PriorityCarousel extends State<PriorityCarousel> {
               .textTheme
               .displaySmall
               ?.color
-              ?.withOpacity(0.88),
+              ?.withOpacity(0.12),
           selectedDotColor: Theme.of(context)
               .textTheme
               .displaySmall
               ?.color
-              ?.withOpacity(0.12),
+              ?.withOpacity(0.88),
+          size: (Global.isPhone) ? 10 : 15,
+          selectedSize: (Global.isPhone) ? 10 : 15,
         ),
       ],
     );

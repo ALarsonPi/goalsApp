@@ -47,7 +47,6 @@ class Global {
     //pictureHolder("", ""),
   ];
 
-  static String currentBackgroundImage = listOfBackgroundImages[4].url;
   static List<pictureHolder> listOfBackgroundImages = [
     pictureHolder(
         "https://images.unsplash.com/photo-1538947151057-dfe933d688d1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fGJsdWV8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
@@ -204,6 +203,9 @@ class Global {
   static CustomStack<Goal> depthStack = CustomStack();
   static bool goalButtonsInGridView = false;
   static bool priorityIsInListView = false;
+
+  static String currentBackgroundImage = listOfBackgroundImages[4].url;
+  static BackgroundImageHolder backgroundImageIndexes = BackgroundImageHolder();
 
   static const String prioritiesFile = "priorities.txt";
   static const String firstTimeFile = "firstTime.txt";
@@ -393,10 +395,11 @@ class Global {
 
   static Future<io.File> writeFirstTime() async {
     final file = await _localFile(firstTimeFile);
+    backgroundImageIndexes.lightModeIndex = 0;
+    backgroundImageIndexes.darkModeIndex = 0;
     await writeBackgroundImage();
     await writeDarkMode();
     await writePrimaryColor();
-    debugPrint("Here in write first time");
     return file.writeAsString("1");
   }
 
@@ -412,13 +415,27 @@ class Global {
 
   static Future<io.File> writeBackgroundImage() async {
     final file = await _localFile(backgroundImageFile);
-    return file.writeAsString(currentBackgroundImage);
+    debugPrint(
+        "About to write " + json.encode(backgroundImageIndexes).toString());
+    return file.writeAsString(json.encode(backgroundImageIndexes));
   }
 
   static Future<io.File> writePrioritiesToMemory() async {
     final file = await _localFile(prioritiesFile);
     file.writeAsString(json.encode(userPriorities));
     return file;
+  }
+
+  static Future readBackgroundIndexes() async {
+    try {
+      final file = await _localFile(backgroundImageFile);
+      String contents = await file.readAsString();
+      var jsonResponse = jsonDecode(contents);
+      return jsonResponse;
+    } catch (e) {
+      debugPrint(e.toString());
+      return "ERROR - DIDNT READ CORRECTLY";
+    }
   }
 
   static Future readPriorities() async {
@@ -496,12 +513,6 @@ class Global {
     if (isFirstTime) {
       await populatePrioritiesForFirstTimeUser();
     }
-
-    await readFile(backgroundImageFile).then((value) {
-      if (value is String) {
-        currentBackgroundImage = value;
-      }
-    });
     await readFile(lightDarkFile).then((value) {
       if (value != null) {
         int valueAsInt = int.parse(value);
@@ -509,6 +520,26 @@ class Global {
       }
       globalThemeProvider
           .setSelectedThemeMode(ThemeSwitcher.appThemes[isDarkMode].mode);
+    });
+    await readBackgroundIndexes().then((value) {
+      if (value != null) {
+        BackgroundImageHolder newHolder = BackgroundImageHolder.fromJson(value);
+        debugPrint("Value is :" + value.toString());
+        backgroundImageIndexes = newHolder;
+        debugPrint("Got back");
+        debugPrint("Light: " + newHolder.lightModeIndex.toString());
+        debugPrint("Dark: " + newHolder.darkModeIndex.toString());
+
+        if (isDarkMode == 0) {
+          currentBackgroundImage =
+              listOfBackgroundImages[newHolder.lightModeIndex].url;
+        } else if (isDarkMode == 1) {
+          currentBackgroundImage =
+              listOfDarkmodeBackgroundImages[newHolder.darkModeIndex].url;
+        }
+      } else {
+        debugPrint("Something went wrong reading background index");
+      }
     });
     await readFile(primaryColorFile).then((value) {
       if (value != null) {
@@ -537,6 +568,35 @@ class Global {
           }
         }
       },
+    );
+  }
+}
+
+class BackgroundImageHolder {
+  int lightModeIndex = 0;
+  int darkModeIndex = 0;
+
+  BackgroundImageHolder({lightIndex, darkIndex}) {
+    if (lightIndex == null && darkIndex == null) {
+      lightModeIndex = 0;
+      darkModeIndex = 0;
+    } else {
+      lightModeIndex = lightIndex;
+      darkModeIndex = darkIndex;
+    }
+  }
+
+  Map<String, dynamic> toJson() => {
+        'lightIndex': lightModeIndex,
+        'darkIndex': darkModeIndex,
+      };
+
+  factory BackgroundImageHolder.fromJson(Map<String, dynamic> json) {
+    debugPrint("here in imageHolder constructor");
+    debugPrint(json.toString());
+    return BackgroundImageHolder(
+      lightIndex: json['lightIndex'],
+      darkIndex: json['darkIndex'],
     );
   }
 }
