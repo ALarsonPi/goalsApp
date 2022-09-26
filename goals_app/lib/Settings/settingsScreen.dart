@@ -48,32 +48,33 @@ class _SettingsScreen extends State<SettingsScreen> {
               fit: BoxFit.cover)),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(
-            "Settings",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: (Global.isPhone) ? 22 : 36,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(Global.toolbarHeight),
+          child: AppBar(
+            toolbarHeight: Global.toolbarHeight,
+            centerTitle: true,
+            title: Text(
+              "Settings",
+              style: Theme.of(context).textTheme.headlineLarge,
             ),
-          ),
-          leading: IconButton(
-            onPressed: () => {
-              Navigator.push<void>(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) =>
-                      PriorityHomeScreen.fromOtherRoute(
-                          args.currentPriorityIndex),
+            leading: IconButton(
+              onPressed: () => {
+                Navigator.push<void>(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        PriorityHomeScreen.fromOtherRoute(
+                            args.currentPriorityIndex),
+                  ),
                 ),
+              },
+              icon: Icon(
+                Icons.arrow_back,
+                color: Theme.of(context).textTheme.displaySmall?.color,
               ),
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              color: Theme.of(context).textTheme.displaySmall?.color,
             ),
+            automaticallyImplyLeading: false,
           ),
-          automaticallyImplyLeading: false,
         ),
         body: Padding(
           padding: const EdgeInsets.all(12.0),
@@ -91,6 +92,8 @@ class _SettingsScreen extends State<SettingsScreen> {
                     "Change Theme Color",
                     style: TextStyle(
                       color: Theme.of(context).textTheme.displaySmall?.color,
+                      fontSize:
+                          Theme.of(context).textTheme.displaySmall?.fontSize,
                     ),
                   ),
                   children: [
@@ -120,6 +123,8 @@ class _SettingsScreen extends State<SettingsScreen> {
                       "Change Background Image",
                       style: TextStyle(
                         color: Theme.of(context).textTheme.displaySmall?.color,
+                        fontSize:
+                            Theme.of(context).textTheme.displaySmall?.fontSize,
                       ),
                     ),
                   ),

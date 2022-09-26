@@ -136,20 +136,27 @@ class _NewPriorityScreen extends State<NewPriorityScreen> {
               fit: BoxFit.cover)),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: const Text(
-            "Create Priority",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-          ),
-          leading: IconButton(
-            onPressed: () => {
-              Navigator.pop(context, true),
-            },
-            icon: const Icon(
-              Icons.arrow_back,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(Global.toolbarHeight),
+          child: AppBar(
+            toolbarHeight: Global.toolbarHeight,
+            automaticallyImplyLeading: false,
+            centerTitle: true,
+            title: Text(
+              "Create Priority",
+              style: Theme.of(context).textTheme.headlineLarge,
             ),
-            color: Colors.white,
+            leading: IconButton(
+              onPressed: () => {
+                Navigator.pop(context, true),
+              },
+              icon: const Padding(
+                padding: EdgeInsets.only(left: 16.0),
+                child: Icon(
+                  Icons.arrow_back,
+                ),
+              ),
+            ),
           ),
         ),
         body: SingleChildScrollView(
@@ -183,27 +190,33 @@ class _NewPriorityScreen extends State<NewPriorityScreen> {
                         ),
                   Padding(
                     padding: const EdgeInsets.only(
-                        left: 8.0, right: 8.0, top: 8.0, bottom: 0.0),
+                        left: 8.0, right: 8.0, top: 16.0, bottom: 0.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        ElevatedButton(
-                            onPressed: () => {
-                                  Navigator.pushNamed(
-                                    context,
-                                    BrowseImagesScreen.routeName,
-                                    arguments: BrowseImageArguments(
-                                      changeImageHelper,
+                        SizedBox(
+                          height: (Global.isPhone) ? 40 : 60,
+                          child: ElevatedButton(
+                              onPressed: () => {
+                                    Navigator.pushNamed(
+                                      context,
+                                      BrowseImagesScreen.routeName,
+                                      arguments: BrowseImageArguments(
+                                        changeImageHelper,
+                                      ),
                                     ),
-                                  ),
-                                },
-                            child: const Text("Browse Images")),
-                        ElevatedButton(
-                            onPressed: () => {
-                                  getImage(ImageSource.gallery),
-                                  setState(() => {}),
-                                },
-                            child: const Text("Upload Image")),
+                                  },
+                              child: const Text("Browse Images")),
+                        ),
+                        SizedBox(
+                          height: (Global.isPhone) ? 40 : 60,
+                          child: ElevatedButton(
+                              onPressed: () => {
+                                    getImage(ImageSource.gallery),
+                                    setState(() => {}),
+                                  },
+                              child: const Text("Upload Image")),
+                        ),
                       ],
                     ),
                   ),
@@ -227,62 +240,73 @@ class _NewPriorityScreen extends State<NewPriorityScreen> {
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                           children: [
-                            FormBuilderTextField(
-                              key: const ValueKey('nameOfPriority'),
-                              autocorrect: false,
-                              decoration: const InputDecoration(
-                                labelText: "Priority Name",
-                                labelStyle:
-                                    TextStyle(fontStyle: FontStyle.italic),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(width: 1, color: Colors.grey),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      width: 1.5, color: Colors.green),
-                                ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 12.0,
+                                right: 12.0,
                               ),
-                              name: "priority-name",
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter a name';
-                                }
-                                return null;
-                              },
+                              child: FormBuilderTextField(
+                                key: const ValueKey('nameOfPriority'),
+                                autocorrect: false,
+                                decoration: const InputDecoration(
+                                  labelText: "Priority Name",
+                                  labelStyle:
+                                      TextStyle(fontStyle: FontStyle.italic),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: 1, color: Colors.grey),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: 1.5, color: Colors.green),
+                                  ),
+                                ),
+                                name: "priority-name",
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter a name';
+                                  }
+                                  return null;
+                                },
+                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(
                                   top: 20.0, left: 12.0, right: 12.0),
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  minimumSize: const Size.fromHeight(36),
-                                ),
-                                onPressed: (_formKey.currentContext != null &&
-                                        checkIfValidate() &&
-                                        newPriority.imageUrl != "None")
-                                    ? () => {
-                                          if (_formKey.currentState!.validate())
-                                            {
-                                              newPriority.priorityIndex =
-                                                  Global.userPriorities.length,
-                                              Global.addPriority(newPriority),
-                                              Navigator.push<void>(
-                                                context,
-                                                MaterialPageRoute<void>(
-                                                  builder: (BuildContext
-                                                          context) =>
-                                                      PriorityHomeScreen
-                                                          .fromOtherRoute(Global
-                                                                  .userPriorities
-                                                                  .length -
-                                                              1),
+                              child: SizedBox(
+                                height: (Global.isPhone) ? 40 : 60,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    minimumSize: const Size.fromHeight(36),
+                                  ),
+                                  onPressed: (_formKey.currentContext != null &&
+                                          checkIfValidate() &&
+                                          newPriority.imageUrl != "None")
+                                      ? () => {
+                                            if (_formKey.currentState!
+                                                .validate())
+                                              {
+                                                newPriority.priorityIndex =
+                                                    Global
+                                                        .userPriorities.length,
+                                                Global.addPriority(newPriority),
+                                                Navigator.push<void>(
+                                                  context,
+                                                  MaterialPageRoute<void>(
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        PriorityHomeScreen
+                                                            .fromOtherRoute(Global
+                                                                    .userPriorities
+                                                                    .length -
+                                                                1),
+                                                  ),
                                                 ),
-                                              ),
-                                            }
-                                        }
-                                    : null,
-                                child: const Text("CREATE"),
+                                              }
+                                          }
+                                      : null,
+                                  child: const Text("CREATE"),
+                                ),
                               ),
                             ),
                           ],

@@ -82,7 +82,7 @@ class _BrowseImagesScreen extends State<BrowseImagesScreen> {
 
   @override
   void initState() {
-    double carouselHeight = 200;
+    double carouselHeight = (Global.isPhone) ? 200 : 300;
 
     List<String> listDescriptions = List.empty(growable: true);
     for (String listDescription in Global.listOfImageLists.keys) {
@@ -96,7 +96,8 @@ class _BrowseImagesScreen extends State<BrowseImagesScreen> {
         urls.add(myPicHolder.url);
       }
       tappableCurrentImage.add(defaultFunction);
-      imageCarousels.add(ImageCarousel(
+      imageCarousels.add(
+        ImageCarousel(
           urls,
           listDescriptions[i],
           carouselHeight,
@@ -105,7 +106,9 @@ class _BrowseImagesScreen extends State<BrowseImagesScreen> {
           i,
           checkIfSomethingIsHighlighted,
           clearParents,
-          somethingIsHighlighted));
+          somethingIsHighlighted,
+        ),
+      );
       i++;
     }
     super.initState();
@@ -145,15 +148,23 @@ class _BrowseImagesScreen extends State<BrowseImagesScreen> {
       fullCarouselList.add(createImageCarouselWithPadding(currentCarousel));
     }
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pop(context, true),
-        ),
-        title: const Text(
-          "Browse Images",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(Global.toolbarHeight),
+        child: AppBar(
+          toolbarHeight: Global.toolbarHeight,
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back,
+            ),
+            onPressed: () => Navigator.pop(context, true),
+          ),
+          title: Center(
+            child: Text(
+              "Browse Images",
+              style: Theme.of(context).textTheme.headlineLarge,
+            ),
+          ),
         ),
       ),
       body: Column(
@@ -161,7 +172,7 @@ class _BrowseImagesScreen extends State<BrowseImagesScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.72,
+              height: MediaQuery.of(context).size.height * 0.8,
               child: ListView(
                 children: [
                   ...fullCarouselList,
@@ -169,13 +180,16 @@ class _BrowseImagesScreen extends State<BrowseImagesScreen> {
               ),
             ),
           ),
-          ElevatedButton(
-              onPressed: (selectedImage != "None")
-                  ? () => {
-                        _cropImage(),
-                      }
-                  : null,
-              child: const Text("Choose Selected Image")),
+          SizedBox(
+            height: (Global.isPhone) ? 40 : 60,
+            child: ElevatedButton(
+                onPressed: (selectedImage != "None")
+                    ? () => {
+                          _cropImage(),
+                        }
+                    : null,
+                child: const Text("Choose Selected Image")),
+          ),
         ],
       ),
     );

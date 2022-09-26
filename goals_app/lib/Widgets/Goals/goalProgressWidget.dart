@@ -62,11 +62,15 @@ class _GoalProgressWidget extends State<GoalProgressWidget> {
   getFinishedCheckmark() {
     return Padding(
       padding: const EdgeInsets.only(right: 20.0),
-      child: Column(children: const [
-        Icon(Icons.check, size: 45, color: Colors.greenAccent),
+      child: Column(children: [
+        Icon(Icons.check,
+            color: Colors.greenAccent, size: (Global.isPhone) ? 48 : 84),
         Text(
           "Finished",
-          style: TextStyle(fontStyle: FontStyle.italic, color: Colors.grey),
+          style: TextStyle(
+              fontStyle: FontStyle.italic,
+              fontSize: (Global.isPhone) ? 18 : 24,
+              color: Colors.grey),
         )
       ]),
     );
@@ -99,15 +103,19 @@ class _GoalProgressWidget extends State<GoalProgressWidget> {
         children: [
           Expanded(
             child: ListTile(
-              leading: const Icon(Icons.flag),
-              title: const Text(
-                "Progress:",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              leading: Icon(Icons.flag, size: (Global.isPhone) ? 35 : 55),
+              title: Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Text(
+                  "Progress:",
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
               ),
               subtitle: (!widget.isInEditMode ||
                       widget.currGoal.subGoals.isNotEmpty)
                   ? Text(
                       "Current: $currentNumToDisplay\nGoal: $goalNumToDisplay",
+                      style: Theme.of(context).textTheme.displaySmall,
                     )
                   : Column(
                       children: [
@@ -205,9 +213,11 @@ class _GoalProgressWidget extends State<GoalProgressWidget> {
                                 Global.writePrioritiesToMemory();
                               }),
                             },
-                            child: const Text(
+                            child: Text(
                               "+",
-                              style: TextStyle(height: 1, fontSize: 48),
+                              style: TextStyle(
+                                  height: 1,
+                                  fontSize: (Global.isPhone) ? 48 : 64),
                             ),
                           ),
                         )

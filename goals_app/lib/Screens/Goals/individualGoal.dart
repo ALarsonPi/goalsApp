@@ -3,6 +3,7 @@ import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualGoalArgum
 import 'package:goals_app/Screens/Priorities/individualPriority.dart';
 import 'package:goals_app/Screens/Priorities/prioritiesHome.dart';
 import 'package:goals_app/Widgets/Goals/goalProgressWidget.dart';
+import 'package:goals_app/Widgets/Priorities/noGoalsPrompt.dart';
 import 'package:goals_app/Widgets/Priorities/normalPriorityWidget.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:intl/intl.dart';
@@ -307,101 +308,108 @@ class _IndividualGoal extends State<IndividualGoal> {
             onPressed: () => {
                   checkIfAlertIsNeeded(),
                 }),
-        appBar: AppBar(
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-              child: GestureDetector(
-                onTap: () => {
-                  setState(() {
-                    isInEditMode = !isInEditMode;
-                    if (!isInEditMode) {
-                      Global.writePrioritiesToMemory();
-                    }
-                  }),
-                },
-                child: Icon(
-                  (!isInEditMode) ? Icons.edit : Icons.save,
-                  color: (!isInEditMode)
-                      ? Theme.of(context).textTheme.displaySmall?.color
-                      : Colors.yellowAccent,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(Global.toolbarHeight),
+          child: AppBar(
+            toolbarHeight: Global.toolbarHeight,
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                child: GestureDetector(
+                  onTap: () => {
+                    setState(() {
+                      isInEditMode = !isInEditMode;
+                      if (!isInEditMode) {
+                        Global.writePrioritiesToMemory();
+                      }
+                    }),
+                  },
+                  child: Icon(
+                    (!isInEditMode) ? Icons.edit : Icons.save,
+                    color: (!isInEditMode)
+                        ? Theme.of(context).textTheme.displaySmall?.color
+                        : Colors.yellowAccent,
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 24.0),
-              child: GestureDetector(
-                onTap: () => {
-                  Global.updatePriorityIndexes(),
-                  isInTopLevel = Global.removeGoalFirestore(args.currGoal),
-                  if (isInTopLevel || !args.currGoal.isChildGoal)
-                    {
-                      Navigator.pushNamed(context, IndividualPriority.routeName,
-                          arguments: IndividualPriorityArgumentScreen(
-                              args.currPriorityIndex)),
-                    }
-                  else
-                    {
-                      Global.depthStack.pop(),
-                      Navigator.pushNamed(
-                        context,
-                        IndividualGoal.routeName,
-                        arguments: IndividualGoalArguments(
-                            Global.depthStack.top,
-                            args.currPriorityIndex,
-                            args.comingFromListView),
-                      ),
-                    }
-                },
-                child: Icon(Icons.delete,
-                    size: 22.0,
-                    color: Theme.of(context).textTheme.displaySmall?.color),
-              ),
-            ),
-          ],
-          titleSpacing: 0.0,
-          centerTitle: true,
-          automaticallyImplyLeading: false,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Stack(
-                alignment: Alignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: (args.comingFromListView)
-                        ? const EdgeInsets.only(
-                            left: 24.0,
-                            right: 32.0,
-                          )
-                        : const EdgeInsets.only(left: 24.0, right: 8.0),
-                    child: GestureDetector(
-                      child: const Icon(Icons.arrow_back),
-                      onTap: () => (args.comingFromListView)
-                          ? navigateHome()
-                          : navigateBackArrow(),
-                    ),
-                  ),
-                ],
-              ),
-              Visibility(
-                visible: !args.comingFromListView,
-                child: IconButton(
-                  icon: Icon(Icons.home,
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 24.0),
+                child: GestureDetector(
+                  onTap: () => {
+                    Global.updatePriorityIndexes(),
+                    isInTopLevel = Global.removeGoalFirestore(args.currGoal),
+                    if (isInTopLevel || !args.currGoal.isChildGoal)
+                      {
+                        Navigator.pushNamed(
+                            context, IndividualPriority.routeName,
+                            arguments: IndividualPriorityArgumentScreen(
+                                args.currPriorityIndex)),
+                      }
+                    else
+                      {
+                        Global.depthStack.pop(),
+                        Navigator.pushNamed(
+                          context,
+                          IndividualGoal.routeName,
+                          arguments: IndividualGoalArguments(
+                              Global.depthStack.top,
+                              args.currPriorityIndex,
+                              args.comingFromListView),
+                        ),
+                      }
+                  },
+                  child: Icon(Icons.delete,
                       color: Theme.of(context).textTheme.displaySmall?.color),
-                  onPressed: () => navigateHome(),
-                ),
-              ),
-              const Expanded(
-                child: Center(
-                  child: Text(
-                    "Goal",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-                  ),
                 ),
               ),
             ],
+            titleSpacing: 0.0,
+            centerTitle: true,
+            automaticallyImplyLeading: false,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Stack(
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: (args.comingFromListView)
+                          ? const EdgeInsets.only(
+                              left: 24.0,
+                              right: 32.0,
+                            )
+                          : const EdgeInsets.only(left: 24.0, right: 8.0),
+                      child: GestureDetector(
+                        child: Icon(Icons.arrow_back,
+                            color: (Global.isDarkMode == 0)
+                                ? Colors.black
+                                : Colors.white),
+                        onTap: () => (args.comingFromListView)
+                            ? navigateHome()
+                            : navigateBackArrow(),
+                      ),
+                    ),
+                  ],
+                ),
+                Visibility(
+                  visible: !args.comingFromListView,
+                  child: IconButton(
+                    icon: Icon(Icons.home,
+                        color: Theme.of(context).textTheme.displaySmall?.color),
+                    onPressed: () => navigateHome(),
+                  ),
+                ),
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      "Goal",
+                      style: Theme.of(context).textTheme.headlineLarge,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         body: CustomScrollView(
@@ -421,7 +429,9 @@ class _IndividualGoal extends State<IndividualGoal> {
                           borderOnForeground: true,
                           color: (args.currGoal.goalProgress !=
                                   args.currGoal.goalTarget)
-                              ? const Color.fromARGB(184, 242, 242, 242)
+                              ? (Global.isDarkMode == 0)
+                                  ? const Color.fromARGB(184, 242, 242, 242)
+                                  : Theme.of(context).cardColor
                               : Theme.of(context).secondaryHeaderColor,
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -431,9 +441,9 @@ class _IndividualGoal extends State<IndividualGoal> {
                                 child: (!isInEditMode)
                                     ? Text(
                                         "Goal - ${args.currGoal.name}",
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineMedium,
                                       )
                                     : TextField(
                                         onChanged: (currValue) => {
@@ -460,10 +470,11 @@ class _IndividualGoal extends State<IndividualGoal> {
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     "Priority - ${Global.userPriorities[args.currPriorityIndex].name}",
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,
-                                        fontStyle: FontStyle.italic),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FontStyle.italic,
+                                      fontSize: (Global.isPhone) ? 14 : 18,
+                                    ),
                                   )),
                             ),
                           ),
@@ -514,13 +525,7 @@ class _IndividualGoal extends State<IndividualGoal> {
               SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
-                    return const Text(
-                      "Press the '+' at the bottom \nto add a subgoal!",
-                      style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                      ),
-                      textAlign: TextAlign.center,
-                    );
+                    return NoGoalsPrompt(0);
                   },
                   childCount: 1,
                   semanticIndexOffset: 1,

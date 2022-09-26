@@ -89,47 +89,6 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
     );
   }
 
-  getMenuIcon() {
-    return IconButton(
-        padding: const EdgeInsets.only(right: 12.0),
-        constraints: const BoxConstraints(),
-        onPressed: () => {
-              setState(() {
-                areSettingsOpen = !areSettingsOpen;
-              }),
-            },
-        icon: Icon(
-          (areSettingsOpen) ? Icons.menu_open : Icons.menu,
-          color: Colors.white,
-        ));
-  }
-
-  // showInfoToast(BuildContext context) async {
-  //   var myToastContext = ToastContext();
-  //   myToastContext.init(context);
-  //   return Toast.show("HOLD and DRAG to reorder",
-  //       duration: Toast.lengthLong, gravity: Toast.bottom);
-  // }
-
-  getInfoIcon() {
-    return IconButton(
-      padding: const EdgeInsets.only(right: 8.0),
-      constraints: const BoxConstraints(),
-      onPressed: () => {
-        setState(() {
-          isEdit = !isEdit;
-        }),
-        //showInfoToast(context),
-      },
-      icon: const Icon(
-        Icons.info,
-        color: Colors.white,
-        size: 20,
-        //color: (isEdit) ? Colors.black87 : Colors.white,
-      ),
-    );
-  }
-
   goToAddPrioritiesScreen() {
     Global.updatePriorityIndexes();
     Navigator.pushNamed(context, '/new-priority');
@@ -157,7 +116,10 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
         Navigator.pushNamed(context, SettingsScreen.routeName,
             arguments: SettingsScreenArguements(widget.currentStartIndex)),
       },
-      icon: const Icon(Icons.settings, size: 22.0),
+      icon: Icon(
+        Icons.settings,
+        color: Theme.of(context).iconTheme.color,
+      ),
     );
   }
 
@@ -209,22 +171,25 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
             child: const Icon(
               Icons.add,
             )),
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text(
-            "Priorities",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-          ),
-          actions: [
-            Row(
-              children: [
-                //getInfoIcon(),
-                //getAddNewIcon(),
-                getSettingsIcon(),
-              ],
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(Global.toolbarHeight),
+          child: AppBar(
+            toolbarHeight: Global.toolbarHeight,
+            centerTitle: true,
+            title: Text(
+              "Priorities",
+              style: Theme.of(context).textTheme.headlineLarge,
             ),
-          ],
-          automaticallyImplyLeading: false,
+            actions: [
+              Row(
+                children: [
+                  //getAddNewIcon(),
+                  getSettingsIcon(),
+                ],
+              ),
+            ],
+            automaticallyImplyLeading: false,
+          ),
         ),
         body: Column(children: [
           Column(

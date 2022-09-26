@@ -57,27 +57,32 @@ class EditPriorityWidget extends StatelessWidget {
                   : const Center(),
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 8.0, right: 8.0, top: 0.0, bottom: 12.0),
+                    left: 8.0, right: 8.0, top: 12.0, bottom: 12.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    ElevatedButton(
-                        style: Theme.of(context).elevatedButtonTheme.style,
-                        onPressed: () => {
-                              Navigator.pushNamed(
-                                context,
-                                BrowseImagesScreen.routeName,
-                                arguments: BrowseImageArguments(
-                                  changeImage,
+                    SizedBox(
+                      height: (Global.isPhone) ? 40 : 60,
+                      child: ElevatedButton(
+                          onPressed: () => {
+                                Navigator.pushNamed(
+                                  context,
+                                  BrowseImagesScreen.routeName,
+                                  arguments: BrowseImageArguments(
+                                    changeImage,
+                                  ),
                                 ),
-                              ),
-                            },
-                        child: const Text("Browse Images")),
-                    ElevatedButton(
-                        onPressed: () => {
-                              getImage(ImageSource.gallery),
-                            },
-                        child: const Text("Upload Image")),
+                              },
+                          child: const Text("Browse Images")),
+                    ),
+                    SizedBox(
+                      height: (Global.isPhone) ? 40 : 60,
+                      child: ElevatedButton(
+                          onPressed: () => {
+                                getImage(ImageSource.gallery),
+                              },
+                          child: const Text("Upload Image")),
+                    ),
                   ],
                 ),
               ),
@@ -88,9 +93,10 @@ class EditPriorityWidget extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Center(
-                  child: Text(Global.userPriorities[currentPriorityIndex].name,
-                      style: const TextStyle(
-                          fontSize: 24, fontWeight: FontWeight.bold)),
+                  child: Text(
+                    Global.userPriorities[currentPriorityIndex].name,
+                    style: Theme.of(context).textTheme.headlineLarge,
+                  ),
                 ),
               ),
               Padding(
@@ -102,6 +108,7 @@ class EditPriorityWidget extends StatelessWidget {
                   decoration: InputDecoration(
                     hintText: Global.userPriorities[currentPriorityIndex].name,
                     labelText: "Edit Priority Name",
+                    labelStyle: Theme.of(context).textTheme.displaySmall,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
                       borderSide:
@@ -122,10 +129,13 @@ class EditPriorityWidget extends StatelessWidget {
               const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 24.0, right: 24.0, top: 0.0, bottom: 12.0),
-                child: ElevatedButton(
-                    onPressed: () => {saveTitleTextChanges()},
-                    child: const Text("Save New Priority Name")),
+                    left: 24.0, right: 24.0, top: 12.0, bottom: 12.0),
+                child: SizedBox(
+                  height: (Global.isPhone) ? 40 : 60,
+                  child: ElevatedButton(
+                      onPressed: () => {saveTitleTextChanges()},
+                      child: const Text("Save New Priority Name")),
+                ),
               ),
               const Padding(
                 padding: EdgeInsets.only(left: 24.0, right: 24.0),

@@ -5,8 +5,6 @@ import 'global.dart';
 
 class GlobalThemes {
   //Themes to add
-  //Card Theme
-  //Divider Color?
 
   static ThemeData getThemeData(int isDarkMode) {
     return ThemeData(
@@ -19,22 +17,9 @@ class GlobalThemes {
       floatingActionButtonTheme: getFABThemeData(isDarkMode),
       iconTheme: getIconThemeData(isDarkMode),
       secondaryHeaderColor: getSecondaryColor(isDarkMode),
-      //cardTheme: getCardThemeData(isDarkMode),
       listTileTheme: getListTileThemeData(isDarkMode),
     );
   }
-
-  // static CardTheme getCardThemeData(int isDarkMode) {
-  //   if (isDarkMode == 0) {
-  //     return const CardTheme(
-  //       color: Colors.white,
-  //     );
-  //   } else {
-  //     return const CardTheme(
-  //       color: Colors.black,
-  //     );
-  //   }
-  // }
 
   static ListTileThemeData getListTileThemeData(int isDarkMode) {
     if (isDarkMode == 0) {
@@ -50,15 +35,12 @@ class GlobalThemes {
 
   //Text Theme has all the smaller text styles inside it
   static TextTheme getTextTheme(int isDarkMode) {
-    if (isDarkMode == 0) {
-      return TextTheme(
-        displaySmall: GlobalThemes.getTextStyleSmall(Global.isDarkMode),
-      );
-    } else {
-      return TextTheme(
-        displaySmall: getTextStyleSmall(Global.isDarkMode),
-      );
-    }
+    return TextTheme(
+      displaySmall: getTextStyleSmall(isDarkMode),
+      headlineLarge: getTextStyleHeaderLarge(isDarkMode),
+      headlineMedium: getTextStyleHeaderMedium(isDarkMode),
+      headlineSmall: getTextStyleHeaderSmall(isDarkMode),
+    );
   }
 
   static IconThemeData getIconThemeData(int isDarkMode) {
@@ -80,7 +62,7 @@ class GlobalThemes {
   static FloatingActionButtonThemeData getFABThemeData(int isDarkMode) {
     if (isDarkMode == 0) {
       return FloatingActionButtonThemeData(
-        backgroundColor: Global.getPrimaryColorSwatch().shade400,
+        backgroundColor: Global.getPrimaryColorSwatch().shade500,
         //foregroundColor:
       );
     } else {
@@ -105,6 +87,54 @@ class GlobalThemes {
     }
   }
 
+  static TextStyle getTextStyleHeaderLarge(int isDarkMode) {
+    if (isDarkMode == 0) {
+      return TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: (Global.isPhone) ? 22 : 36,
+        color: Colors.black,
+      );
+    } else {
+      return TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: (Global.isPhone) ? 22 : 36,
+        color: Colors.white,
+      );
+    }
+  }
+
+  static TextStyle getTextStyleHeaderMedium(int isDarkMode) {
+    if (isDarkMode == 0) {
+      return TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: (Global.isPhone) ? 18 : 24,
+        color: Colors.black,
+      );
+    } else {
+      return TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: (Global.isPhone) ? 18 : 24,
+        color: Colors.white,
+      );
+    }
+  }
+
+  static TextStyle getTextStyleHeaderSmall(int isDarkMode) {
+    if (isDarkMode == 0) {
+      return TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: (Global.isPhone) ? 12 : 18,
+        color: Colors.black,
+      );
+    } else {
+      return TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: (Global.isPhone) ? 12 : 18,
+        color: Colors.white,
+      );
+    }
+  }
+
   static ProgressIndicatorThemeData getProgressIndicatorThemeData(
       int isDarkMode) {
     if (isDarkMode == 0) {
@@ -115,7 +145,7 @@ class GlobalThemes {
     } else {
       return ProgressIndicatorThemeData(
         color: Global.getPrimaryColorSwatch().shade300,
-        circularTrackColor: Colors.black,
+        circularTrackColor: Global.getPrimaryColorSwatch().shade900,
       );
     }
   }

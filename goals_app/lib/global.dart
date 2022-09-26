@@ -25,6 +25,26 @@ class Global {
       "https://images.unsplash.com/photo-1531306728370-e2ebd9d7bb99?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YW5pbWF0ZWQlMjBiYWNrZ3JvdW5kfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=700&q=60",
       "Space",
     ),
+    pictureHolder(
+      "https://images.unsplash.com/photo-1507608158173-1dcec673a2e5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGFuaW1hdGVkJTIwYmFja2dyb3VuZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=700&q=60",
+      "Dark Blue Rain",
+    ),
+    pictureHolder(
+        "https://images.unsplash.com/photo-1504470695779-75300268aa0e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8ZGFyayUyMGJhY2tncm91bmR8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
+        "Fire"),
+    pictureHolder(
+        "https://images.unsplash.com/photo-1502899576159-f224dc2349fa?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8ZGFyayUyMGJhY2tncm91bmR8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
+        "New York Skyline Evening"),
+    pictureHolder(
+        "https://images.unsplash.com/photo-1472552944129-b035e9ea3744?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bmlnaHQlMjBza3l8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
+        "Cloud then Space"),
+    pictureHolder(
+        "https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8bmlnaHQlMjBza3l8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
+        "Violet Skyline"),
+    pictureHolder(
+        "https://images.unsplash.com/photo-1436891620584-47fd0e565afb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fG5pZ2h0JTIwc2t5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
+        "Mountain Still night"),
+    //pictureHolder("", ""),
   ];
 
   static String currentBackgroundImage = listOfBackgroundImages[4].url;
@@ -39,10 +59,6 @@ class Global {
     pictureHolder(
       "https://images.unsplash.com/photo-1497384401032-2182d2687715?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTN8fGFuaW1hdGVkJTIwYmFja2dyb3VuZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=700&q=60",
       "Foggy Red Mountain",
-    ),
-    pictureHolder(
-      "https://images.unsplash.com/photo-1507608158173-1dcec673a2e5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGFuaW1hdGVkJTIwYmFja2dyb3VuZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=700&q=60",
-      "Dark Blue Rain",
     ),
     pictureHolder(
       "https://images.unsplash.com/photo-1528460033278-a6ba57020470?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8YW5pbWF0ZWQlMjBiYWNrZ3JvdW5kfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=700&q=60",
@@ -183,6 +199,7 @@ class Global {
   static int isDarkMode = 0;
   static int currentPrimaryColor = 0;
   static bool isPhone = Device.get().isPhone;
+  static double toolbarHeight = (isPhone) ? 65.0 : 85.0;
   static List<Priority> userPriorities = List.empty(growable: true);
   static CustomStack<Goal> depthStack = CustomStack();
   static bool goalButtonsInGridView = false;

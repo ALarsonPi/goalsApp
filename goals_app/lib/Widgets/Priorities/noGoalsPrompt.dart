@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../global.dart';
+
 class NoGoalsPrompt extends StatelessWidget {
   int type;
   late var promptType;
@@ -25,10 +27,10 @@ class NoGoalsPrompt extends StatelessWidget {
         children: [
           Text(messageToDisplay,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.normal,
                 fontStyle: FontStyle.italic,
-                fontSize: 18,
+                fontSize: (Global.isPhone) ? 18 : 24,
               )),
         ],
       ),

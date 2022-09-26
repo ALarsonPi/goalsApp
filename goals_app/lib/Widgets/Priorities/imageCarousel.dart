@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:goals_app/Widgets/Priorities/clickableHighlightImage.dart';
 
+import '../../global.dart';
+
 class ImageCarousel extends StatefulWidget {
   final List<String> urlList;
   final bool endless;
@@ -70,7 +72,9 @@ class _ImageCarousel extends State<ImageCarousel> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: widget.desiredHeight + MediaQuery.of(context).size.height * 0.05,
+      height: (Global.isPhone)
+          ? widget.desiredHeight + MediaQuery.of(context).size.height * 0.1
+          : widget.desiredHeight + MediaQuery.of(context).size.height * 0.25,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -78,8 +82,8 @@ class _ImageCarousel extends State<ImageCarousel> {
           Center(
             child: Text(
               widget.carouselTitle,
-              style: const TextStyle(
-                fontSize: 18,
+              style: TextStyle(
+                fontSize: Theme.of(context).textTheme.headlineMedium?.fontSize,
                 fontWeight: FontWeight.w100,
                 fontStyle: FontStyle.italic,
               ),
@@ -107,7 +111,11 @@ class _ImageCarousel extends State<ImageCarousel> {
               enlargeCenterPage: true,
               autoPlay: false,
               aspectRatio: 12 / 9,
-              height: widget.desiredHeight,
+              height: (Global.isPhone)
+                  ? widget.desiredHeight +
+                      MediaQuery.of(context).size.height * 0.05
+                  : widget.desiredHeight +
+                      MediaQuery.of(context).size.height * 0.2,
               enableInfiniteScroll: widget.endless,
               viewportFraction: 0.8,
             ),

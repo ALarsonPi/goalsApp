@@ -81,7 +81,7 @@ class ThemeSwitcher extends StatelessWidget {
                             appThemes[i].title,
                             style: (Global.isPhone)
                                 ? Theme.of(context).textTheme.subtitle2
-                                : Theme.of(context).textTheme.headlineMedium,
+                                : Theme.of(context).textTheme.headlineLarge,
                           ),
                         ],
                       ),

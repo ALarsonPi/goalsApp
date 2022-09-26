@@ -92,47 +92,59 @@ class GoalButton extends StatelessWidget {
               onPressed: () => {
                 goToIndividualGoalScreen(context),
               },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        height: (currentGoal.completeByDate == null) ? 125 : 55,
-                        width: 125,
-                        child: Center(
-                          child: Text(
-                            "Goal: ${currentGoal.name}",
-                            style: Theme.of(context).textTheme.displaySmall,
-                          ),
-                        ),
-                      ),
-                      if (currentGoal.completeByDate != null)
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 8.0,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
                         SizedBox(
-                          height: 35,
-                          width: 125,
+                          height:
+                              (currentGoal.completeByDate == null) ? 125 : 55,
+                          width: (Global.isPhone)
+                              ? MediaQuery.of(context).size.width * 0.4
+                              : MediaQuery.of(context).size.width * 0.5,
                           child: Align(
                             alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Finish by:\n ${currentGoal.completeByDate}",
-                              style: TextStyle(
-                                  fontSize: (Global.isPhone) ? 14 : 24,
-                                  fontStyle: FontStyle.italic),
-                            ),
+                            child: Text("Goal: ${currentGoal.name}",
+                                style: Theme.of(context).textTheme.displaySmall,
+                                textAlign: TextAlign.start),
                           ),
                         ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 125,
-                    width: 100,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: getEntireRadialWidget(context),
+                        if (currentGoal.completeByDate != null)
+                          SizedBox(
+                            height: 35,
+                            width: (Global.isPhone)
+                                ? MediaQuery.of(context).size.width * 0.4
+                                : MediaQuery.of(context).size.width * 0.5,
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Finish by: ${currentGoal.completeByDate}",
+                                style: TextStyle(
+                                    fontSize: (Global.isPhone) ? 14 : 24,
+                                    fontStyle: FontStyle.italic),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      height: (Global.isPhone) ? 125 : 150,
+                      width: (Global.isPhone)
+                          ? 100
+                          : MediaQuery.of(context).size.width * 0.2,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: getEntireRadialWidget(context),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           )
@@ -147,7 +159,9 @@ class GoalButton extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.15,
+                      height: (Global.isPhone)
+                          ? MediaQuery.of(context).size.height * 0.15
+                          : MediaQuery.of(context).size.height * 0.15,
                       child: getEntireRadialWidget(context),
                     ),
                   ),

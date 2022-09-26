@@ -56,7 +56,7 @@ class _NormalPriorityWidget extends State<NormalPriorityWidget> {
     return (Global.goalButtonsInGridView)
         ? GridView.count(
             physics: physicsType,
-            crossAxisCount: 2,
+            crossAxisCount: (Global.isPhone) ? 2 : 3,
             children: [
               ...myGoalButtons,
             ],
@@ -89,7 +89,6 @@ class _NormalPriorityWidget extends State<NormalPriorityWidget> {
             Global.goalButtonsInGridView,
             widget.currentPriorityIndex,
             false,
-            //widget.isComingFromListView
           ),
         );
       }
@@ -103,9 +102,9 @@ class _NormalPriorityWidget extends State<NormalPriorityWidget> {
             padding: const EdgeInsets.only(left: 8.0, top: 8.0),
             child: Center(
               child: Text(
-                  Global.userPriorities[widget.currentPriorityIndex].name,
-                  style: const TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.bold)),
+                Global.userPriorities[widget.currentPriorityIndex].name,
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
             ),
           ),
         if (widget.isPriority)

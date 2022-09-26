@@ -81,8 +81,16 @@ class _PriorityCarousel extends State<PriorityCarousel> {
         CirclePageIndicator(
           itemCount: Global.userPriorities.length,
           currentPageNotifier: _currentPageNotifier,
-          dotColor: Colors.black45,
-          selectedDotColor: Colors.black26,
+          dotColor: Theme.of(context)
+              .textTheme
+              .displaySmall
+              ?.color
+              ?.withOpacity(0.88),
+          selectedDotColor: Theme.of(context)
+              .textTheme
+              .displaySmall
+              ?.color
+              ?.withOpacity(0.12),
         ),
       ],
     );
