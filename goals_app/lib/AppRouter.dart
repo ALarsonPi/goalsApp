@@ -44,6 +44,7 @@ class AppRouter extends StatelessWidget {
                           FadeTransition(opacity: animation, child: child),
                 );
               }
+              return null;
             },
             debugShowCheckedModeBanner: false,
             title: 'Goals App',

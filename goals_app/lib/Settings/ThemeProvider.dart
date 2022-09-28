@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'AppColors.dart';
 
 class ThemeProvider with ChangeNotifier {
-  ThemeMode selectedThemeMode = ThemeMode.system;
+  ThemeMode selectedThemeMode = ThemeMode.light;
   Color selectedPrimaryColor = AppColors.primaryColors[0];
 
   setSelectedPrimaryColor(Color _color) {
