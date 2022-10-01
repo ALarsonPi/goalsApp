@@ -396,11 +396,6 @@ class Global {
 
   static Future<io.File> writeFirstTime() async {
     final file = await _localFile(firstTimeFile);
-    backgroundImageIndexes.lightModeIndex = 0;
-    backgroundImageIndexes.darkModeIndex = 0;
-    await writeBackgroundImage();
-    await writeDarkMode();
-    await writePrimaryColor();
     return file.writeAsString("1");
   }
 
@@ -511,29 +506,37 @@ class Global {
 
     if (isFirstTime) {
       await populatePrioritiesForFirstTimeUser();
+      backgroundImageIndexes.lightModeIndex = 0;
+      backgroundImageIndexes.darkModeIndex = 0;
+      isDarkMode = 0;
+      currentPrimaryColor = 0;
+      await writeBackgroundImage();
+      await writeDarkMode();
+      await writePrimaryColor();
     }
+
+    //Light/Dark
     await readFile(lightDarkFile).then(
       (value) {
-        if (value != null) {
-          debugPrint("Hey");
-          if (value is String) {
-            int valueAsInt = int.parse(value);
-            isDarkMode = valueAsInt;
-          } else {
-            isDarkMode = 0;
-          }
+        try {
+          int valueAsInt = int.parse(value);
+          isDarkMode = valueAsInt;
+        } catch (e) {
+          debugPrint(e.toString());
+          isDarkMode = 0;
         }
         globalThemeProvider
             .setSelectedThemeMode(ThemeSwitcher.appThemes[isDarkMode].mode);
       },
     );
+
+    //Background image indexes
     await readBackgroundIndexes().then(
       (value) {
-        if (value != null) {
+        try {
           BackgroundImageHolder newHolder =
               BackgroundImageHolder.fromJson(value);
           backgroundImageIndexes = newHolder;
-
           if (isDarkMode == 0) {
             currentBackgroundImage =
                 listOfBackgroundImages[newHolder.lightModeIndex].url;
@@ -541,21 +544,28 @@ class Global {
             currentBackgroundImage =
                 listOfDarkmodeBackgroundImages[newHolder.darkModeIndex].url;
           }
-        } else {
-          debugPrint("Something went wrong reading background index");
+        } catch (e) {
+          debugPrint(e.toString());
+          currentBackgroundImage = listOfBackgroundImages[0].url;
         }
       },
     );
+
+    //Primary Color
     await readFile(primaryColorFile).then(
       (value) {
-        if (value != null) {
+        try {
           int valueAsInt = int.parse(value);
           currentPrimaryColor = valueAsInt;
+        } catch (e) {
+          debugPrint(e.toString());
+          currentPrimaryColor = 0;
         }
         globalThemeProvider.setSelectedPrimaryColor(
             AppColors.primaryColors[currentPrimaryColor]);
       },
     );
+
     await readPriorities().then(
       (value) {
         if (value is! String) {
