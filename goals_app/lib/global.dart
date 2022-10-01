@@ -396,11 +396,6 @@ class Global {
 
   static Future<io.File> writeFirstTime() async {
     final file = await _localFile(firstTimeFile);
-    backgroundImageIndexes.lightModeIndex = 0;
-    backgroundImageIndexes.darkModeIndex = 0;
-    await writeBackgroundImage();
-    await writeDarkMode();
-    await writePrimaryColor();
     return file.writeAsString("1");
   }
 
@@ -494,6 +489,60 @@ class Global {
     userPriorities.clear();
   }
 
+  static readLightDarkMode() async {
+    await readFile(lightDarkFile).then(
+      (value) {
+        try {
+          int valueAsInt = int.parse(value);
+          isDarkMode = valueAsInt;
+        } catch (e) {
+          debugPrint(e.toString());
+          isDarkMode = 0;
+        }
+        globalThemeProvider
+            .setSelectedThemeMode(ThemeSwitcher.appThemes[isDarkMode].mode);
+      },
+    );
+  }
+
+  static readBackgroundFile() async {
+    await readBackgroundIndexes().then(
+      (value) {
+        try {
+          BackgroundImageHolder newHolder =
+              BackgroundImageHolder.fromJson(value);
+          backgroundImageIndexes = newHolder;
+          if (isDarkMode == 0) {
+            currentBackgroundImage =
+                listOfBackgroundImages[newHolder.lightModeIndex].url;
+          } else if (isDarkMode == 1) {
+            currentBackgroundImage =
+                listOfDarkmodeBackgroundImages[newHolder.darkModeIndex].url;
+          }
+        } catch (e) {
+          debugPrint(e.toString());
+          currentBackgroundImage = listOfBackgroundImages[0].url;
+        }
+      },
+    );
+  }
+
+  static readPrimaryColorFile() async {
+    await readFile(primaryColorFile).then(
+      (value) {
+        try {
+          int valueAsInt = int.parse(value);
+          currentPrimaryColor = valueAsInt;
+        } catch (e) {
+          debugPrint(e.toString());
+          currentPrimaryColor = 0;
+        }
+        globalThemeProvider.setSelectedPrimaryColor(
+            AppColors.primaryColors[currentPrimaryColor]);
+      },
+    );
+  }
+
   static getPriorities() async {
     userPriorities.clear();
     bool isFirstTime = true;
@@ -511,51 +560,19 @@ class Global {
 
     if (isFirstTime) {
       await populatePrioritiesForFirstTimeUser();
+      backgroundImageIndexes.lightModeIndex = 0;
+      backgroundImageIndexes.darkModeIndex = 0;
+      isDarkMode = 0;
+      currentPrimaryColor = 0;
+      await writeBackgroundImage();
+      await writeDarkMode();
+      await writePrimaryColor();
     }
-    await readFile(lightDarkFile).then(
-      (value) {
-        if (value != null) {
-          debugPrint("Hey");
-          if (value is String) {
-            int valueAsInt = int.parse(value);
-            isDarkMode = valueAsInt;
-          } else {
-            isDarkMode = 0;
-          }
-        }
-        globalThemeProvider
-            .setSelectedThemeMode(ThemeSwitcher.appThemes[isDarkMode].mode);
-      },
-    );
-    await readBackgroundIndexes().then(
-      (value) {
-        if (value != null) {
-          BackgroundImageHolder newHolder =
-              BackgroundImageHolder.fromJson(value);
-          backgroundImageIndexes = newHolder;
 
-          if (isDarkMode == 0) {
-            currentBackgroundImage =
-                listOfBackgroundImages[newHolder.lightModeIndex].url;
-          } else if (isDarkMode == 1) {
-            currentBackgroundImage =
-                listOfDarkmodeBackgroundImages[newHolder.darkModeIndex].url;
-          }
-        } else {
-          debugPrint("Something went wrong reading background index");
-        }
-      },
-    );
-    await readFile(primaryColorFile).then(
-      (value) {
-        if (value != null) {
-          int valueAsInt = int.parse(value);
-          currentPrimaryColor = valueAsInt;
-        }
-        globalThemeProvider.setSelectedPrimaryColor(
-            AppColors.primaryColors[currentPrimaryColor]);
-      },
-    );
+    await readLightDarkMode();
+    await readBackgroundFile();
+    await readPrimaryColorFile();
+
     await readPriorities().then(
       (value) {
         if (value is! String) {
