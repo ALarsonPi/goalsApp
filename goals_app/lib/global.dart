@@ -489,6 +489,60 @@ class Global {
     userPriorities.clear();
   }
 
+  static readLightDarkMode() async {
+    await readFile(lightDarkFile).then(
+      (value) {
+        try {
+          int valueAsInt = int.parse(value);
+          isDarkMode = valueAsInt;
+        } catch (e) {
+          debugPrint(e.toString());
+          isDarkMode = 0;
+        }
+        globalThemeProvider
+            .setSelectedThemeMode(ThemeSwitcher.appThemes[isDarkMode].mode);
+      },
+    );
+  }
+
+  static readBackgroundFile() async {
+    await readBackgroundIndexes().then(
+      (value) {
+        try {
+          BackgroundImageHolder newHolder =
+              BackgroundImageHolder.fromJson(value);
+          backgroundImageIndexes = newHolder;
+          if (isDarkMode == 0) {
+            currentBackgroundImage =
+                listOfBackgroundImages[newHolder.lightModeIndex].url;
+          } else if (isDarkMode == 1) {
+            currentBackgroundImage =
+                listOfDarkmodeBackgroundImages[newHolder.darkModeIndex].url;
+          }
+        } catch (e) {
+          debugPrint(e.toString());
+          currentBackgroundImage = listOfBackgroundImages[0].url;
+        }
+      },
+    );
+  }
+
+  static readPrimaryColorFile() async {
+    await readFile(primaryColorFile).then(
+      (value) {
+        try {
+          int valueAsInt = int.parse(value);
+          currentPrimaryColor = valueAsInt;
+        } catch (e) {
+          debugPrint(e.toString());
+          currentPrimaryColor = 0;
+        }
+        globalThemeProvider.setSelectedPrimaryColor(
+            AppColors.primaryColors[currentPrimaryColor]);
+      },
+    );
+  }
+
   static getPriorities() async {
     userPriorities.clear();
     bool isFirstTime = true;
@@ -515,56 +569,9 @@ class Global {
       await writePrimaryColor();
     }
 
-    //Light/Dark
-    await readFile(lightDarkFile).then(
-      (value) {
-        try {
-          int valueAsInt = int.parse(value);
-          isDarkMode = valueAsInt;
-        } catch (e) {
-          debugPrint(e.toString());
-          isDarkMode = 0;
-        }
-        globalThemeProvider
-            .setSelectedThemeMode(ThemeSwitcher.appThemes[isDarkMode].mode);
-      },
-    );
-
-    //Background image indexes
-    await readBackgroundIndexes().then(
-      (value) {
-        try {
-          BackgroundImageHolder newHolder =
-              BackgroundImageHolder.fromJson(value);
-          backgroundImageIndexes = newHolder;
-          if (isDarkMode == 0) {
-            currentBackgroundImage =
-                listOfBackgroundImages[newHolder.lightModeIndex].url;
-          } else if (isDarkMode == 1) {
-            currentBackgroundImage =
-                listOfDarkmodeBackgroundImages[newHolder.darkModeIndex].url;
-          }
-        } catch (e) {
-          debugPrint(e.toString());
-          currentBackgroundImage = listOfBackgroundImages[0].url;
-        }
-      },
-    );
-
-    //Primary Color
-    await readFile(primaryColorFile).then(
-      (value) {
-        try {
-          int valueAsInt = int.parse(value);
-          currentPrimaryColor = valueAsInt;
-        } catch (e) {
-          debugPrint(e.toString());
-          currentPrimaryColor = 0;
-        }
-        globalThemeProvider.setSelectedPrimaryColor(
-            AppColors.primaryColors[currentPrimaryColor]);
-      },
-    );
+    await readLightDarkMode();
+    await readBackgroundFile();
+    await readPrimaryColorFile();
 
     await readPriorities().then(
       (value) {
