@@ -19,11 +19,14 @@ class PriorityCard extends StatelessWidget {
 
   Widget getImageWidget() {
     if (imageURL.contains("http")) {
-      return Image.network(imageURL, fit: BoxFit.fitHeight);
+      return Image.network(
+        imageURL,
+        fit: BoxFit.fill,
+      );
     } else {
       return Image.file(
         File(imageURL),
-        fit: BoxFit.fitHeight,
+        fit: BoxFit.fill,
       );
     }
   }
