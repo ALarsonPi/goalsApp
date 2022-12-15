@@ -21,6 +21,7 @@ class RoundedCard extends StatelessWidget {
       builder: (BuildContext context, BoxConstraints constraints) {
         return ListView(
           shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
           children: [
             SizedBox(
               height: constraints.constrainHeight(),

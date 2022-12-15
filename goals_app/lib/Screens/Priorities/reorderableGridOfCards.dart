@@ -81,6 +81,8 @@ class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
     return Padding(
       padding: const EdgeInsets.only(left: 16.0, right: 16.0),
       child: ReorderableGridView.count(
+        shrinkWrap: true,
+        cacheExtent: 5,
         crossAxisSpacing: 1,
         mainAxisSpacing: 6,
         crossAxisCount: 2,
