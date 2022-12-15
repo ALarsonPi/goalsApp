@@ -21,13 +21,6 @@ class ReorderableGridOfCards extends StatefulWidget {
 class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
   late List<Widget> _columns;
 
-  defaultFunction() {}
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
   getImage(Priority priority) {
     if (priority.imageUrl.toString().contains("http")) {
       return Image.network(
@@ -46,12 +39,10 @@ class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
     if (priority.imageUrl.toString().contains("http")) {
       return NetworkImage(
         priority.imageUrl,
-        // fit: BoxFit.fill,
       );
     } else {
       return Image.file(
         File(priority.imageUrl),
-        // fit: BoxFit.fill,
       );
     }
   }
@@ -132,12 +123,6 @@ class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
             },
           ),
         )
-      // RoundedCard(
-      //   currImage: getImage(priority),
-      //   name: priority.name,
-      //   index: priority.priorityIndex,
-      //   isSmall: true,
-      // ),
     ];
 
     void _onReorder(int oldIndex, int newIndex) {
