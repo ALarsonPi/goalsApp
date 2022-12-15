@@ -341,6 +341,29 @@ class Global {
     writePrioritiesToMemory();
   }
 
+  static correctPriorityProgressInTree(
+      int indexOfPriorityToCorrect, bool shouldCorrectTarget) {
+    Priority currPriority = userPriorities.elementAt(indexOfPriorityToCorrect);
+
+    correctPriorityProgressRecursiveHelper(
+        currPriority.goals, shouldCorrectTarget);
+    writePrioritiesToMemory();
+  }
+
+  static correctPriorityProgressRecursiveHelper(
+      List<Goal> subgoals, bool shouldCorrectTarget) {
+    for (Goal goal in subgoals) {
+      if (goal.subGoals.isEmpty) return;
+      correctPriorityProgressRecursiveHelper(
+          goal.subGoals, shouldCorrectTarget);
+
+      goal.goalProgress = getSumOfChildrenProgress(goal).toString();
+      if (shouldCorrectTarget) {
+        goal.goalTarget = getSumOfChildrenTarget(goal).toString();
+      }
+    }
+  }
+
   static updateGoalPrioritiesInAppData(
       Priority parentPriority, int correctIndex) {
     recursiveUpdateGoalPriorityIndexHelper(parentPriority.goals, correctIndex);
