@@ -210,6 +210,8 @@ class _GoalProgressWidget extends State<GoalProgressWidget> {
                                 currentProgressString =
                                     currentProgress.toString();
                                 widget.updateGoal(currentProgress.toString());
+                                Global.correctPriorityProgressInTree(
+                                    widget.currGoal.currPriorityIndex, true);
                                 Global.writePrioritiesToMemory();
                               }),
                             },

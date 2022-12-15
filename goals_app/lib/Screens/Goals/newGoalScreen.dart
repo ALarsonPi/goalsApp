@@ -65,6 +65,7 @@ class _NewGoalScreen extends State<NewGoalScreen> {
             (sumTargets > 0) ? sumTargets.toString() : "1";
         args.currentGoal.goalProgress = sumProgress.toString();
       }
+      Global.correctPriorityProgressInTree(args.currPriorityIndex, true);
     }
     Global.writePrioritiesToMemory();
     navigateBack();
