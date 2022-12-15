@@ -42,6 +42,20 @@ class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
     }
   }
 
+  getImageObject(Priority priority) {
+    if (priority.imageUrl.toString().contains("http")) {
+      return NetworkImage(
+        priority.imageUrl,
+        // fit: BoxFit.fill,
+      );
+    } else {
+      return Image.file(
+        File(priority.imageUrl),
+        // fit: BoxFit.fill,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double mediaPixelVar = MediaQuery.of(context).devicePixelRatio - 1.75;
@@ -59,13 +73,71 @@ class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
             ),
           },
           key: ValueKey(priority.name),
-          child: RoundedCard(
-            currImage: getImage(priority),
-            name: priority.name,
-            index: priority.priorityIndex,
-            isSmall: true,
+          child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              return Stack(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                        bottom: constraints.constrainHeight() * 0.15),
+                    child: Card(
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      elevation: 5,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: getImageObject(priority),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0.0,
+                    left: 0.0,
+                    child: SizedBox(
+                      width: constraints.maxWidth,
+                      height: constraints.constrainHeight() * 0.35,
+                      child: Card(
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(10.0),
+                            bottomRight: Radius.circular(10.0),
+                          ),
+                        ),
+                        elevation: 5,
+                        child: ListTile(
+                          title: Padding(
+                            padding:
+                                const EdgeInsets.only(left: 8.0, bottom: 8.0),
+                            child: Text(
+                              "${priority.name} (${priority.priorityIndex + 1})",
+                              style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black87),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
-        ),
+        )
+      // RoundedCard(
+      //   currImage: getImage(priority),
+      //   name: priority.name,
+      //   index: priority.priorityIndex,
+      //   isSmall: true,
+      // ),
     ];
 
     void _onReorder(int oldIndex, int newIndex) {

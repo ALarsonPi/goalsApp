@@ -21,12 +21,12 @@ class PriorityCard extends StatelessWidget {
     if (imageURL.contains("http")) {
       return Image.network(
         imageURL,
-        fit: BoxFit.fill,
+        fit: BoxFit.cover,
       );
     } else {
       return Image.file(
         File(imageURL),
-        fit: BoxFit.fill,
+        fit: BoxFit.cover,
       );
     }
   }
