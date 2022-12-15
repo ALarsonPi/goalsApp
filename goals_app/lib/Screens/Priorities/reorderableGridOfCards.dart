@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:goals_app/Objects/Priority.dart';
 import 'package:goals_app/Screens/Priorities/individualPriority.dart';
+import 'package:goals_app/Widgets/Priorities/roundedCard.dart';
 import 'package:goals_app/global.dart';
 import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
@@ -29,12 +30,14 @@ class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
 
   getImage(Priority priority) {
     if (priority.imageUrl.toString().contains("http")) {
-      return NetworkImage(
+      return Image.network(
         priority.imageUrl,
+        fit: BoxFit.fill,
       );
     } else {
-      return FileImage(
+      return Image.file(
         File(priority.imageUrl),
+        fit: BoxFit.fill,
       );
     }
   }
@@ -56,68 +59,11 @@ class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
             ),
           },
           key: ValueKey(priority.name),
-          child: Padding(
-            padding: const EdgeInsets.all(5),
-            child: Stack(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 4.0, right: 4.0, bottom: 16.0),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(5),
-                        topRight: Radius.circular(5)),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: getImage(priority),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 0.0,
-                  left: 0.0,
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20)),
-                    child: SizedBox(
-                      width: !Global.isPhone
-                          ? MediaQuery.of(context).size.width *
-                              0.47 *
-                              mediaPixelVar
-                          : MediaQuery.of(context).size.width *
-                              0.45 *
-                              mediaPixelVar,
-                      height: MediaQuery.of(context).size.height * 0.075,
-                      child: Card(
-                        child: ListTile(
-                          title: Padding(
-                            padding: EdgeInsets.only(
-                              left: !Global.isPhone
-                                  ? MediaQuery.of(context).size.width * 0.1
-                                  : 8.0,
-                              bottom: !Global.isPhone ? 8.0 : 12.0,
-                              top: !Global.isPhone ? 24.0 : 0.0,
-                            ),
-                            child: Text(
-                              "${priority.name} (${++index})",
-                              style: TextStyle(
-                                fontSize: !Global.isPhone ? 24 : 12,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          child: RoundedCard(
+            currImage: getImage(priority),
+            name: priority.name,
+            index: priority.priorityIndex,
+            isSmall: true,
           ),
         ),
     ];

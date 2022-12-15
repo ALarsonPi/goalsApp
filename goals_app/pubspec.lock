@@ -153,6 +153,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.0"
+  flutter_draggable_gridview:
+    dependency: "direct main"
+    description:
+      name: flutter_draggable_gridview
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.7"
   flutter_form_builder:
     dependency: "direct main"
     description:

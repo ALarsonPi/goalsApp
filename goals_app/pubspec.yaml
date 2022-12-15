@@ -54,6 +54,7 @@ dependencies:
   page_transition: ^2.0.9
   flutter_colorpicker: ^1.0.3
   provider: ^6.0.3
+  flutter_draggable_gridview: ^0.0.7
 
 dev_dependencies:
   flutter_test:
