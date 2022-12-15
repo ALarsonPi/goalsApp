@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:goals_app/Settings/ThemeProvider.dart';
+import 'package:goals_app/Providers/ThemeProvider.dart';
 import 'package:provider/provider.dart';
 
 import '../global.dart';

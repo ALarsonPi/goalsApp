@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'AppColors.dart';
+import '../Settings/AppColors.dart';
 
 class ThemeProvider with ChangeNotifier {
   ThemeMode selectedThemeMode = ThemeMode.light;

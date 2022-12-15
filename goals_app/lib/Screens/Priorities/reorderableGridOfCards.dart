@@ -21,20 +21,6 @@ class ReorderableGridOfCards extends StatefulWidget {
 class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
   late List<Widget> _columns;
 
-  getImage(Priority priority) {
-    if (priority.imageUrl.toString().contains("http")) {
-      return Image.network(
-        priority.imageUrl,
-        fit: BoxFit.fill,
-      );
-    } else {
-      return Image.file(
-        File(priority.imageUrl),
-        fit: BoxFit.fill,
-      );
-    }
-  }
-
   getImageObject(Priority priority) {
     if (priority.imageUrl.toString().contains("http")) {
       return NetworkImage(
@@ -49,9 +35,6 @@ class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
 
   @override
   Widget build(BuildContext context) {
-    double mediaPixelVar = MediaQuery.of(context).devicePixelRatio - 1.75;
-    if (mediaPixelVar < 1) mediaPixelVar = 1;
-    int index = 0;
     _columns = <Widget>[
       for (Priority priority in Global.userPriorities)
         GestureDetector(
@@ -109,9 +92,9 @@ class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
                             child: Text(
                               "${priority.name} (${priority.priorityIndex + 1})",
                               style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black87),
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),

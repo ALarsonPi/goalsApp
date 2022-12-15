@@ -6,7 +6,7 @@ import 'package:goals_app/Screens/Priorities/individualPriority.dart';
 import 'package:goals_app/Screens/browseImages.dart';
 import 'package:goals_app/Settings/settingsScreen.dart';
 import 'package:goals_app/Screens/splashScreen.dart';
-import 'package:goals_app/Settings/ThemeProvider.dart';
+import 'package:goals_app/Providers/ThemeProvider.dart';
 import 'package:goals_app/globalThemes.dart';
 import 'package:provider/provider.dart';
 

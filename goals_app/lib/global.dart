@@ -8,7 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'Objects/Priority.dart';
 import 'Objects/Goal.dart';
 import 'Settings/AppColors.dart';
-import 'Settings/ThemeProvider.dart';
+import 'Providers/ThemeProvider.dart';
 
 class Global {
   static final expandedPrioritiesBucketGlobal = PageStorageBucket();
