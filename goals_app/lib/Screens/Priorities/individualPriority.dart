@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:goals_app/Providers/PriorityProvider.dart';
 import 'package:goals_app/Screens/Priorities/prioritiesHome.dart';
 import 'package:goals_app/Widgets/Priorities/normalPriorityWidget.dart';
 import 'package:goals_app/Settings/global.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 import '../../Models/Goal.dart';
 import '../../Widgets/Priorities/editPriorityWidget.dart';
 import '../ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
@@ -123,8 +125,10 @@ class _IndividualPriority extends State<IndividualPriority> {
                   context,
                   IconButton(
                     onPressed: () async => {
-                      await Global.removePriority(
-                          Global.userPriorities.elementAt(args.index)),
+                      await Provider.of<PriorityProvider>(context,
+                              listen: false)
+                          .removePriority(
+                              Global.userPriorities.elementAt(args.index)),
                       Navigator.push<void>(
                         context,
                         MaterialPageRoute<void>(

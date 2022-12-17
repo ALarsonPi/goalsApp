@@ -111,9 +111,8 @@ class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
     void _onReorder(int oldIndex, int newIndex) {
       if (oldIndex != newIndex) {
         setState(() {
-          Priority currPriority = Global.userPriorities.removeAt(oldIndex);
-          Global.userPriorities.insert(newIndex, currPriority);
-          Global.updatePriorityIndexes();
+          // Priority currPriority = Global.userPriorities.removeAt(oldIndex);
+          // Global.userPriorities.insert(newIndex, currPriority);
         });
       }
     }

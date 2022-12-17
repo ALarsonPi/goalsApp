@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:goals_app/Providers/PriorityProvider.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import '../../Models/Goal.dart';
 import '../../Models/Priority.dart';
 import '../../Settings/global.dart';
@@ -289,7 +291,10 @@ class _NewPriorityScreen extends State<NewPriorityScreen> {
                                                 newPriority.priorityIndex =
                                                     Global
                                                         .userPriorities.length,
-                                                Global.addPriority(newPriority),
+                                                Provider.of<PriorityProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .addPriority(newPriority),
                                                 Navigator.push<void>(
                                                   context,
                                                   MaterialPageRoute<void>(

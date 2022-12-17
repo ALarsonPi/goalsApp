@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/settingsScreenArguements.dart';
-import 'package:goals_app/Screens/Priorities/reorderPriorities.dart';
+import 'package:goals_app/Screens/Priorities/reorderPrioritiesScreen.dart';
 import 'package:goals_app/Screens/settingsScreen.dart';
 import 'package:goals_app/Widgets/Priorities/noGoalsPrompt.dart';
 import 'package:goals_app/Models/IconsEnum.dart';
@@ -90,7 +90,6 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
   }
 
   goToAddPrioritiesScreen() {
-    Global.updatePriorityIndexes();
     Navigator.pushNamed(context, '/new-priority');
   }
 
