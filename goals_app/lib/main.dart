@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'AppRouter.dart';
-import 'Settings/global.dart';
 
 Future<void> main() async {
   // Setting the App as Vertical Only
@@ -14,6 +13,5 @@ Future<void> main() async {
     systemNavigationBarColor: Colors.transparent, // navigation bar color
     statusBarColor: Colors.transparent, // status bar color
   ));
-  await Global.getPriorities();
   runApp(const AppRouter());
 }

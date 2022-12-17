@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goals_app/Settings/GlobalFileIO.dart';
 import 'package:provider/provider.dart';
 
 import 'global.dart';
@@ -46,7 +47,7 @@ class ThemeSwitcher extends StatelessWidget {
                     : () => {
                           themeProvider.setSelectedThemeMode(appThemes[i].mode),
                           Global.isDarkMode = i,
-                          Global.writeDarkMode(),
+                          GlobalFileIO.writeDarkMode(),
                           Global.globalThemeProvider
                               .setSelectedThemeMode(appThemes[i].mode),
                           parentSetStateFunction(),

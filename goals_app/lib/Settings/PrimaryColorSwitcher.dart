@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:goals_app/Providers/ThemeProvider.dart';
+import 'package:goals_app/Settings/GlobalFileIO.dart';
 import 'package:provider/provider.dart';
 
 import 'global.dart';
@@ -32,7 +33,7 @@ class PrimaryColorSwitcher extends StatelessWidget {
                           Global.globalThemeProvider.setSelectedPrimaryColor(
                               AppColors.primaryColors[i]),
                           Global.currentPrimaryColor = i,
-                          Global.writePrimaryColor(),
+                          GlobalFileIO.writePrimaryColor(),
                         },
                 child: Container(
                   height: desiredHeight / 3,
