@@ -8,12 +8,10 @@ import 'package:goals_app/Widgets/Priorities/normalPriorityWidget.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:intl/intl.dart';
 
-import '../../Objects/Goal.dart';
+import '../../Models/Goal.dart';
 import '../../Widgets/Goals/goalButton.dart';
 import '../../global.dart';
 import '../ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
-import '../ArgumentPassThroughScreens/newGoalArguements.dart';
-import 'newGoalScreen.dart';
 
 class IndividualGoal extends StatefulWidget {
   static const routeName = "/extractCurrentGoal";
@@ -183,6 +181,11 @@ class _IndividualGoal extends State<IndividualGoal> {
     });
   }
 
+  justSetState() {
+    debugPrint("Now " + args.currGoal.goalProgress.toString());
+    setState(() {});
+  }
+
   updateGoalTargetGlobally(String newValue) {
     setState(() {
       args.currGoal.goalTarget = newValue;
@@ -224,7 +227,8 @@ class _IndividualGoal extends State<IndividualGoal> {
     List<GoalButton> currGoalsButtons = List.empty(growable: true);
     for (Goal goal in args.currGoal.subGoals) {
       currGoalsButtons.add(GoalButton(goal, Global.goalButtonsInGridView,
-          args.currPriorityIndex, args.comingFromListView));
+          args.currPriorityIndex, args.comingFromListView,
+          setStateForParent: justSetState));
     }
     return currGoalsButtons;
   }
@@ -237,57 +241,6 @@ class _IndividualGoal extends State<IndividualGoal> {
         Global.goalButtonsInGridView = false;
       }
     });
-  }
-
-  checkIfAlertIsNeeded() {
-    if (int.parse(args.currGoal.goalProgress) == 0) {
-      goToNewGoalScreen();
-    } else {
-      Alert(
-        context: context,
-        type: AlertType.warning,
-        title: "NEW GOAL ALERT",
-        desc: "Making a sub-goal will reset progress on current goal.",
-        buttons: [
-          DialogButton(
-            onPressed: () => {
-              Navigator.of(context, rootNavigator: true).pop(),
-            },
-            gradient: const LinearGradient(colors: [
-              Color.fromRGBO(116, 116, 191, 1.0),
-              Color.fromRGBO(52, 138, 199, 1.0)
-            ]),
-            child: const Text(
-              "Cancel",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-          ),
-          DialogButton(
-            onPressed: () => {
-              Navigator.of(context, rootNavigator: true).pop(),
-              goToNewGoalScreen(),
-            },
-            gradient: const LinearGradient(colors: [
-              Color.fromRGBO(116, 116, 191, 1.0),
-              Color.fromRGBO(52, 138, 199, 1.0)
-            ]),
-            child: const Text(
-              "OK",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-            ),
-          )
-        ],
-      ).show();
-    }
-  }
-
-  goToNewGoalScreen() {
-    Navigator.pushNamed(
-      context,
-      NewGoalScreen.routeName,
-      arguments: NewGoalArguments(args.currPriorityIndex, false,
-          currentGoal: args.currGoal),
-    );
   }
 
   @override
@@ -304,10 +257,7 @@ class _IndividualGoal extends State<IndividualGoal> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.add),
-            onPressed: () => {
-                  checkIfAlertIsNeeded(),
-                }),
+            child: const Icon(Icons.add), onPressed: () => {}),
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(Global.toolbarHeight),
           child: AppBar(

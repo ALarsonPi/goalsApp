@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../Objects/Goal.dart';
-import '../../Objects/IconsEnum.dart';
+import '../../Models/Goal.dart';
+import '../../Models/IconsEnum.dart';
 import '../../global.dart';
 import '../Priorities/gridListIconRow.dart';
 

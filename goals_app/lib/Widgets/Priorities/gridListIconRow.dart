@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:goals_app/global.dart';
-import '../../Objects/IconsEnum.dart';
+import '../../Models/IconsEnum.dart';
 
 class GridListIconRow extends StatefulWidget {
   Function callParentStateFunction;

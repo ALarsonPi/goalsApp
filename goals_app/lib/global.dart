@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:goals_app/Settings/ThemeSwitcher.dart';
 import 'package:path_provider/path_provider.dart';
-import 'Objects/Priority.dart';
-import 'Objects/Goal.dart';
+import 'Models/Priority.dart';
+import 'Models/Goal.dart';
 import 'Settings/AppColors.dart';
 import 'Providers/ThemeProvider.dart';
 

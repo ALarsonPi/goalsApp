@@ -1,8 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:goals_app/Objects/Goal.dart';
+import 'package:goals_app/Models/Goal.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualGoalArguments.dart';
 import 'package:goals_app/Screens/Goals/individualGoal.dart';
+import 'package:goals_app/Widgets/Goals/CheckboxWidget.dart';
 import 'package:goals_app/global.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
@@ -11,9 +12,10 @@ class GoalButton extends StatelessWidget {
   bool isGridMode;
   int currPriorityIndex;
   bool isComingFromListView;
+  Function setStateForParent;
   GoalButton(this.currentGoal, this.isGridMode, this.currPriorityIndex,
       this.isComingFromListView,
-      {Key? key})
+      {required this.setStateForParent, Key? key})
       : super(key: key);
 
   getRadialIndicator(BuildContext context) {
@@ -140,7 +142,11 @@ class GoalButton extends StatelessWidget {
                           : MediaQuery.of(context).size.width * 0.2,
                       child: Padding(
                         padding: const EdgeInsets.only(top: 8.0),
-                        child: getEntireRadialWidget(context),
+                        child: (currentGoal.goalTarget == "1")
+                            ? CheckBoxWidget(
+                                currentGoal,
+                              )
+                            : getEntireRadialWidget(context),
                       ),
                     ),
                   ],

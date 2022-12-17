@@ -4,8 +4,8 @@ import 'package:goals_app/Screens/ArgumentPassThroughScreens/settingsScreenArgue
 import 'package:goals_app/Screens/Priorities/reorderableGridOfCards.dart';
 import 'package:goals_app/Settings/settingsScreen.dart';
 import 'package:goals_app/Widgets/Priorities/noGoalsPrompt.dart';
-import 'package:goals_app/Objects/IconsEnum.dart';
-import 'package:goals_app/Objects/Priority.dart';
+import 'package:goals_app/Models/IconsEnum.dart';
+import 'package:goals_app/Models/Priority.dart';
 import 'package:goals_app/Widgets/Priorities/gridListIconRow.dart';
 import 'package:goals_app/Widgets/Priorities/priorityCarousel.dart';
 import 'package:goals_app/Widgets/Priorities/priorityExpandedList.dart';

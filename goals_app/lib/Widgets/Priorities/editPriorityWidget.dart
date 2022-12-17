@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:goals_app/Objects/Goal.dart';
+import 'package:goals_app/Models/Goal.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../Screens/ArgumentPassThroughScreens/browseImageArguments.dart';

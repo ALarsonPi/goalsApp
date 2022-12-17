@@ -7,8 +7,8 @@ import 'package:goals_app/Screens/Goals/individualGoal.dart';
 import 'package:goals_app/Screens/Priorities/individualPriority.dart';
 import 'package:goals_app/global.dart';
 
-import '../../Objects/Goal.dart';
-import '../../Objects/Priority.dart';
+import '../../Models/Goal.dart';
+import '../../Models/Priority.dart';
 
 class PriorityExpandedList extends StatefulWidget {
   bool isInEditMode;

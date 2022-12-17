@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
-import 'package:goals_app/Objects/Priority.dart';
+import 'package:goals_app/Models/Priority.dart';
 import 'package:goals_app/Widgets/Priorities/priorityCard.dart';
 import 'package:goals_app/global.dart';
 import 'package:carousel_indicator/carousel_indicator.dart';

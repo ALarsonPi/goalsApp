@@ -1,4 +1,4 @@
-import 'package:goals_app/Objects/Goal.dart';
+import 'package:goals_app/Models/Goal.dart';
 
 class IndividualGoalArguments {
   final Goal currGoal;

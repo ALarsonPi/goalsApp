@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:goals_app/Objects/Goal.dart';
-import 'package:goals_app/Objects/IconsEnum.dart';
+import 'package:goals_app/Models/Goal.dart';
+import 'package:goals_app/Models/IconsEnum.dart';
 import 'package:goals_app/Widgets/Priorities/noGoalsPrompt.dart';
 
 import '../../global.dart';
@@ -46,6 +46,10 @@ class _NormalPriorityWidget extends State<NormalPriorityWidget> {
     });
   }
 
+  justSetState() {
+    setState(() {});
+  }
+
   getButtons() {
     if (myGoalButtons.isEmpty) {
       return NoGoalsPrompt(0);
@@ -89,6 +93,7 @@ class _NormalPriorityWidget extends State<NormalPriorityWidget> {
             Global.goalButtonsInGridView,
             widget.currentPriorityIndex,
             false,
+            setStateForParent: justSetState,
           ),
         );
       }

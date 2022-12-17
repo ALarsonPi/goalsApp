@@ -1,15 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:goals_app/Screens/ArgumentPassThroughScreens/newGoalArguements.dart';
-import 'package:goals_app/Screens/Goals/newGoalScreen.dart';
 import 'package:goals_app/Screens/Priorities/prioritiesHome.dart';
 import 'package:goals_app/Widgets/Priorities/normalPriorityWidget.dart';
 import 'package:goals_app/global.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../../Objects/Goal.dart';
+import '../../Models/Goal.dart';
 import '../../Widgets/Goals/goalButton.dart';
 import '../../Widgets/Priorities/editPriorityWidget.dart';
 import '../ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
@@ -225,12 +223,8 @@ class _IndividualPriority extends State<IndividualPriority> {
         : NormalPriorityWidget(args.index, true, buttons, false);
   }
 
-  goToNewGoalScreen() {
-    Navigator.pushNamed(
-      context,
-      NewGoalScreen.routeName,
-      arguments: NewGoalArguments(args.index, true),
-    );
+  justSetState() {
+    setState(() {});
   }
 
   @override
@@ -238,7 +232,13 @@ class _IndividualPriority extends State<IndividualPriority> {
     List<Goal> currentPriorityGoals = Global.userPriorities[args.index].goals;
     List<GoalButton> currGoalsButtons = List.empty(growable: true);
     for (Goal goal in currentPriorityGoals) {
-      currGoalsButtons.add(GoalButton(goal, true, args.index, false));
+      currGoalsButtons.add(GoalButton(
+        goal,
+        true,
+        args.index,
+        false,
+        setStateForParent: justSetState,
+      ));
     }
     return Container(
       constraints: const BoxConstraints.expand(),
@@ -251,10 +251,7 @@ class _IndividualPriority extends State<IndividualPriority> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.add),
-            onPressed: () => {
-                  goToNewGoalScreen(),
-                }),
+            child: const Icon(Icons.add), onPressed: () => {}),
         body: Column(
           children: [
             Container(
