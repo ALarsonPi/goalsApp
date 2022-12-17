@@ -4,10 +4,11 @@ import 'package:goals_app/Screens/Priorities/prioritiesHome.dart';
 import 'package:goals_app/Settings/PrimaryColorSwitcher.dart';
 import 'package:goals_app/Settings/ThemeSwitcher.dart';
 import 'package:goals_app/Settings/backgroundCarousel.dart';
+import 'package:goals_app/Settings/priorityImages.dart';
 
 import '../Models/PictureHolderObject.dart';
+import '../Settings/GlobalFileIO.dart';
 import '../Settings/global.dart';
-import '../Settings/priorityImages.dart';
 
 class SettingsScreen extends StatefulWidget {
   static const routeName = "/extractOptionsArguements";
@@ -33,7 +34,7 @@ class _SettingsScreen extends State<SettingsScreen> {
 
   void changeBackground() {
     setState(() {});
-    Global.writeBackgroundImage();
+    GlobalFileIO.writeBackgroundImage();
   }
 
   void changeColorMode() {
