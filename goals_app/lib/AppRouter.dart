@@ -9,12 +9,19 @@ import 'package:goals_app/Settings/globalThemes.dart';
 import 'package:provider/provider.dart';
 
 import 'Screens/Priorities/prioritiesHome.dart';
-import 'Settings/AppColors.dart';
+import 'Settings/GlobalFileIO.dart';
 import 'Settings/global.dart';
 
-class AppRouter extends StatelessWidget {
+class AppRouter extends StatefulWidget {
   const AppRouter({Key? key}) : super(key: key);
 
+  @override
+  State<StatefulWidget> createState() {
+    return _AppRouter();
+  }
+}
+
+class _AppRouter extends State<AppRouter> {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -24,7 +31,6 @@ class AppRouter extends StatelessWidget {
         )
       ],
       child: Consumer<ThemeProvider>(
-        child: const IndividualPriority(),
         builder: (c, themeProvider, child) {
           return MaterialApp(
             themeMode: Global.globalThemeProvider.selectedThemeMode,
