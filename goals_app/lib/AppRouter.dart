@@ -25,14 +25,13 @@ class AppRouter extends StatefulWidget {
 class _AppRouter extends State<AppRouter> {
   @override
   Widget build(BuildContext context) {
+    Provider.of<PriorityProvider>(context, listen: false)
+        .addPrioritiesFromListFromFile();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (_) => ThemeProvider(),
         ),
-        ChangeNotifierProvider(
-          create: (_) => PriorityProvider(),
-        )
       ],
       child: Consumer<ThemeProvider>(
         builder: (c, themeProvider, child) {

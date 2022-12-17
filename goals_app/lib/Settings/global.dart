@@ -28,6 +28,8 @@ class Global {
   static bool goalButtonsInGridView = false;
   static bool priorityIsInListView = false;
 
+  static List<Priority> listOfPrioritiesFromFile = List.empty(growable: true);
+
   static String currentBackgroundImage =
       PriorityImages.listOfBackgroundImages[4].url;
   static BackgroundImageHolder backgroundImageIndexes = BackgroundImageHolder();

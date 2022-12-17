@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goals_app/Settings/global.dart';
 import '../Models/Goal.dart';
 import '../Models/Priority.dart';
 import '../Settings/GlobalFileIO.dart';
@@ -8,6 +9,12 @@ class PriorityProvider extends ChangeNotifier {
 
   writeCurrPrioritiesToFile() {
     GlobalFileIO.writePrioritiesToMemory(priorities);
+  }
+
+  int addPrioritiesFromListFromFile() {
+    priorities.addAll(Global.listOfPrioritiesFromFile);
+    debugPrint(Global.listOfPrioritiesFromFile.length.toString());
+    return Global.listOfPrioritiesFromFile.length;
   }
 
   movePriority(Priority priorityToMove, Priority otherPriority) {
@@ -209,37 +216,6 @@ class PriorityProvider extends ChangeNotifier {
     priorities.removeAt(indexOfPriorityToRemove);
     writeCurrPrioritiesToFile();
     notifyListeners();
-  }
-
-  populatePrioritiesForFirstTimeUser() {
-    List<Goal> emptyGoalsList = List.empty(growable: true);
-
-    List<Priority> firstTimePriorities = [
-      Priority(
-          "Social",
-          "https://images.unsplash.com/photo-1619537903549-0981d6bca911?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-          emptyGoalsList,
-          0),
-      Priority(
-          "Physical",
-          "https://images.unsplash.com/photo-1502224562085-639556652f33?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cnVufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-          emptyGoalsList,
-          1),
-      Priority(
-          "Intellectual",
-          "https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-          emptyGoalsList,
-          2),
-      Priority("Emotional", "https://placedog.net/900/1200?id=36",
-          emptyGoalsList, 3),
-      Priority(
-          "Spiritual",
-          "https://images.unsplash.com/photo-1657199372069-bd8cb49315c4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
-          emptyGoalsList,
-          4),
-    ];
-
-    setAllPriorities(firstTimePriorities);
   }
 
   updatePriorityIndexes() {

@@ -21,26 +21,35 @@ class GlobalFileIO {
   static const String lightDarkFile = "lightDark.txt";
   static const String primaryColorFile = "primaryColor.txt";
 
-  writePrioritiesFirstTime(BuildContext context) async {
-    Provider.of<PriorityProvider>(context, listen: false).priorities = [];
+  static populatePrioritiesForFirstTimeUser() {
+    List<Goal> emptyGoalsList = List.empty(growable: true);
 
-    bool isFirstTime = true;
-    String isFirstTimeFromFile = "";
+    List<Priority> firstTimePriorities = [
+      Priority(
+          "Social",
+          "https://images.unsplash.com/photo-1619537903549-0981d6bca911?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+          emptyGoalsList,
+          0),
+      Priority(
+          "Physical",
+          "https://images.unsplash.com/photo-1502224562085-639556652f33?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cnVufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
+          emptyGoalsList,
+          1),
+      Priority(
+          "Intellectual",
+          "https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+          emptyGoalsList,
+          2),
+      Priority("Emotional", "https://placedog.net/900/1200?id=36",
+          emptyGoalsList, 3),
+      Priority(
+          "Spiritual",
+          "https://images.unsplash.com/photo-1657199372069-bd8cb49315c4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+          emptyGoalsList,
+          4),
+    ];
 
-    //First time is either null or '1'
-    await readFile(firstTimeFile).then((value) {
-      isFirstTimeFromFile = value;
-    });
-    if (isFirstTimeFromFile == "1") {
-      isFirstTime = false;
-    } else {
-      await writeFirstTime();
-    }
-
-    if (isFirstTime) {
-      Provider.of<PriorityProvider>(context, listen: false)
-          .populatePrioritiesForFirstTimeUser();
-    }
+    Global.listOfPrioritiesFromFile.addAll(firstTimePriorities);
   }
 
   static writeFilesFirstTime() async {
@@ -48,6 +57,7 @@ class GlobalFileIO {
     Global.backgroundImageIndexes.darkModeIndex = 0;
     Global.isDarkMode = 0;
     Global.currentPrimaryColor = 0;
+    populatePrioritiesForFirstTimeUser();
     await writeBackgroundImage();
     await writeDarkMode();
     await writePrimaryColor();
@@ -69,6 +79,8 @@ class GlobalFileIO {
 
     if (isFirstTime) {
       writeFilesFirstTime();
+    } else {
+      Global.listOfPrioritiesFromFile.addAll(await getPrioritiesFromFile());
     }
 
     await readLightDarkMode();
@@ -76,10 +88,10 @@ class GlobalFileIO {
     await readPrimaryColorFile();
   }
 
-  static List<Priority> getPrioritiesFromFile() {
+  static Future<List<Priority>> getPrioritiesFromFile() async {
     List<Priority> prioritiesFromFile = List.empty(growable: true);
 
-    readPriorities().then(
+    await readPriorities().then(
       (value) {
         if (value is! String) {
           for (var element in value) {
