@@ -127,7 +127,8 @@ class _NewPriorityScreen extends State<NewPriorityScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String textInTextField = "";
+    int numProviders =
+        Provider.of<PriorityProvider>(context, listen: false).priorities.length;
     return Container(
       constraints: BoxConstraints.tight(Size(1400, 1400)),
       decoration: BoxDecoration(
@@ -289,8 +290,7 @@ class _NewPriorityScreen extends State<NewPriorityScreen> {
                                                 .validate())
                                               {
                                                 newPriority.priorityIndex =
-                                                    Global
-                                                        .userPriorities.length,
+                                                    numProviders,
                                                 Provider.of<PriorityProvider>(
                                                         context,
                                                         listen: false)
@@ -301,10 +301,9 @@ class _NewPriorityScreen extends State<NewPriorityScreen> {
                                                     builder: (BuildContext
                                                             context) =>
                                                         PriorityHomeScreen
-                                                            .fromOtherRoute(Global
-                                                                    .userPriorities
-                                                                    .length -
-                                                                1),
+                                                            .fromOtherRoute(
+                                                                numProviders -
+                                                                    1),
                                                   ),
                                                 ),
                                               }

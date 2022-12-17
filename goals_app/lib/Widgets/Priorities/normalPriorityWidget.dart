@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:goals_app/Models/Goal.dart';
 import 'package:goals_app/Models/IconsEnum.dart';
 import 'package:goals_app/Widgets/Priorities/noGoalsPrompt.dart';
+import 'package:provider/provider.dart';
 
+import '../../Models/Priority.dart';
+import '../../Providers/PriorityProvider.dart';
 import '../../Settings/global.dart';
 import 'gridListIconRow.dart';
 
@@ -31,6 +34,11 @@ class _NormalPriorityWidget extends State<NormalPriorityWidget> {
 
   @override
   Widget build(BuildContext context) {
+    Priority currPriority =
+        Provider.of<PriorityProvider>(context, listen: false)
+            .priorities
+            .elementAt(widget.currentPriorityIndex);
+
     int numSubGoalsCompleted = 0;
     if (widget.goals != null) {
       int? numGoals = widget.goals?.length;
@@ -51,7 +59,7 @@ class _NormalPriorityWidget extends State<NormalPriorityWidget> {
             padding: const EdgeInsets.only(left: 8.0, top: 8.0),
             child: Center(
               child: Text(
-                Global.userPriorities[widget.currentPriorityIndex].name,
+                currPriority.name,
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
             ),

@@ -2,11 +2,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:goals_app/Models/Priority.dart';
+import 'package:goals_app/Providers/PriorityProvider.dart';
 import 'package:goals_app/Widgets/Priorities/priorityCard.dart';
 import 'package:goals_app/Settings/global.dart';
-import 'package:carousel_indicator/carousel_indicator.dart';
 import 'package:page_view_indicators/circle_page_indicator.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:provider/provider.dart';
 
 class PriorityCarousel extends StatefulWidget {
   Function notifyParentOfSlideChange;
@@ -38,7 +38,8 @@ class _PriorityCarousel extends State<PriorityCarousel> {
   Widget build(BuildContext context) {
     Set items = {};
     int index = 0;
-    for (Priority priority in Global.userPriorities) {
+    for (Priority priority
+        in Provider.of<PriorityProvider>(context, listen: false).priorities) {
       items.add(
         PriorityCard(priority.imageUrl, index, priority.name,
             widget.notifyParentOfLongHold),
@@ -79,7 +80,9 @@ class _PriorityCarousel extends State<PriorityCarousel> {
           height: 20,
         ),
         CirclePageIndicator(
-          itemCount: Global.userPriorities.length,
+          itemCount: Provider.of<PriorityProvider>(context, listen: false)
+              .priorities
+              .length,
           currentPageNotifier: _currentPageNotifier,
           dotColor: Theme.of(context)
               .textTheme

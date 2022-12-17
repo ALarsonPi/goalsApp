@@ -5,9 +5,11 @@ import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualGoalArgum
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
 import 'package:goals_app/Screens/Priorities/individualPriority.dart';
 import 'package:goals_app/Settings/global.dart';
+import 'package:provider/provider.dart';
 
 import '../../Models/Goal.dart';
 import '../../Models/Priority.dart';
+import '../../Providers/PriorityProvider.dart';
 
 class PriorityExpandedList extends StatefulWidget {
   bool isInEditMode;
@@ -32,7 +34,12 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
 
   @override
   void initState() {
-    for (int i = 0; i < Global.userPriorities.length; i++) {
+    for (int i = 0;
+        i <
+            Provider.of<PriorityProvider>(context, listen: false)
+                .priorities
+                .length;
+        i++) {
       isExpanded.add(false);
     }
     super.initState();
@@ -175,7 +182,8 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
     if (widget.currSubGoals != null) {
       listToUse = widget.currSubGoals;
     } else {
-      listToUse = Global.userPriorities;
+      listToUse =
+          Provider.of<PriorityProvider>(context, listen: false).priorities;
     }
 
     return PageStorage(
@@ -259,14 +267,14 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
         onReorder: (int oldIndex, int newIndex) {
           setState(() {
             if (widget.isPriority) {
-              if (newIndex > oldIndex) newIndex--;
-              final temp = Global.userPriorities[oldIndex];
-              Global.userPriorities[oldIndex] = Global.userPriorities[newIndex];
-              Global.userPriorities[newIndex] = temp;
+              // if (newIndex > oldIndex) newIndex--;
+              // final temp = Global.userPriorities[oldIndex];
+              // Global.userPriorities[oldIndex] = Global.userPriorities[newIndex];
+              // Global.userPriorities[newIndex] = temp;
 
-              final temp2 = isExpanded[oldIndex];
-              isExpanded[oldIndex] = isExpanded[newIndex];
-              isExpanded[newIndex] = temp2;
+              // final temp2 = isExpanded[oldIndex];
+              // isExpanded[oldIndex] = isExpanded[newIndex];
+              // isExpanded[newIndex] = temp2;
               //Global.updatePriorityIndexes();
             }
           });

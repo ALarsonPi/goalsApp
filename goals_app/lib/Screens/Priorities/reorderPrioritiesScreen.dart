@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:goals_app/Models/Priority.dart';
+import 'package:goals_app/Providers/PriorityProvider.dart';
 import 'package:goals_app/Screens/Priorities/individualPriority.dart';
-import 'package:goals_app/Widgets/Priorities/roundedCard.dart';
-import 'package:goals_app/Settings/global.dart';
+import 'package:provider/provider.dart';
 import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
 import '../ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
@@ -12,7 +12,7 @@ import '../ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
 class ReorderableGridOfCards extends StatefulWidget {
   Function notifyParentOfLongHold;
 
-  ReorderableGridOfCards(this.notifyParentOfLongHold);
+  ReorderableGridOfCards(this.notifyParentOfLongHold, {super.key});
 
   @override
   _ReorderableGridOfCardsState createState() => _ReorderableGridOfCardsState();
@@ -36,14 +36,17 @@ class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
   @override
   Widget build(BuildContext context) {
     _columns = <Widget>[
-      for (Priority priority in Global.userPriorities)
+      for (Priority priority
+          in Provider.of<PriorityProvider>(context, listen: false).priorities)
         GestureDetector(
           onTap: () => {
             Navigator.pushNamed(
               context,
               IndividualPriority.routeName,
               arguments: IndividualPriorityArgumentScreen(
-                  Global.userPriorities.indexOf(priority)),
+                  Provider.of<PriorityProvider>(context, listen: false)
+                      .priorities
+                      .indexOf(priority)),
             ),
           },
           key: ValueKey(priority.name),

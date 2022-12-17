@@ -24,7 +24,6 @@ class Global {
   static bool isPhone = Device.get().isPhone;
   static double toolbarHeight = (isPhone) ? 65.0 : 85.0;
   static double buttonHeight = (isPhone) ? 40.0 : 60.0;
-  static List<Priority> userPriorities = List.empty(growable: true);
   static CustomStack<Goal> depthStack = CustomStack();
   static bool goalButtonsInGridView = false;
   static bool priorityIsInListView = false;

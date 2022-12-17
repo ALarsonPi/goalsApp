@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:goals_app/Models/Goal.dart';
+import 'package:goals_app/Providers/PriorityProvider.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
+import '../../Models/Priority.dart';
 import '../../Screens/ArgumentPassThroughScreens/browseImageArguments.dart';
 import '../../Screens/browseImages.dart';
 import '../../Settings/global.dart';
@@ -38,6 +41,11 @@ class EditPriorityWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Priority currPriority =
+        Provider.of<PriorityProvider>(context, listen: false)
+            .priorities
+            .elementAt(currentPriorityIndex);
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -94,7 +102,7 @@ class EditPriorityWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Center(
                   child: Text(
-                    Global.userPriorities[currentPriorityIndex].name,
+                    currPriority.name,
                     style: Theme.of(context).textTheme.headlineLarge,
                   ),
                 ),
@@ -106,7 +114,7 @@ class EditPriorityWidget extends StatelessWidget {
                   controller: myController,
                   autovalidateMode: AutovalidateMode.always,
                   decoration: InputDecoration(
-                    hintText: Global.userPriorities[currentPriorityIndex].name,
+                    hintText: currPriority.name,
                     labelText: "Edit Priority Name",
                     labelStyle: Theme.of(context).textTheme.displaySmall,
                     fillColor: Colors.white,

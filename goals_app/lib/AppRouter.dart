@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goals_app/Providers/PriorityProvider.dart';
 import 'package:goals_app/Screens/Priorities/newPriority.dart';
 import 'package:goals_app/Screens/Priorities/individualPriority.dart';
 import 'package:goals_app/Screens/browseImages.dart';
@@ -28,6 +29,9 @@ class _AppRouter extends State<AppRouter> {
       providers: [
         ChangeNotifierProvider(
           create: (_) => ThemeProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => PriorityProvider(),
         )
       ],
       child: Consumer<ThemeProvider>(
@@ -63,8 +67,7 @@ class _AppRouter extends State<AppRouter> {
             ),
             initialRoute: '/',
             routes: {
-              //Global
-              '/': (context) => SplashScreen(),
+              '/': (context) => const SplashScreen(),
               '/priority-home': (context) => PriorityHomeScreen(),
               '/new-priority': (context) => NewPriorityScreen(),
               SettingsScreen.routeName: ((context) => const SettingsScreen()),

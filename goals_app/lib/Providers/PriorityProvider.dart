@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import '../Models/Goal.dart';
 import '../Models/Priority.dart';
+import '../Settings/GlobalFileIO.dart';
 
 class PriorityProvider extends ChangeNotifier {
   List<Priority> priorities = List.empty(growable: true);
 
   writeCurrPrioritiesToFile() {
-    //sGlobalFileIO.writePrioritiesToMemory(priorities);
+    GlobalFileIO.writePrioritiesToMemory(priorities);
   }
 
   movePriority(Priority priorityToMove, Priority otherPriority) {

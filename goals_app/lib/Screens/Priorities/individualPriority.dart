@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:goals_app/Models/Priority.dart';
 import 'package:goals_app/Providers/PriorityProvider.dart';
 import 'package:goals_app/Screens/Priorities/prioritiesHome.dart';
 import 'package:goals_app/Widgets/Priorities/normalPriorityWidget.dart';
@@ -48,22 +49,30 @@ class _IndividualPriority extends State<IndividualPriority> {
     super.initState();
   }
 
+  late Priority currPriority;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    currPriority = Provider.of<PriorityProvider>(context, listen: false)
+        .priorities
+        .elementAt(args.index);
+  }
+
   bool recievedNewBrowsedImage = false;
   getImageWidget() {
     if (!recievedNewBrowsedImage && _selectedFile != null) {
-      Global.userPriorities[args.index].imageUrl = _selectedFile!.path;
+      currPriority.imageUrl = _selectedFile!.path;
     }
     recievedNewBrowsedImage = false;
 
-    if (Global.userPriorities[args.index].imageUrl
-        .toString()
-        .contains("http")) {
+    if (currPriority.imageUrl.toString().contains("http")) {
       return NetworkImage(
-        Global.userPriorities[args.index].imageUrl,
+        currPriority.imageUrl,
       );
     } else {
       return FileImage(
-        File(Global.userPriorities[args.index].imageUrl),
+        File(currPriority.imageUrl),
       );
     }
   }
@@ -127,8 +136,7 @@ class _IndividualPriority extends State<IndividualPriority> {
                     onPressed: () async => {
                       await Provider.of<PriorityProvider>(context,
                               listen: false)
-                          .removePriority(
-                              Global.userPriorities.elementAt(args.index)),
+                          .removePriority(currPriority),
                       Navigator.push<void>(
                         context,
                         MaterialPageRoute<void>(
@@ -179,15 +187,15 @@ class _IndividualPriority extends State<IndividualPriority> {
   changeImage(String newURL) {
     setState(() {
       recievedNewBrowsedImage = true;
-      Global.userPriorities[args.index].setImageUrl(newURL);
-      Global.userPriorities[args.index].imageUrl = newURL;
+      currPriority.setImageUrl(newURL);
+      currPriority.imageUrl = newURL;
     });
   }
 
   saveTitleTextChanges(String newTitle) {
     setState(() {
-      Global.userPriorities[args.index].setName(newTitle);
-      Global.userPriorities[args.index].name = newTitle;
+      currPriority.setName(newTitle);
+      currPriority.name = newTitle;
     });
   }
 
@@ -232,7 +240,7 @@ class _IndividualPriority extends State<IndividualPriority> {
 
   @override
   Widget build(BuildContext context) {
-    List<Goal> currentPriorityGoals = Global.userPriorities[args.index].goals;
+    List<Goal> currentPriorityGoals = currPriority.goals;
     return Container(
       constraints: const BoxConstraints.expand(),
       decoration: BoxDecoration(

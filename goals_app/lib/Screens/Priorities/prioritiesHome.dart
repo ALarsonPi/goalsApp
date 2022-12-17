@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
+import 'package:goals_app/Providers/PriorityProvider.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/settingsScreenArguements.dart';
 import 'package:goals_app/Screens/Priorities/reorderPrioritiesScreen.dart';
-import 'package:goals_app/Screens/settingsScreen.dart';
 import 'package:goals_app/Widgets/Priorities/noGoalsPrompt.dart';
 import 'package:goals_app/Models/IconsEnum.dart';
 import 'package:goals_app/Models/Priority.dart';
 import 'package:goals_app/Widgets/Priorities/gridListIconRow.dart';
 import 'package:goals_app/Widgets/Priorities/priorityCarousel.dart';
 import 'package:goals_app/Widgets/Priorities/priorityExpandedList.dart';
-import '../../Settings/GlobalFileIO.dart';
+import 'package:provider/provider.dart';
+
 import '../../Settings/global.dart';
+import '../settingsScreen.dart';
 
 class PriorityHomeScreen extends StatefulWidget {
   PriorityHomeScreen({Key? key}) : super(key: key);
@@ -34,7 +36,8 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
   @override
   void initState() {
     priorities.clear();
-    priorities = Global.userPriorities;
+    priorities =
+        Provider.of<PriorityProvider>(context, listen: false).priorities;
     priorities.sort((a, b) => a.priorityIndex.compareTo(b.priorityIndex));
 
     if (widget.currentStartIndex != 0) {
@@ -45,20 +48,11 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
 
   @override
   void didChangeDependencies() {
-    priorities = Global.userPriorities;
+    priorities =
+        Provider.of<PriorityProvider>(context, listen: false).priorities;
     priorities.sort((a, b) => a.priorityIndex.compareTo(b.priorityIndex));
 
     super.didChangeDependencies();
-  }
-
-  void saveAndDelete(List<Priority> prioritiesToSave) {
-    setState(() {
-      isEdit = !isEdit;
-      Global.userPriorities.clear();
-      for (var priority in prioritiesToSave) {
-        Global.userPriorities.add(priority);
-      }
-    });
   }
 
   setListViewState(bool isList) {
@@ -98,7 +92,9 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
     return IconButton(
       padding: const EdgeInsets.only(right: 8.0),
       constraints: const BoxConstraints(),
-      onPressed: () => {goToAddPrioritiesScreen()},
+      onPressed: () => {
+        goToAddPrioritiesScreen(),
+      },
       icon: const Icon(
         Icons.add,
         color: Colors.white,
@@ -118,7 +114,7 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
       },
       icon: Icon(
         Icons.settings,
-        color: Theme.of(context).iconTheme.color,
+        color: Theme.of(context).textTheme.displayMedium?.color,
       ),
     );
   }
@@ -136,9 +132,11 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
   }
 
   bool isBeingLongHeld = false;
-  void changeLongHoldStatus() {
+  int currSlideBeingHeld = -1;
+  void changeLongHoldStatus(int longHeldElement) {
     setState(() {
       isBeingLongHeld = !isBeingLongHeld;
+      currSlideBeingHeld = longHeldElement;
     });
   }
 
@@ -207,7 +205,9 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
                       : MediaQuery.of(context).size.height * 0.05,
             ),
           Expanded(
-            child: (Global.userPriorities.isNotEmpty)
+            child: (Provider.of<PriorityProvider>(context, listen: true)
+                    .priorities
+                    .isNotEmpty)
                 ? Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -235,9 +235,11 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
                                               ? PriorityCarousel(
                                                   currentDisplayIndex,
                                                   getNotificationFromChildOfSlideChange,
-                                                  changeLongHoldStatus)
+                                                  changeLongHoldStatus,
+                                                )
                                               : ReorderableGridOfCards(
-                                                  changeLongHoldStatusAndGoToSlideAt),
+                                                  changeLongHoldStatusAndGoToSlideAt,
+                                                ),
                                         ),
                                       ),
                                     ],

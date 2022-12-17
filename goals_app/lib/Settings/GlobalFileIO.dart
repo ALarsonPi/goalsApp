@@ -21,8 +21,9 @@ class GlobalFileIO {
   static const String lightDarkFile = "lightDark.txt";
   static const String primaryColorFile = "primaryColor.txt";
 
-  static getPrioritiesFromFile(BuildContext context) async {
+  writePrioritiesFirstTime(BuildContext context) async {
     Provider.of<PriorityProvider>(context, listen: false).priorities = [];
+
     bool isFirstTime = true;
     String isFirstTimeFromFile = "";
 
@@ -37,23 +38,48 @@ class GlobalFileIO {
     }
 
     if (isFirstTime) {
-      // ignore: use_build_context_synchronously
       Provider.of<PriorityProvider>(context, listen: false)
           .populatePrioritiesForFirstTimeUser();
-      Global.backgroundImageIndexes.lightModeIndex = 0;
-      Global.backgroundImageIndexes.darkModeIndex = 0;
-      Global.isDarkMode = 0;
-      Global.currentPrimaryColor = 0;
-      await writeBackgroundImage();
-      await writeDarkMode();
-      await writePrimaryColor();
+    }
+  }
+
+  static writeFilesFirstTime() async {
+    Global.backgroundImageIndexes.lightModeIndex = 0;
+    Global.backgroundImageIndexes.darkModeIndex = 0;
+    Global.isDarkMode = 0;
+    Global.currentPrimaryColor = 0;
+    await writeBackgroundImage();
+    await writeDarkMode();
+    await writePrimaryColor();
+  }
+
+  static readFiles() async {
+    bool isFirstTime = true;
+    String isFirstTimeFromFile = "";
+
+    //First time is either null or '1'
+    await readFile(firstTimeFile).then((value) {
+      isFirstTimeFromFile = value;
+    });
+    if (isFirstTimeFromFile == "1") {
+      isFirstTime = false;
+    } else {
+      await writeFirstTime();
+    }
+
+    if (isFirstTime) {
+      writeFilesFirstTime();
     }
 
     await readLightDarkMode();
     await readBackgroundFile();
     await readPrimaryColorFile();
+  }
 
-    await readPriorities().then(
+  static List<Priority> getPrioritiesFromFile() {
+    List<Priority> prioritiesFromFile = List.empty(growable: true);
+
+    readPriorities().then(
       (value) {
         if (value is! String) {
           for (var element in value) {
@@ -68,12 +94,13 @@ class GlobalFileIO {
             Priority newPriority =
                 Priority(name, imageUrl, goals, priorityIndex);
 
-            Provider.of<PriorityProvider>(context, listen: false)
-                .addPriority(newPriority);
+            prioritiesFromFile.add(newPriority);
           }
         }
       },
     );
+
+    return prioritiesFromFile;
   }
 
   static Future<String> get _localPath async {
