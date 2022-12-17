@@ -7,6 +7,7 @@ import 'package:goals_app/Settings/backgroundCarousel.dart';
 
 import '../Models/PictureHolderObject.dart';
 import '../Settings/global.dart';
+import '../Settings/priorityImages.dart';
 
 class SettingsScreen extends StatefulWidget {
   static const routeName = "/extractOptionsArguements";
@@ -39,11 +40,11 @@ class _SettingsScreen extends State<SettingsScreen> {
     refreshBackgroundImages();
 
     if (Global.isDarkMode == 0) {
-      Global.currentBackgroundImage = Global
+      Global.currentBackgroundImage = PriorityImages
           .listOfBackgroundImages[Global.backgroundImageIndexes.lightModeIndex]
           .url;
     } else if (Global.isDarkMode == 1) {
-      Global.currentBackgroundImage = Global
+      Global.currentBackgroundImage = PriorityImages
           .listOfDarkmodeBackgroundImages[
               Global.backgroundImageIndexes.darkModeIndex]
           .url;
@@ -54,8 +55,8 @@ class _SettingsScreen extends State<SettingsScreen> {
 
   void refreshBackgroundImages() {
     List<pictureHolder> backgroundImages = (Global.isDarkMode == 0)
-        ? Global.listOfBackgroundImages
-        : Global.listOfDarkmodeBackgroundImages;
+        ? PriorityImages.listOfBackgroundImages
+        : PriorityImages.listOfDarkmodeBackgroundImages;
     backgroundImageUrls.clear();
     for (pictureHolder holder in backgroundImages) {
       backgroundImageUrls.add(holder.url);
