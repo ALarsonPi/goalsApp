@@ -20,7 +20,9 @@ Future<void> main() async {
 
   runApp(
     ChangeNotifierProvider(
-      create: (_) => PriorityProvider(),
+      create: (_) {
+        return PriorityProvider();
+      },
       child: const AppRouter(),
     ),
   );

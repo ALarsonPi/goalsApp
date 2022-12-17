@@ -43,8 +43,9 @@ class RoundedCard extends StatelessWidget {
                       child: currImage,
                     ),
                     SizedBox(
-                      height:
-                          constraints.constrainHeight() - ((isSmall) ? 10 : 20),
+                      height: (isSmall)
+                          ? constraints.constrainHeight() * 0.3
+                          : constraints.constrainHeight() * 0.25,
                       width: constraints.constrainWidth(),
                       child: ListView(
                         shrinkWrap: true,
