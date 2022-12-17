@@ -11,10 +11,9 @@ class PriorityProvider extends ChangeNotifier {
     GlobalFileIO.writePrioritiesToMemory(priorities);
   }
 
-  int addPrioritiesFromListFromFile() {
+  addPrioritiesFromListFromFile() {
+    priorities.clear();
     priorities.addAll(Global.listOfPrioritiesFromFile);
-    debugPrint(Global.listOfPrioritiesFromFile.length.toString());
-    return Global.listOfPrioritiesFromFile.length;
   }
 
   movePriority(Priority priorityToMove, Priority otherPriority) {

@@ -132,11 +132,9 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
   }
 
   bool isBeingLongHeld = false;
-  int currSlideBeingHeld = -1;
-  void changeLongHoldStatus(int longHeldElement) {
+  void changeLongHoldStatus() {
     setState(() {
       isBeingLongHeld = !isBeingLongHeld;
-      currSlideBeingHeld = longHeldElement;
     });
   }
 
