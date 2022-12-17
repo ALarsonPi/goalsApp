@@ -8,7 +8,6 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../Models/Goal.dart';
-import '../../Widgets/Goals/goalButton.dart';
 import '../../Widgets/Priorities/editPriorityWidget.dart';
 import '../ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
 
@@ -230,16 +229,6 @@ class _IndividualPriority extends State<IndividualPriority> {
   @override
   Widget build(BuildContext context) {
     List<Goal> currentPriorityGoals = Global.userPriorities[args.index].goals;
-    List<GoalButton> currGoalsButtons = List.empty(growable: true);
-    for (Goal goal in currentPriorityGoals) {
-      currGoalsButtons.add(GoalButton(
-        goal,
-        true,
-        args.index,
-        false,
-        setStateForParent: justSetState,
-      ));
-    }
     return Container(
       constraints: const BoxConstraints.expand(),
       decoration: BoxDecoration(

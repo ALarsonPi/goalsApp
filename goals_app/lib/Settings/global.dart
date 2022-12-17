@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:goals_app/Settings/ThemeSwitcher.dart';
 import 'package:path_provider/path_provider.dart';
+import '../Models/BackgroundImageInfo.dart';
+import '../Models/CustomStack.dart';
+import '../Models/PictureHolderObject.dart';
 import '../Models/Priority.dart';
 import '../Models/Goal.dart';
 import 'AppColors.dart';
@@ -617,53 +620,4 @@ class Global {
       },
     );
   }
-}
-
-class BackgroundImageHolder {
-  int lightModeIndex = 0;
-  int darkModeIndex = 0;
-
-  BackgroundImageHolder({lightIndex, darkIndex}) {
-    if (lightIndex == null && darkIndex == null) {
-      lightModeIndex = 0;
-      darkModeIndex = 0;
-    } else {
-      lightModeIndex = lightIndex;
-      darkModeIndex = darkIndex;
-    }
-  }
-
-  Map<String, dynamic> toJson() => {
-        'lightIndex': lightModeIndex,
-        'darkIndex': darkModeIndex,
-      };
-
-  factory BackgroundImageHolder.fromJson(Map<String, dynamic> json) {
-    return BackgroundImageHolder(
-      lightIndex: json['lightIndex'],
-      darkIndex: json['darkIndex'],
-    );
-  }
-}
-
-class pictureHolder {
-  String url;
-  String description;
-  pictureHolder(this.url, this.description);
-}
-
-class CustomStack<E> {
-  final _list = List.empty(growable: true);
-
-  void push(E value) => _list.add(value);
-
-  E pop() => _list.removeLast();
-
-  E get top => _list.last;
-
-  bool get isEmpty => _list.isEmpty;
-  bool get isNotEmpty => _list.isNotEmpty;
-
-  @override
-  String toString() => _list.toString();
 }

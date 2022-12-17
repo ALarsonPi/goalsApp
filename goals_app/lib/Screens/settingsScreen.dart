@@ -5,6 +5,7 @@ import 'package:goals_app/Settings/PrimaryColorSwitcher.dart';
 import 'package:goals_app/Settings/ThemeSwitcher.dart';
 import 'package:goals_app/Settings/backgroundCarousel.dart';
 
+import '../Models/PictureHolderObject.dart';
 import '../Settings/global.dart';
 
 class SettingsScreen extends StatefulWidget {
