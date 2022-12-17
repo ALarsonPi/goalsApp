@@ -267,15 +267,9 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
         onReorder: (int oldIndex, int newIndex) {
           setState(() {
             if (widget.isPriority) {
-              // if (newIndex > oldIndex) newIndex--;
-              // final temp = Global.userPriorities[oldIndex];
-              // Global.userPriorities[oldIndex] = Global.userPriorities[newIndex];
-              // Global.userPriorities[newIndex] = temp;
-
-              // final temp2 = isExpanded[oldIndex];
-              // isExpanded[oldIndex] = isExpanded[newIndex];
-              // isExpanded[newIndex] = temp2;
-              //Global.updatePriorityIndexes();
+              if (newIndex < 0) newIndex = 0;
+              Provider.of<PriorityProvider>(context, listen: false)
+                  .movePriorityToExpanded(oldIndex, newIndex - 1);
             }
           });
         },

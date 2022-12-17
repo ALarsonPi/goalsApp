@@ -30,6 +30,16 @@ class PriorityProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  movePriorityToExpanded(int oldIndex, int newIndex) {
+    if (newIndex == priorities.length) newIndex--;
+    if (newIndex < oldIndex) newIndex++;
+    Priority currPriority = priorities.elementAt(oldIndex);
+    removePriorityAt(oldIndex);
+    addPriorityAt(newIndex, currPriority);
+    updatePriorityIndexes();
+    notifyListeners();
+  }
+
   swapPriorities(Priority priorityOne, Priority priorityTwo) {
     swapPrioritiesAt(
         priorities.indexOf(priorityOne), priorities.indexOf(priorityTwo));

@@ -111,11 +111,11 @@ class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
         )
     ];
 
-    void _onReorder(int oldIndex, int newIndex) {
+    void onReorder(int oldIndex, int newIndex) {
       if (oldIndex != newIndex) {
         setState(() {
-          // Priority currPriority = Global.userPriorities.removeAt(oldIndex);
-          // Global.userPriorities.insert(newIndex, currPriority);
+          Provider.of<PriorityProvider>(context, listen: false)
+              .movePriorityTo(oldIndex, newIndex);
         });
       }
     }
@@ -129,7 +129,7 @@ class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
         mainAxisSpacing: 6,
         crossAxisCount: 2,
         padding: EdgeInsets.zero,
-        onReorder: _onReorder,
+        onReorder: onReorder,
         children: _columns,
       ),
     );
