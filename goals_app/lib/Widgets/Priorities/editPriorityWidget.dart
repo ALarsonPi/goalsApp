@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../Screens/ArgumentPassThroughScreens/browseImageArguments.dart';
 import '../../Screens/browseImages.dart';
-import '../../global.dart';
+import '../../Settings/global.dart';
 
 class EditPriorityWidget extends StatelessWidget {
   Function changeParentImage;

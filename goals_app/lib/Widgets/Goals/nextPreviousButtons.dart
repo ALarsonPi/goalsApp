@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:goals_app/global.dart';
+import 'package:goals_app/Settings/global.dart';
 
 class NextPreviousButtons extends StatefulWidget {
   final int firstIndex;

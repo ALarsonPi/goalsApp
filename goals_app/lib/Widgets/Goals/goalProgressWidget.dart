@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../Models/Goal.dart';
 import '../../Models/IconsEnum.dart';
-import '../../global.dart';
+import '../../Settings/global.dart';
 import '../Priorities/gridListIconRow.dart';
 
 class GoalProgressWidget extends StatefulWidget {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:goals_app/Models/Priority.dart';
 import 'package:goals_app/Widgets/Priorities/priorityCard.dart';
-import 'package:goals_app/global.dart';
+import 'package:goals_app/Settings/global.dart';
 import 'package:carousel_indicator/carousel_indicator.dart';
 import 'package:page_view_indicators/circle_page_indicator.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';

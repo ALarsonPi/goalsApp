@@ -5,7 +5,7 @@ import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualPriorityA
 import 'package:goals_app/Widgets/Priorities/roundedCard.dart';
 
 import '../../Screens/Priorities/individualPriority.dart';
-import '../../global.dart';
+import '../../Settings/global.dart';
 
 class PriorityCard extends StatelessWidget {
   final String imageURL;

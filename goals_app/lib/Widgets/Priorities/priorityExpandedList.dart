@@ -3,9 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualGoalArguments.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';
-import 'package:goals_app/Screens/Goals/individualGoal.dart';
 import 'package:goals_app/Screens/Priorities/individualPriority.dart';
-import 'package:goals_app/global.dart';
+import 'package:goals_app/Settings/global.dart';
 
 import '../../Models/Goal.dart';
 import '../../Models/Priority.dart';
@@ -74,7 +73,7 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
                     : Colors.grey,
               ),
               onTap: () => {
-                navigateToGoal(subGoal),
+                // navigateToGoal(subGoal),
               },
               title: Text(
                 "Goal: ${subGoal.name}     (${subGoal.goalProgress}/${subGoal.goalTarget})",
@@ -89,18 +88,6 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
       }
     }
     return contentToReturn;
-  }
-
-  navigateToGoal(Goal goalToNavTo) {
-    Navigator.pushNamed(
-      context,
-      IndividualGoal.routeName,
-      arguments: IndividualGoalArguments(
-        goalToNavTo,
-        goalToNavTo.currPriorityIndex,
-        true,
-      ),
-    );
   }
 
   navigateToPriority(Priority priorityToNavTo) {
@@ -137,7 +124,7 @@ class _PriorityExpandedList extends State<PriorityExpandedList> {
         : GestureDetector(
             onTap: () {
               if (priorityOrGoal is Goal) {
-                navigateToGoal(priorityOrGoal);
+                // navigateToGoal(priorityOrGoal);
               }
             },
             child: const Icon(Icons.web_rounded));

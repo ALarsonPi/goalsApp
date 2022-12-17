@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:goals_app/global.dart';
+import 'package:goals_app/Settings/global.dart';
 
 class BackgroundCarousel extends StatefulWidget {
   List<String> urls;

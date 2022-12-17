@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:goals_app/global.dart';
+import 'package:goals_app/Settings/global.dart';
 import '../../Models/IconsEnum.dart';
 
 class GridListIconRow extends StatefulWidget {

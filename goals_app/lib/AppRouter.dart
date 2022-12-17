@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:goals_app/Screens/Goals/individualGoal.dart';
 import 'package:goals_app/Screens/Priorities/newPriority.dart';
 import 'package:goals_app/Screens/Priorities/individualPriority.dart';
 import 'package:goals_app/Screens/browseImages.dart';
-import 'package:goals_app/Settings/settingsScreen.dart';
+import 'package:goals_app/Screens/settingsScreen.dart';
 import 'package:goals_app/Screens/splashScreen.dart';
 import 'package:goals_app/Providers/ThemeProvider.dart';
-import 'package:goals_app/globalThemes.dart';
+import 'package:goals_app/Settings/globalThemes.dart';
 import 'package:provider/provider.dart';
 
 import 'Screens/Priorities/prioritiesHome.dart';
 import 'Settings/AppColors.dart';
-import 'global.dart';
+import 'Settings/global.dart';
 
 class AppRouter extends StatelessWidget {
   const AppRouter({Key? key}) : super(key: key);
@@ -62,9 +61,8 @@ class AppRouter extends StatelessWidget {
               '/': (context) => SplashScreen(),
               '/priority-home': (context) => PriorityHomeScreen(),
               '/new-priority': (context) => NewPriorityScreen(),
-              SettingsScreen.routeName: ((context) => SettingsScreen()),
+              SettingsScreen.routeName: ((context) => const SettingsScreen()),
               BrowseImagesScreen.routeName: (context) => BrowseImagesScreen(),
-              IndividualGoal.routeName: ((context) => IndividualGoal()),
             },
           );
         },

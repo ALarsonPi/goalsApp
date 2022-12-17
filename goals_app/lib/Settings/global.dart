@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:goals_app/Settings/ThemeSwitcher.dart';
 import 'package:path_provider/path_provider.dart';
-import 'Models/Priority.dart';
-import 'Models/Goal.dart';
-import 'Settings/AppColors.dart';
-import 'Providers/ThemeProvider.dart';
+import '../Models/Priority.dart';
+import '../Models/Goal.dart';
+import 'AppColors.dart';
+import '../Providers/ThemeProvider.dart';
 
 class Global {
   static final expandedPrioritiesBucketGlobal = PageStorageBucket();

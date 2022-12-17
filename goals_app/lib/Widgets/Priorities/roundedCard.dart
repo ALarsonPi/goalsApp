@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../global.dart';
+import '../../Settings/global.dart';
 
 class RoundedCard extends StatelessWidget {
   RoundedCard({

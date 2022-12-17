@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:goals_app/Models/Priority.dart';
 import 'package:goals_app/Screens/Priorities/individualPriority.dart';
 import 'package:goals_app/Widgets/Priorities/roundedCard.dart';
-import 'package:goals_app/global.dart';
+import 'package:goals_app/Settings/global.dart';
 import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 
 import '../ArgumentPassThroughScreens/individualPriorityArgumentScreen.dart';

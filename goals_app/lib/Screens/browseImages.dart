@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/browseImageArguments.dart';
 import 'package:goals_app/Widgets/Priorities/imageCarousel.dart';
-import 'package:goals_app/global.dart';
+import 'package:goals_app/Settings/global.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;

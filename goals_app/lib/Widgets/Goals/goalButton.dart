@@ -2,9 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:goals_app/Models/Goal.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/individualGoalArguments.dart';
-import 'package:goals_app/Screens/Goals/individualGoal.dart';
 import 'package:goals_app/Widgets/Goals/CheckboxWidget.dart';
-import 'package:goals_app/global.dart';
+import 'package:goals_app/Settings/global.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class GoalButton extends StatelessWidget {
@@ -63,16 +62,6 @@ class GoalButton extends StatelessWidget {
     );
   }
 
-  goToIndividualGoalScreen(context) {
-    Global.depthStack.push(currentGoal);
-    Navigator.pushNamed(context, IndividualGoal.routeName,
-        arguments: IndividualGoalArguments(
-          currentGoal,
-          currPriorityIndex,
-          isComingFromListView,
-        ));
-  }
-
   @override
   Widget build(BuildContext context) {
     int sumOfChildrenProgress = 0;
@@ -92,7 +81,7 @@ class GoalButton extends StatelessWidget {
                 left: 24.0, right: 24.0, top: 24.0, bottom: 6.0),
             child: ElevatedButton(
               onPressed: () => {
-                goToIndividualGoalScreen(context),
+                // goToIndividualGoalScreen(context),
               },
               child: Padding(
                 padding: const EdgeInsets.only(
@@ -158,7 +147,7 @@ class GoalButton extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
               onPressed: () => {
-                goToIndividualGoalScreen(context),
+                // goToIndividualGoalScreen(context),
               },
               child: Column(
                 children: [

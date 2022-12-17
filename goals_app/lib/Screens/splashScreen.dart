@@ -3,7 +3,7 @@ import 'package:goals_app/Screens/Priorities/prioritiesHome.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 
 import 'package:page_transition/page_transition.dart';
-import '../global.dart';
+import '../Settings/global.dart';
 
 class SplashScreen extends StatefulWidget {
   @override

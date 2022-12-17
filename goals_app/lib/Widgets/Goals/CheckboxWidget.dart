@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../Models/Goal.dart';
 import '../../Screens/ArgumentPassThroughScreens/individualGoalArguments.dart';
-import '../../Screens/Goals/individualGoal.dart';
-import '../../global.dart';
+import '../../Settings/global.dart';
 
 class CheckBoxWidget extends StatefulWidget {
   Goal currGoal;

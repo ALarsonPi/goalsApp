@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../global.dart';
+import 'global.dart';
 import '../Providers/ThemeProvider.dart';
-import 'AppTheme.dart';
+import '../Models/AppTheme.dart';
 
 class ThemeSwitcher extends StatelessWidget {
   ThemeSwitcher(this.containerHeight, this.parentSetStateFunction, {Key? key})

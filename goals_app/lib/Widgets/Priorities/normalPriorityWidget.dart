@@ -3,7 +3,7 @@ import 'package:goals_app/Models/Goal.dart';
 import 'package:goals_app/Models/IconsEnum.dart';
 import 'package:goals_app/Widgets/Priorities/noGoalsPrompt.dart';
 
-import '../../global.dart';
+import '../../Settings/global.dart';
 import '../Goals/goalButton.dart';
 import 'gridListIconRow.dart';
 

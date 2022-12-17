@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/settingsScreenArguements.dart';
-import 'package:goals_app/Screens/Priorities/reorderableGridOfCards.dart';
-import 'package:goals_app/Settings/settingsScreen.dart';
+import 'package:goals_app/Screens/Priorities/reorderPriorities.dart';
+import 'package:goals_app/Screens/settingsScreen.dart';
 import 'package:goals_app/Widgets/Priorities/noGoalsPrompt.dart';
 import 'package:goals_app/Models/IconsEnum.dart';
 import 'package:goals_app/Models/Priority.dart';
 import 'package:goals_app/Widgets/Priorities/gridListIconRow.dart';
 import 'package:goals_app/Widgets/Priorities/priorityCarousel.dart';
 import 'package:goals_app/Widgets/Priorities/priorityExpandedList.dart';
-import '../../global.dart';
+import '../../Settings/global.dart';
 
 class PriorityHomeScreen extends StatefulWidget {
   PriorityHomeScreen({Key? key}) : super(key: key);
