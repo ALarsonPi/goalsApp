@@ -229,9 +229,12 @@ class _IndividualPriority extends State<IndividualPriority> {
     }
   }
 
+  refresh() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<Goal> currentPriorityGoals = currPriority.goals;
     return Scaffold(
       backgroundColor: Theme.of(context).cardColor,
       body: Column(
@@ -302,7 +305,9 @@ class _IndividualPriority extends State<IndividualPriority> {
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: GoalSliver(
                                   currPriority.goals.elementAt(i),
+                                  currPriority,
                                   isInEditWidget: true,
+                                  setStateInParent: refresh,
                                 ),
                               ),
                           ],
@@ -346,6 +351,8 @@ class _IndividualPriority extends State<IndividualPriority> {
                                               i++)
                                             GoalSliver(
                                               currPriority.goals.elementAt(i),
+                                              currPriority,
+                                              setStateInParent: refresh,
                                             ),
                                           Padding(
                                             padding: const EdgeInsets.only(

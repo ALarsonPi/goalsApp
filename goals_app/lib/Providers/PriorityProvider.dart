@@ -67,11 +67,42 @@ class PriorityProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  updateGoalCompletion(Priority priority, Goal goal, bool isComplete) {
+    priorities
+        .elementAt(priorities.indexOf(priority))
+        .goals
+        .elementAt(priorities
+            .elementAt(priorities.indexOf(priority))
+            .goals
+            .indexOf(goal))
+        .isComplete = isComplete;
+    writeCurrPrioritiesToFile();
+    notifyListeners();
+  }
+
+  updateGoalName(Priority priority, Goal goal, String newName) {
+    priorities
+        .elementAt(priorities.indexOf(priority))
+        .goals
+        .elementAt(priorities
+            .elementAt(priorities.indexOf(priority))
+            .goals
+            .indexOf(goal))
+        .name = newName;
+    writeCurrPrioritiesToFile();
+    notifyListeners();
+  }
+
   removeGoalFromPriority(Priority priority, Goal goalToRemove) {
     priorities
         .elementAt(priorities.indexOf(priority))
         .goals
         .remove(goalToRemove);
+
+    List<Goal> goalList = List.empty(growable: true);
+    goalList.addAll(priorities.elementAt(priorities.indexOf(priority)).goals);
+    priorities.elementAt(priorities.indexOf(priority)).goals.clear();
+    priorities.elementAt(priorities.indexOf(priority)).goals.addAll(goalList);
     writeCurrPrioritiesToFile();
     notifyListeners();
   }
