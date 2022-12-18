@@ -48,6 +48,8 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
 
   @override
   void didChangeDependencies() {
+    Provider.of<PriorityProvider>(context, listen: false)
+        .updatePriorityIndexes();
     priorities =
         Provider.of<PriorityProvider>(context, listen: false).priorities;
     priorities.sort((a, b) => a.priorityIndex.compareTo(b.priorityIndex));

@@ -27,7 +27,7 @@ class Global {
   static CustomStack<Goal> depthStack = CustomStack();
   static bool goalButtonsInGridView = false;
   static bool priorityIsInListView = false;
-
+  static TextEditingController textWatcher = TextEditingController();
   static List<Priority> listOfPrioritiesFromFile = List.empty(growable: true);
 
   static String currentBackgroundImage =

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:goals_app/Models/Goal.dart';
 import 'package:goals_app/Models/IconsEnum.dart';
+import 'package:goals_app/Widgets/Goals/GoalsDisplay.dart';
 import 'package:goals_app/Widgets/Priorities/noGoalsPrompt.dart';
 import 'package:provider/provider.dart';
 
@@ -14,10 +15,14 @@ class NormalPriorityWidget extends StatefulWidget {
   bool isPriority;
   bool isComingFromListView;
   late Goal currGoal;
-  List<Goal>? goals;
-  NormalPriorityWidget(this.currentPriorityIndex, this.isPriority, this.goals,
+  // List<Goal>? goals;
+  NormalPriorityWidget(
+      this.currentPriorityIndex,
+      this.isPriority,
+      // this.goals,
       this.isComingFromListView,
-      {Goal? currentGoal, Key? key})
+      {Goal? currentGoal,
+      Key? key})
       : super(key: key) {
     if (currentGoal != null) {
       currGoal = currentGoal;
@@ -34,20 +39,18 @@ class _NormalPriorityWidget extends State<NormalPriorityWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Priority currPriority =
-        Provider.of<PriorityProvider>(context, listen: false)
-            .priorities
-            .elementAt(widget.currentPriorityIndex);
+    Priority currPriority = Provider.of<PriorityProvider>(context, listen: true)
+        .priorities
+        .elementAt(widget.currentPriorityIndex);
 
     int numSubGoalsCompleted = 0;
-    if (widget.goals != null) {
-      int? numGoals = widget.goals?.length;
-      Goal? currGoalThing;
-      for (int i = 0; i < numGoals!; i++) {
-        currGoalThing = widget.goals?.elementAt(i);
-        if (currGoalThing!.goalProgress == currGoalThing.goalTarget) {
-          numSubGoalsCompleted++;
-        }
+
+    int? numGoals = currPriority.goals.length;
+    Goal? currGoalThing;
+    for (int i = 0; i < numGoals; i++) {
+      currGoalThing = currPriority.goals.elementAt(i);
+      if (currGoalThing.goalProgress == currGoalThing.goalTarget) {
+        numSubGoalsCompleted++;
       }
     }
 
@@ -70,7 +73,12 @@ class _NormalPriorityWidget extends State<NormalPriorityWidget> {
             child: Divider(thickness: 1, color: Colors.grey),
           ),
         Expanded(
-          child: Text("Where buttons would be"),
+          child: Text("GOALS Display"),
+          // GoalsDisplay(
+          //   Provider.of<PriorityProvider>(context, listen: true)
+          //       .priorities
+          //       .elementAt(widget.currentPriorityIndex),
+          // ),
         ),
       ],
     );

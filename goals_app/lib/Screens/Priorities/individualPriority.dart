@@ -231,7 +231,7 @@ class _IndividualPriority extends State<IndividualPriority> {
     return (shouldEdit)
         ? EditPriorityWidget(args.index, _inProcess, changeImage,
             saveTitleTextChanges, getImage, buttons)
-        : NormalPriorityWidget(args.index, true, buttons, false);
+        : NormalPriorityWidget(args.index, true, false);
   }
 
   justSetState() {
@@ -251,8 +251,6 @@ class _IndividualPriority extends State<IndividualPriority> {
               fit: BoxFit.cover)),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.add), onPressed: () => {}),
         body: Column(
           children: [
             Container(
