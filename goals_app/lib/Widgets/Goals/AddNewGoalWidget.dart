@@ -102,8 +102,10 @@ class _AddNewGoalWidget extends State<AddNewGoalWidget> {
                                     listen: false)
                                 .addGoalToPriority(
                               widget.currPriority,
-                              Goal(Global.textWatcher.value.text, 0, "", "", "",
-                                  "", false),
+                              Goal(
+                                Global.textWatcher.value.text,
+                                false,
+                              ),
                             ),
                             Global.textWatcher.clear(),
                           },

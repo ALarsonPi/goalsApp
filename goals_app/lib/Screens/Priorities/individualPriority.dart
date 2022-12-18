@@ -6,6 +6,7 @@ import 'package:goals_app/Providers/PriorityProvider.dart';
 import 'package:goals_app/Screens/Priorities/prioritiesHome.dart';
 import 'package:goals_app/Widgets/Goals/AddNewGoalWidget.dart';
 import 'package:goals_app/Settings/global.dart';
+import 'package:goals_app/Widgets/Goals/GoalSliver.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -296,8 +297,8 @@ class _IndividualPriority extends State<IndividualPriority> {
                             EditPriorityWidget(args.index, _inProcess,
                                 changeImage, saveTitleTextChanges, getImage),
                             for (int i = 0; i < currPriority.goals.length; i++)
-                              Text(
-                                currPriority.goals.elementAt(i).name,
+                              GoalSliver(
+                                currPriority.goals.elementAt(i),
                               ),
                           ],
                         )
@@ -337,10 +338,15 @@ class _IndividualPriority extends State<IndividualPriority> {
                                           for (int i = 0;
                                               i < currPriority.goals.length;
                                               i++)
-                                            Text(currPriority.goals
-                                                .elementAt(i)
-                                                .name),
-                                          AddNewGoalWidget(currPriority),
+                                            GoalSliver(
+                                              currPriority.goals.elementAt(i),
+                                            ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 16.0),
+                                            child:
+                                                AddNewGoalWidget(currPriority),
+                                          ),
                                         ],
                                       ),
                               ),

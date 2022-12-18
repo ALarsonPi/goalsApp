@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../Models/Goal.dart';
+
 class GoalSliver extends StatefulWidget {
+  Goal currGoal;
+  GoalSliver(this.currGoal, {super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _GoalSliver();
@@ -10,8 +15,15 @@ class GoalSliver extends StatefulWidget {
 class _GoalSliver extends State<GoalSliver> {
   bool checkboxValue = false;
 
+  @override
+  void initState() {
+    super.initState();
+    checkboxValue = widget.currGoal.isComplete;
+  }
+
   clickCheckBox(bool value) {
     setState(() {
+      widget.currGoal.isComplete = value;
       checkboxValue = value;
     });
   }
@@ -23,12 +35,12 @@ class _GoalSliver extends State<GoalSliver> {
       child: Row(
         children: [
           Checkbox(
-              value: checkboxValue,
-              onChanged: ((value) => {
-                    clickCheckBox(value as bool),
-                  })),
-          Text("HI"),
-          Text("HELLO THERE"),
+            value: checkboxValue,
+            onChanged: ((value) => {
+                  clickCheckBox(value as bool),
+                }),
+          ),
+          Text(widget.currGoal.name),
         ],
       ),
     );

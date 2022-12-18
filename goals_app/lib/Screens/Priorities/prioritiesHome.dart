@@ -7,7 +7,6 @@ import 'package:goals_app/Models/IconsEnum.dart';
 import 'package:goals_app/Models/Priority.dart';
 import 'package:goals_app/Widgets/Priorities/gridListIconRow.dart';
 import 'package:goals_app/Widgets/Priorities/priorityCarousel.dart';
-import 'package:goals_app/Widgets/Priorities/priorityExpandedList.dart';
 import 'package:provider/provider.dart';
 
 import '../../Settings/global.dart';
@@ -47,8 +46,6 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
 
   @override
   void didChangeDependencies() {
-    Provider.of<PriorityProvider>(context, listen: false)
-        .updatePriorityIndexes();
     priorities =
         Provider.of<PriorityProvider>(context, listen: false).priorities;
     priorities.sort((a, b) => a.priorityIndex.compareTo(b.priorityIndex));
@@ -246,10 +243,10 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
                                 ),
                               ],
                             )
-                          : Expanded(
+                          : const Expanded(
                               child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: PriorityExpandedList(isEdit, true),
+                                padding: EdgeInsets.all(8.0),
+                                child: Text("NOT HERE"),
                               ),
                             ),
                     ],
