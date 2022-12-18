@@ -8,8 +8,8 @@ import '../../Models/Priority.dart';
 import '../../Providers/PriorityProvider.dart';
 
 class AddNewGoalWidget extends StatefulWidget {
-  AddNewGoalWidget(this.currPriority, {super.key});
-  Priority currPriority;
+  const AddNewGoalWidget(this.currPriority, {super.key});
+  final Priority currPriority;
   @override
   State<StatefulWidget> createState() {
     return _AddNewGoalWidget();
@@ -26,10 +26,18 @@ class _AddNewGoalWidget extends State<AddNewGoalWidget> {
     Global.textWatcher.addListener(notifyOfTextWatcherChange);
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    Global.textWatcher.removeListener(() {});
+  }
+
   notifyOfTextWatcherChange() {
-    setState(() {
-      lengthOfTextWatcher = Global.textWatcher.value.text.length;
-    });
+    if (mounted) {
+      setState(() {
+        lengthOfTextWatcher = Global.textWatcher.value.text.length;
+      });
+    }
   }
 
   @override
@@ -119,7 +127,7 @@ class _AddNewGoalWidget extends State<AddNewGoalWidget> {
                       isInInputMode = true;
                     })
                   },
-                  child: Text("+"),
+                  child: const Text("+"),
                 ),
               ),
       ],

@@ -119,6 +119,7 @@ class _IndividualPriority extends State<IndividualPriority> {
                       setState(() {
                         shouldEdit = !shouldEdit;
                       }),
+                      Global.textWatcher.clear(),
                     },
                     icon: const Icon(
                       Icons.edit,
@@ -128,12 +129,12 @@ class _IndividualPriority extends State<IndividualPriority> {
                         : Theme.of(context).textTheme.displaySmall?.color,
                     highlightColor: Colors.grey,
                   ),
-                  //(shouldEdit) ? Colors.yellowAccent : Colors.white,
                 ),
                 getCircleIconWidget(
                   context,
                   IconButton(
                     onPressed: () async => {
+                      Global.textWatcher.clear(),
                       await Provider.of<PriorityProvider>(context,
                               listen: false)
                           .removePriority(currPriority),
@@ -256,6 +257,7 @@ class _IndividualPriority extends State<IndividualPriority> {
                             context,
                             IconButton(
                               onPressed: () => {
+                                Global.textWatcher.clear(),
                                 Navigator.push<void>(
                                   context,
                                   MaterialPageRoute<void>(
@@ -288,8 +290,17 @@ class _IndividualPriority extends State<IndividualPriority> {
               children: [
                 Expanded(
                   child: (shouldEdit)
-                      ? EditPriorityWidget(args.index, _inProcess, changeImage,
-                          saveTitleTextChanges, getImage)
+                      ? ListView(
+                          shrinkWrap: true,
+                          children: [
+                            EditPriorityWidget(args.index, _inProcess,
+                                changeImage, saveTitleTextChanges, getImage),
+                            for (int i = 0; i < currPriority.goals.length; i++)
+                              Text(
+                                currPriority.goals.elementAt(i).name,
+                              ),
+                          ],
+                        )
                       : Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
