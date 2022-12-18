@@ -93,7 +93,7 @@ class _ReorderableGridOfCardsState extends State<ReorderableGridOfCards> {
                             padding:
                                 const EdgeInsets.only(left: 8.0, bottom: 8.0),
                             child: Text(
-                              "${priority.name} (${priority.priorityIndex + 1})",
+                              "${priority.name} (${Provider.of<PriorityProvider>(context, listen: true).priorities.indexOf(priority) + 1})",
                               style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,

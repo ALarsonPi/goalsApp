@@ -293,6 +293,7 @@ class _IndividualPriority extends State<IndividualPriority> {
                   child: (shouldEdit)
                       ? ListView(
                           shrinkWrap: true,
+                          padding: EdgeInsets.zero,
                           children: [
                             EditPriorityWidget(args.index, _inProcess,
                                 changeImage, saveTitleTextChanges, getImage),
@@ -334,6 +335,7 @@ class _IndividualPriority extends State<IndividualPriority> {
                                     ? AddNewGoalWidget(currPriority)
                                     : ListView(
                                         shrinkWrap: true,
+                                        padding: EdgeInsets.zero,
                                         children: [
                                           for (int i = 0;
                                               i < currPriority.goals.length;

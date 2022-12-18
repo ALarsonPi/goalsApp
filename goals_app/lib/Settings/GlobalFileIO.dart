@@ -26,27 +26,30 @@ class GlobalFileIO {
 
     List<Priority> firstTimePriorities = [
       Priority(
-          "Social",
-          "https://images.unsplash.com/photo-1619537903549-0981d6bca911?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-          emptyGoalsList,
-          0),
+        "Social",
+        "https://images.unsplash.com/photo-1619537903549-0981d6bca911?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+        emptyGoalsList,
+      ),
       Priority(
-          "Physical",
-          "https://images.unsplash.com/photo-1502224562085-639556652f33?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cnVufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-          emptyGoalsList,
-          1),
+        "Physical",
+        "https://images.unsplash.com/photo-1502224562085-639556652f33?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cnVufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
+        emptyGoalsList,
+      ),
       Priority(
-          "Intellectual",
-          "https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
-          emptyGoalsList,
-          2),
-      Priority("Emotional", "https://placedog.net/900/1200?id=36",
-          emptyGoalsList, 3),
+        "Intellectual",
+        "https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+        emptyGoalsList,
+      ),
       Priority(
-          "Spiritual",
-          "https://images.unsplash.com/photo-1657199372069-bd8cb49315c4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
-          emptyGoalsList,
-          4),
+        "Emotional",
+        "https://placedog.net/900/1200?id=36",
+        emptyGoalsList,
+      ),
+      Priority(
+        "Spiritual",
+        "https://images.unsplash.com/photo-1657199372069-bd8cb49315c4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=80",
+        emptyGoalsList,
+      ),
     ];
 
     Global.listOfPrioritiesFromFile.addAll(firstTimePriorities);
@@ -103,8 +106,11 @@ class GlobalFileIO {
               goals.add(Goal.fromJson(element));
             }
             int priorityIndex = element['priorityIndex'];
-            Priority newPriority =
-                Priority(name, imageUrl, goals, priorityIndex);
+            Priority newPriority = Priority(
+              name,
+              imageUrl,
+              goals,
+            );
 
             prioritiesFromFile.add(newPriority);
           }

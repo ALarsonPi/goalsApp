@@ -26,7 +26,6 @@ class _NewPriorityScreen extends State<NewPriorityScreen> {
     "name",
     "imageUrl",
     List<Goal>.empty(growable: true),
-    -1,
   );
 
   @override
@@ -289,8 +288,6 @@ class _NewPriorityScreen extends State<NewPriorityScreen> {
                                             if (_formKey.currentState!
                                                 .validate())
                                               {
-                                                newPriority.priorityIndex =
-                                                    numProviders,
                                                 Provider.of<PriorityProvider>(
                                                         context,
                                                         listen: false)

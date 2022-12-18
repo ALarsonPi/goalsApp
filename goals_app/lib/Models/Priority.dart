@@ -5,8 +5,7 @@ class Priority {
   String imageUrl;
   String name;
   List<Goal> goals = List.empty(growable: true);
-  int priorityIndex = -1;
-  Priority(this.name, this.imageUrl, this.goals, this.priorityIndex);
+  Priority(this.name, this.imageUrl, this.goals);
 
   setName(String newName) {
     name = newName;
@@ -30,7 +29,6 @@ class Priority {
       json['name'] ?? "",
       json['imageUrl'] ?? "",
       priorityGoals,
-      json['priorityIndex'] ?? '0',
     );
   }
 
@@ -40,7 +38,6 @@ class Priority {
         'imageUrl': instance.imageUrl,
         'name': instance.name,
         'goals': instance.goals,
-        'priorityIndex': instance.priorityIndex,
       };
 
   equals(Priority toCompareTo) {
@@ -49,7 +46,6 @@ class Priority {
     return (toCompareTo is Priority &&
         toCompareTo.name == name &&
         toCompareTo.imageUrl == toCompareTo.imageUrl &&
-        toCompareTo.priorityIndex == priorityIndex &&
         goalsAreEqual);
   }
 
@@ -64,8 +60,7 @@ class Priority {
   @override
   String toString() {
     String toPrint = "";
-    toPrint +=
-        "Priority\nName: $name\n$imageUrl\nPriority index: $priorityIndex\n";
+    toPrint += "Priority\nName: $name\n$imageUrl\n";
     for (int i = 0; i < goals.length; i++) {
       toPrint += goals[i].toString();
     }

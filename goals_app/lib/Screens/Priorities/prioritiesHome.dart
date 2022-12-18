@@ -34,7 +34,6 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
     priorities.clear();
     priorities =
         Provider.of<PriorityProvider>(context, listen: false).priorities;
-    priorities.sort((a, b) => a.priorityIndex.compareTo(b.priorityIndex));
 
     if (widget.currentStartIndex != 0) {
       currPriorityIndex = widget.currentStartIndex;
@@ -46,7 +45,6 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
   void didChangeDependencies() {
     priorities =
         Provider.of<PriorityProvider>(context, listen: false).priorities;
-    priorities.sort((a, b) => a.priorityIndex.compareTo(b.priorityIndex));
 
     super.didChangeDependencies();
   }
