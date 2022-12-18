@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../Models/Goal.dart';
+import '../../Settings/global.dart';
 
 class GoalSliver extends StatefulWidget {
   Goal currGoal;
@@ -30,17 +31,30 @@ class _GoalSliver extends State<GoalSliver> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.04,
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 8.0,
+        bottom: 8.0,
+      ),
       child: Row(
         children: [
-          Checkbox(
-            value: checkboxValue,
-            onChanged: ((value) => {
-                  clickCheckBox(value as bool),
-                }),
+          Transform.scale(
+            scale: 1.3,
+            child: Checkbox(
+              value: checkboxValue,
+              onChanged: ((value) => {
+                    clickCheckBox(value as bool),
+                  }),
+            ),
           ),
-          Text(widget.currGoal.name),
+          Flexible(
+            child: Text(
+              widget.currGoal.name,
+              style: TextStyle(
+                fontSize: (Global.isPhone) ? 18 : 24,
+              ),
+            ),
+          ),
         ],
       ),
     );

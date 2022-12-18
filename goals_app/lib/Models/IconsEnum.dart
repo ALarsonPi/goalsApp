@@ -1,4 +1,0 @@
-enum IconsEnum {
-  priorityHome,
-  priorityButtons,
-}

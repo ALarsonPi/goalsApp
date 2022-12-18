@@ -3,9 +3,7 @@ import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:goals_app/Providers/PriorityProvider.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/settingsScreenArguements.dart';
 import 'package:goals_app/Screens/Priorities/reorderPrioritiesScreen.dart';
-import 'package:goals_app/Models/IconsEnum.dart';
 import 'package:goals_app/Models/Priority.dart';
-import 'package:goals_app/Widgets/Priorities/gridListIconRow.dart';
 import 'package:goals_app/Widgets/Priorities/priorityCarousel.dart';
 import 'package:provider/provider.dart';
 
@@ -86,22 +84,6 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
     Navigator.pushNamed(context, '/new-priority');
   }
 
-  getAddNewIcon() {
-    return IconButton(
-      padding: const EdgeInsets.only(right: 8.0),
-      constraints: const BoxConstraints(),
-      onPressed: () => {
-        goToAddPrioritiesScreen(),
-      },
-      icon: const Icon(
-        Icons.add,
-        color: Colors.white,
-        size: 25,
-        //color: (isEdit) ? Colors.black87 : Colors.white,
-      ),
-    );
-  }
-
   getSettingsIcon() {
     return IconButton(
       padding: const EdgeInsets.only(right: 12.0),
@@ -113,18 +95,6 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
       icon: Icon(
         Icons.settings,
         color: Theme.of(context).textTheme.displayMedium?.color,
-      ),
-    );
-  }
-
-  Widget getSettingsMenu(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 14.0, bottom: 14.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          GridListIconRow(setListViewState, IconsEnum.priorityHome),
-        ],
       ),
     );
   }
@@ -177,7 +147,6 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
             actions: [
               Row(
                 children: [
-                  //getAddNewIcon(),
                   getSettingsIcon(),
                 ],
               ),
@@ -186,11 +155,6 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
           ),
         ),
         body: Column(children: [
-          Column(
-            children: [
-              getSettingsMenu(context),
-            ],
-          ),
           if (Global.isPhone &&
               !Global.priorityIsInListView &&
               !isBeingLongHeld)
