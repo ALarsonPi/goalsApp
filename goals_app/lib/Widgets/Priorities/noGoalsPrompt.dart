@@ -17,12 +17,12 @@ class NoGoalsPrompt extends StatelessWidget {
   Widget build(BuildContext context) {
     String messageToDisplay = "Error";
     if (promptType == PromptType.Goals) {
-      messageToDisplay = "Press the \"+\" to \ncreate a new Goal!";
+      messageToDisplay = "Create new:";
     } else if (promptType == PromptType.Priorities) {
       messageToDisplay = "Press the \"+\" to \ncreate a new Priority!";
     }
     return Padding(
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.all(0.0),
       child: Column(
         children: [
           Text(messageToDisplay,

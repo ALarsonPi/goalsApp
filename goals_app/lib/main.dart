@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'AppRouter.dart';
 import 'Providers/PriorityProvider.dart';
 import 'Settings/GlobalFileIO.dart';
+import 'Settings/global.dart';
 
 Future<void> main() async {
   // Setting the App as Vertical Only
@@ -16,6 +17,7 @@ Future<void> main() async {
     systemNavigationBarColor: Colors.transparent, // navigation bar color
     statusBarColor: Colors.transparent, // status bar color
   ));
+
   await GlobalFileIO.readFiles();
 
   runApp(

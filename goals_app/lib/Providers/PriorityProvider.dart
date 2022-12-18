@@ -27,6 +27,10 @@ class PriorityProvider extends ChangeNotifier {
     Priority currPriority = priorities.elementAt(oldIndex);
     removePriorityAt(oldIndex);
     addPriorityAt(newIndex, currPriority);
+
+    Global.listOfPrioritiesFromFile.clear();
+    Global.listOfPrioritiesFromFile.addAll(priorities);
+
     updatePriorityIndexes();
     notifyListeners();
   }
@@ -206,24 +210,28 @@ class PriorityProvider extends ChangeNotifier {
 
   addPriority(Priority newPriority) {
     priorities.add(newPriority);
+    Global.listOfPrioritiesFromFile.add(newPriority);
     writeCurrPrioritiesToFile();
     notifyListeners();
   }
 
   addPriorityAt(int indexToInsertAt, Priority newPriority) {
     priorities.insert(indexToInsertAt, newPriority);
+    Global.listOfPrioritiesFromFile.insert(indexToInsertAt, newPriority);
     writeCurrPrioritiesToFile();
     notifyListeners();
   }
 
   removePriority(Priority priorityToRemove) {
     priorities.remove(priorityToRemove);
+    Global.listOfPrioritiesFromFile.remove(priorityToRemove);
     writeCurrPrioritiesToFile();
     notifyListeners();
   }
 
   removePriorityAt(int indexOfPriorityToRemove) {
     priorities.removeAt(indexOfPriorityToRemove);
+    Global.listOfPrioritiesFromFile.removeAt(indexOfPriorityToRemove);
     writeCurrPrioritiesToFile();
     notifyListeners();
   }

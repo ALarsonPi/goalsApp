@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:goals_app/Models/Goal.dart';
 import 'package:goals_app/Providers/PriorityProvider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -15,14 +14,8 @@ class EditPriorityWidget extends StatelessWidget {
   Function getImage;
   int currentPriorityIndex;
   final bool _inProcess;
-  List<Goal> buttonsToDisplay;
-  EditPriorityWidget(
-      this.currentPriorityIndex,
-      this._inProcess,
-      this.changeParentImage,
-      this.saveChangesToPriorityTitle,
-      this.getImage,
-      this.buttonsToDisplay,
+  EditPriorityWidget(this.currentPriorityIndex, this._inProcess,
+      this.changeParentImage, this.saveChangesToPriorityTitle, this.getImage,
       {Key? key})
       : super(key: key);
 

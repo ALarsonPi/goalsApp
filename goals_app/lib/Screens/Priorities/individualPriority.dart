@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:goals_app/Models/Priority.dart';
 import 'package:goals_app/Providers/PriorityProvider.dart';
 import 'package:goals_app/Screens/Priorities/prioritiesHome.dart';
+import 'package:goals_app/Widgets/Goals/AddNewGoalWidget.dart';
+import 'package:goals_app/Widgets/Priorities/noGoalsPrompt.dart';
 import 'package:goals_app/Widgets/Priorities/normalPriorityWidget.dart';
 import 'package:goals_app/Settings/global.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -227,92 +229,118 @@ class _IndividualPriority extends State<IndividualPriority> {
     }
   }
 
-  getMainWidget(List<Goal> buttons) {
-    return (shouldEdit)
-        ? EditPriorityWidget(args.index, _inProcess, changeImage,
-            saveTitleTextChanges, getImage, buttons)
-        : NormalPriorityWidget(args.index, true, false);
-  }
-
-  justSetState() {
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     List<Goal> currentPriorityGoals = currPriority.goals;
-    return Container(
-      constraints: const BoxConstraints.expand(),
-      decoration: BoxDecoration(
-          image: DecorationImage(
-              image: NetworkImage(
-                Global.currentBackgroundImage,
-              ),
-              fit: BoxFit.cover)),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(0.0),
-              decoration: BoxDecoration(
-                image: getDecorationImageWidget(args.index, context),
-              ),
-              height: MediaQuery.of(context).size.height * 0.4,
-              width: double.infinity,
-              child: Stack(
-                children: [
-                  //Icons
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 36.0, left: 12.0, right: 0.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            getCircleIconWidget(
-                              context,
-                              IconButton(
-                                onPressed: () => {
-                                  Navigator.push<void>(
-                                    context,
-                                    MaterialPageRoute<void>(
-                                      builder: (BuildContext context) =>
-                                          PriorityHomeScreen.fromOtherRoute(
-                                              args.index),
-                                    ),
+    return Scaffold(
+      backgroundColor: Theme.of(context).cardColor,
+      body: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(0.0),
+            decoration: BoxDecoration(
+              image: getDecorationImageWidget(args.index, context),
+            ),
+            height: MediaQuery.of(context).size.height * 0.4,
+            width: double.infinity,
+            child: Stack(
+              children: [
+                //Icons
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 36.0, left: 12.0, right: 0.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          getCircleIconWidget(
+                            context,
+                            IconButton(
+                              onPressed: () => {
+                                Navigator.push<void>(
+                                  context,
+                                  MaterialPageRoute<void>(
+                                    builder: (BuildContext context) =>
+                                        PriorityHomeScreen.fromOtherRoute(
+                                            args.index),
                                   ),
-                                },
-                                icon: Icon(
-                                  Icons.arrow_back,
-                                  color: Theme.of(context)
-                                      .textTheme
-                                      .displaySmall
-                                      ?.color as Color,
+                                ),
+                              },
+                              icon: Icon(
+                                Icons.arrow_back,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .displaySmall
+                                    ?.color as Color,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      getSettingsMenu(context),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Column(
+              children: [
+                Expanded(
+                  child: (shouldEdit)
+                      ? EditPriorityWidget(args.index, _inProcess, changeImage,
+                          saveTitleTextChanges, getImage)
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 8.0, top: 8.0),
+                              child: Center(
+                                child: Text(
+                                  currPriority.name,
+                                  style:
+                                      Theme.of(context).textTheme.headlineLarge,
                                 ),
                               ),
                             ),
+                            const Padding(
+                              padding: EdgeInsets.only(left: 24.0, right: 24.0),
+                              child: Divider(thickness: 1, color: Colors.grey),
+                            ),
+                            Expanded(
+                                child: (Provider.of<PriorityProvider>(context,
+                                            listen: true)
+                                        .priorities
+                                        .elementAt(args.index)
+                                        .goals
+                                        .isEmpty)
+                                    ? AddNewGoalWidget(currPriority)
+                                    : ListView(
+                                        shrinkWrap: true,
+                                        children: [
+                                          for (int i = 0;
+                                              i < currPriority.goals.length;
+                                              i++)
+                                            Text("GOAL MADE"),
+                                          AddNewGoalWidget(currPriority),
+                                        ],
+                                      )
+                                // GoalsDisplay(
+                                //   Provider.of<PriorityProvider>(context, listen: true)
+                                //       .priorities
+                                //       .elementAt(widget.currentPriorityIndex),
+                                // ),
+                                ),
                           ],
                         ),
-                        getSettingsMenu(context),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-            Expanded(
-              child: Column(
-                children: [
-                  Expanded(
-                    child: getMainWidget(currentPriorityGoals),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
