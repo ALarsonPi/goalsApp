@@ -97,6 +97,22 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
     );
   }
 
+  getSaveIcon() {
+    return IconButton(
+      padding: const EdgeInsets.only(right: 12.0),
+      constraints: const BoxConstraints(),
+      onPressed: () => {
+        setState(() => {
+              isBeingLongHeld = false,
+            }),
+      },
+      icon: Icon(
+        Icons.save,
+        color: Theme.of(context).textTheme.displaySmall?.color,
+      ),
+    );
+  }
+
   bool isBeingLongHeld = false;
   void changeLongHoldStatus() {
     setState(() {
@@ -145,6 +161,7 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
             actions: [
               Row(
                 children: [
+                  if (isBeingLongHeld) getSaveIcon(),
                   getSettingsIcon(),
                 ],
               ),

@@ -105,7 +105,6 @@ class GlobalFileIO {
             for (var element in goalsDynamic) {
               goals.add(Goal.fromJson(element));
             }
-            int priorityIndex = element['priorityIndex'];
             Priority newPriority = Priority(
               name,
               imageUrl,
