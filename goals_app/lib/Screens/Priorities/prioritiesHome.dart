@@ -3,7 +3,6 @@ import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:goals_app/Providers/PriorityProvider.dart';
 import 'package:goals_app/Screens/ArgumentPassThroughScreens/settingsScreenArguements.dart';
 import 'package:goals_app/Screens/Priorities/reorderPrioritiesScreen.dart';
-import 'package:goals_app/Widgets/Priorities/noGoalsPrompt.dart';
 import 'package:goals_app/Models/IconsEnum.dart';
 import 'package:goals_app/Models/Priority.dart';
 import 'package:goals_app/Widgets/Priorities/gridListIconRow.dart';
@@ -256,7 +255,22 @@ class _PriorityHomeScreen extends State<PriorityHomeScreen> {
                     ],
                   )
                 : Center(
-                    child: NoGoalsPrompt(1),
+                    child: Padding(
+                      padding: const EdgeInsets.all(0.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            "Press the \"+\" to \ncreate a new Priority!",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontStyle: FontStyle.italic,
+                              fontSize: (Global.isPhone) ? 18 : 24,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
           ),
         ]),

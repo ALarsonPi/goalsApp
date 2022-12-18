@@ -3,8 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:goals_app/Providers/PriorityProvider.dart';
 import 'package:goals_app/Widgets/Goals/CustomInput.dart';
-import 'package:goals_app/Widgets/Goals/GoalSliver.dart';
-import 'package:goals_app/Widgets/Priorities/noGoalsPrompt.dart';
 import 'package:provider/provider.dart';
 
 import '../../Models/Goal.dart';

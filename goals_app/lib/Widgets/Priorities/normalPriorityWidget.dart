@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:goals_app/Models/Goal.dart';
 import 'package:goals_app/Models/IconsEnum.dart';
 import 'package:goals_app/Widgets/Goals/GoalsDisplay.dart';
-import 'package:goals_app/Widgets/Priorities/noGoalsPrompt.dart';
 import 'package:provider/provider.dart';
 
 import '../../Models/Priority.dart';

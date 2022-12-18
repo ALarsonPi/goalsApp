@@ -5,8 +5,6 @@ import 'package:goals_app/Models/Priority.dart';
 import 'package:goals_app/Providers/PriorityProvider.dart';
 import 'package:goals_app/Screens/Priorities/prioritiesHome.dart';
 import 'package:goals_app/Widgets/Goals/AddNewGoalWidget.dart';
-import 'package:goals_app/Widgets/Priorities/noGoalsPrompt.dart';
-import 'package:goals_app/Widgets/Priorities/normalPriorityWidget.dart';
 import 'package:goals_app/Settings/global.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -311,6 +309,10 @@ class _IndividualPriority extends State<IndividualPriority> {
                               child: Divider(thickness: 1, color: Colors.grey),
                             ),
                             Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 24.0,
+                                ),
                                 child: (Provider.of<PriorityProvider>(context,
                                             listen: true)
                                         .priorities
@@ -324,16 +326,14 @@ class _IndividualPriority extends State<IndividualPriority> {
                                           for (int i = 0;
                                               i < currPriority.goals.length;
                                               i++)
-                                            Text("GOAL MADE"),
+                                            Text(currPriority.goals
+                                                .elementAt(i)
+                                                .name),
                                           AddNewGoalWidget(currPriority),
                                         ],
-                                      )
-                                // GoalsDisplay(
-                                //   Provider.of<PriorityProvider>(context, listen: true)
-                                //       .priorities
-                                //       .elementAt(widget.currentPriorityIndex),
-                                // ),
-                                ),
+                                      ),
+                              ),
+                            ),
                           ],
                         ),
                 ),
