@@ -5,7 +5,12 @@ import '../../Settings/global.dart';
 
 class GoalSliver extends StatefulWidget {
   Goal currGoal;
-  GoalSliver(this.currGoal, {super.key});
+  bool isInEditWidget;
+  GoalSliver(
+    this.currGoal, {
+    this.isInEditWidget = false,
+    super.key,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -47,15 +52,59 @@ class _GoalSliver extends State<GoalSliver> {
                   }),
             ),
           ),
-          Flexible(
-            child: Text(
-              widget.currGoal.name,
-              style: TextStyle(
-                fontSize: (Global.isPhone) ? 18 : 24,
-              ),
-            ),
-          ),
+          (widget.isInEditWidget)
+              ? Row(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.60,
+                      child: Row(
+                        children: [
+                          getTextWidget(),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: GestureDetector(
+                          onTap: () => {},
+                          child: Icon(
+                            Icons.edit,
+                            color: Global.getPrimaryColorSwatch().shade700,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          left: 8.0,
+                          right: 8.0,
+                        ),
+                        child: GestureDetector(
+                          onTap: () => {},
+                          child: Icon(
+                            Icons.delete,
+                            color: Colors.red[900] as Color,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : getTextWidget(),
         ],
+      ),
+    );
+  }
+
+  getTextWidget() {
+    return Flexible(
+      child: Text(
+        widget.currGoal.name,
+        style: TextStyle(
+          fontSize: (Global.isPhone) ? 18 : 24,
+        ),
       ),
     );
   }

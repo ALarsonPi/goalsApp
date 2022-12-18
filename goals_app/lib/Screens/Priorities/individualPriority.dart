@@ -298,8 +298,12 @@ class _IndividualPriority extends State<IndividualPriority> {
                             EditPriorityWidget(args.index, _inProcess,
                                 changeImage, saveTitleTextChanges, getImage),
                             for (int i = 0; i < currPriority.goals.length; i++)
-                              GoalSliver(
-                                currPriority.goals.elementAt(i),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: GoalSliver(
+                                  currPriority.goals.elementAt(i),
+                                  isInEditWidget: true,
+                                ),
                               ),
                           ],
                         )
