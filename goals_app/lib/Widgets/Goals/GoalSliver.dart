@@ -143,31 +143,10 @@ class _GoalSliver extends State<GoalSliver> {
                         ),
                         child: GestureDetector(
                           onTap: () => {
-                            // debugPrint(
-                            //     getCurrGoalIndex(widget.currGoal).toString()),
-                            // if (getCurrGoalIndex(widget.currGoal) <
-                            //     widget.currPriority.goals.length - 1)
-                            //   {
-                            //     nextElementStatus =
-                            //         getNextElementStatus() ? 1 : 0,
-                            //     nextGoal = getNextGoal(),
-                            //   },
-                            // widget.currPriority.goals.remove(widget.currGoal),
-                            // setState(() => {}),
                             Provider.of<PriorityProvider>(context,
                                     listen: false)
                                 .removeGoalFromPriority(
                                     widget.currPriority, widget.currGoal),
-                            // if (nextElementStatus != -1)
-                            //   {
-                            // Provider.of<PriorityProvider>(context,
-                            //         listen: false)
-                            //     .updateGoal(
-                            //   widget.currPriority,
-                            //   nextGoal,
-                            //   nextElementStatus == 1,
-                            // )
-                            // },
                             setState(() => {}),
                             widget.setStateInParent(),
                           },
@@ -207,6 +186,8 @@ class _GoalSliver extends State<GoalSliver> {
         widget.currGoal.name,
         style: TextStyle(
           fontSize: (Global.isPhone) ? 18 : 24,
+          decoration:
+              (widget.currGoal.isComplete) ? TextDecoration.lineThrough : null,
         ),
       ),
     );

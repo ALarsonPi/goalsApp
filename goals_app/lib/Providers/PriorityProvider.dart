@@ -76,6 +76,11 @@ class PriorityProvider extends ChangeNotifier {
             .goals
             .indexOf(goal))
         .isComplete = isComplete;
+
+    if (isComplete) {
+      removeGoalFromPriority(priority, goal);
+      addGoalToPriority(priority, goal);
+    }
     writeCurrPrioritiesToFile();
     notifyListeners();
   }
